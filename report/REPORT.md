@@ -1,6 +1,6 @@
 # Báo cáo Lab: Self evolving Agentic
 
-**Trạng thái:** mã và kiểm chứng extension đã hoàn thành; thí nghiệm học → curator → hypotheses → freeze → eval của repo gốc chưa chạy. Báo cáo 10 mục theo checklist gửi thêm nằm tại [FINAL_REPORT.md](FINAL_REPORT.md). Không dùng số liệu extension thay cho điểm sáu tác vụ chính thức.
+**Trạng thái:** mã và kiểm chứng extension đã hoàn thành; thí nghiệm gốc đang thực hiện theo thứ tự học → curator → hypotheses → freeze → eval. Báo cáo 10 mục theo checklist gửi thêm nằm tại [FINAL_REPORT.md](FINAL_REPORT.md). Không dùng số liệu extension thay cho điểm sáu tác vụ chính thức.
 
 ## 1. Thông tin nhóm và cấu hình
 
@@ -10,16 +10,18 @@
 
 - Model kiểm chứng extension: `openai/gpt-oss-120b`, `LAB_TEMPERATURE=0`; worker tối đa 4 lượt model trong pipeline acceptance.
 - Deep Agents: 0.7.21. Python Windows 3.11.9; Python WSL ERPNext 3.12.3. Harness shell kiểm chứng bằng Linux.
-- Tác vụ chính thức đã chạy: 0; chưa có skill sinh thật hoặc tag `freeze`.
+- Lượt chính thức hợp lệ đã có: baseline/data-learn; các lượt tiếp theo đang chạy. Chưa có skill sinh thật hoặc tag `freeze`.
 - Benchmark API cuối extension: 9 request / 27.343 token; các probe và lần lỗi trước đó có usage riêng, không nằm trong tổng này.
 
 ## 2. Giả thuyết (commit TRƯỚC tag `freeze`, Phần 4.0)
 
-Chưa viết giả thuyết cho thí nghiệm gốc vì chưa có kết quả học. Các dòng dưới đây cố ý để trống; không tạo commit/tag giả để vượt verify_freeze.
+Các dự đoán dưới đây được viết khi chưa chạy hoặc xem điểm eval. Căn cứ ban đầu: baseline/data-learn đạt 5/5 check kỹ thuật nhưng thiếu cả ba quy ước Acme; đây là thông tin từ tập học, không phải đáp án eval.
 
-- H1 (subagents so với baseline):
-- H2 (skills-auto so với baseline):
-- H3 (tác vụ học so với tác vụ đánh giá):
+- H1 (subagents so với baseline): subagents khó tăng đáng kể điểm kỹ thuật nếu baseline đã xử lý tốt đặc tả; cả hai vẫn có thể thiếu quy ước ẩn. Delegation và kiểm chứng có thể giúp task code nhưng dự đoán token trung bình cao hơn baseline, do nhiều ngữ cảnh riêng và giao việc lặp.
+- H2 (skills-auto so với baseline): skills-auto sẽ có điểm eval trung bình cao nhất trong ba điều kiện nhờ chuyển các quy ước Acme từ feedback học thành checklist được đọc trước khi giải task. Dự đoán lợi ích chủ yếu ở rule_, với điều kiện agent thực sự đọc và làm theo skill; không kỳ vọng luôn đạt 100%.
+- H3 (tác vụ học so với tác vụ đánh giá): cải thiện rule_ trên learn sẽ lớn hơn trên eval, vì eval thêm quy ước mới không có trong feedback học. Kỹ thuật và quy ước mới có thể vẫn thất bại; không dùng chênh lệch một lần chạy làm bằng chứng nhân quả chắc chắn.
+
+Căn cứ cơ chế: [SkillsMiddleware — LangChain](https://reference.langchain.com/python/deepagents/middleware/skills/SkillsMiddleware) mô tả metadata được nạp trước, nội dung đầy đủ được đọc khi cần; [SubAgent — LangChain](https://reference.langchain.com/python/deepagents/middleware/subagents/SubAgent) mô tả ngữ cảnh subagent isolated. Báo cáo căn cứ hành vi cụ thể trên tour và Deep Agents 0.7.21 đang cài, không suy ra mọi API trong tài liệu mới đều giống phiên bản này.
 
 ## 3. Làm quen Deep Agents (Phần 0.3)
 
@@ -45,11 +47,25 @@ Công cụ tệp dùng đường dẫn ảo theo gốc sandbox, còn shell dùng
 
 Việc đo token, thời gian, đếm lời gọi công cụ, chấm điểm và ghi `run.json`/`trace.md` do runner thực hiện ở bên ngoài vòng làm việc của agent. Đây không phải các công cụ logging hoặc monitoring riêng mà mọi agent gọi. Trace và số đếm công cụ chỉ phản ánh luồng chính; token được cộng dồn cả các lần gọi mô hình của subagent.
 
-Căn cứ: `src/lab/agent.py`, `src/lab/subagents.py`, `scripts/tour.py` và `guides/pseudocode/01_agent.md`, `02_subagents.md`, `03_runner.md`. Nội dung này mô tả thiết kế từ mã nguồn và tài liệu; chưa phải kết quả quan sát từ một lần chạy `tour.py`.
+### Ba câu hỏi theo GUIDE 0.3
+
+1. Tour thực tế liệt kê `ls`, `read_file`, `write_file`, `edit_file`, `delete`, `glob`, `grep`, `execute`, `task`; `execute` cho phép chạy shell.
+2. `general-purpose` có cùng công cụ với tác tử chính và dùng cho tác vụ nhiều bước. Mỗi invocation mặc định stateless: chỉ thấy prompt được giao, trả một báo cáo cuối.
+3. Trích từ `task`: “Put full detail in the prompt and state exactly what it should return”. Trích từ `execute`: “Use read_file rather than cat/head/tail.” Tour cho thấy system prompt mặc định rỗng; harness lab truyền BASE_PROMPT riêng.
+
+Bằng chứng ngoại tuyến: [tour.txt](tour.txt), chạy bằng Deep Agents 0.7.21. Mô tả tool execute có quy ước đường dẫn tuyệt đối; BASE_PROMPT/ PATHS_NOTE của lab quy định đường dẫn tương đối workspace/ cho backend này, vì vậy giữ nguyên hằng số được cung cấp.
 
 ## 4. Đường cơ sở và phân loại lỗi (Phần 2.2)
 
-Chưa chạy baseline của code-learn/data-learn/logs-learn, nên chưa có bảng taxonomy dựa trên check thất bại chính thức. Các lỗi extension (network, evaluator json tool, timeout) được phân tích riêng trong FINAL_REPORT mục 6, không thay lỗi tác vụ học.
+Kết quả hợp lệ đầu tiên: baseline/data-learn đạt 5/8, 56.057 token, 405,7 giây, error=null. Những lần API lỗi được lưu riêng, không tính là lỗi agent.
+
+| Tác vụ | Check thất bại | Nhóm | Bằng chứng từ detail |
+|---|---|---|---|
+| data-learn | rule_money_in_cents | E | money values in answer.json are integer cents |
+| data-learn | rule_meta_block | E | answer.json has an object `meta`, gồm source, rows_in, rows_used |
+| data-learn | rule_clean_csv | E | write workspace/clean.csv with the header order_id,timestamp_utc,region,amount_cents |
+
+Ở data-learn, check kỹ thuật đạt 5/5 và check quy ước đạt 0/3. Trace có đọc dữ liệu, chạy analyze.py và đọc lại answer.json; chưa có bằng chứng lỗi A–D hoặc F ở lượt này. Ba lỗi đều thuộc E vì quy ước Acme không được trình bày đầy đủ trong đề. Skill từ feedback có thể truyền lại những quy tắc còn thiếu. Bảng sẽ được bổ sung sau các lượt học còn lại.
 
 ## 5. Điều kiện `subagents` (Phần 2.3)
 
