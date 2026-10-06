@@ -59,6 +59,8 @@ def database_tool(database_path):
         if len(query) > 10000 or not query.lstrip().upper().startswith("SELECT"):
             raise ValueError("Only SELECT is supported")
         connection = sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)
+        connection.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, 100000)
+        connection.setlimit(sqlite3.SQLITE_LIMIT_SQL_LENGTH, 10000)
         allowed = {sqlite3.SQLITE_SELECT, sqlite3.SQLITE_READ, sqlite3.SQLITE_FUNCTION}
         connection.set_authorizer(lambda action, *args: sqlite3.SQLITE_OK if action in allowed else sqlite3.SQLITE_DENY)
         # Abort after a bounded number of virtual-machine instructions.
@@ -70,13 +72,17 @@ def database_tool(database_path):
         connection.set_progress_handler(progress, 1000)
         try:
             cursor = connection.execute(query, parameters)
-            rows = cursor.fetchmany(1001)
-            if len(rows) > 1000:
-                raise ValueError("Query result limit exceeded")
             names = [item[0] for item in cursor.description]
             if len(set(names)) != len(names):
                 raise ValueError("Use unique column aliases")
-            return [dict(zip(names, row)) for row in rows]
+            rows, output_bytes = [], 0
+            for row in cursor:
+                record = dict(zip(names, row))
+                output_bytes += len(json.dumps(record, ensure_ascii=False).encode("utf-8"))
+                if len(rows) >= 1000 or output_bytes > 1_000_000:
+                    raise ValueError("Query result size limit exceeded")
+                rows.append(record)
+            return rows
         finally:
             connection.close()
     return tool(query_database)

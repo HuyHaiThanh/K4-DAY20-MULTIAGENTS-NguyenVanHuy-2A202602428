@@ -5,8 +5,13 @@ import math
 
 
 class EvaluatorAgent(BaseWorker):
-    def __init__(self, model, **kwargs):
-        super().__init__("evaluator_agent", model, [tool(scoring), tool(validation), tool(quality_check), tool(feedback_generator)], **kwargs)
+    def __init__(self, model, workspace=None, **kwargs):
+        from lab.tools import ScoringTool, ValidationTool, ComparisonTool, ReportGeneratorTool
+        tools = [tool(scoring), tool(validation), tool(quality_check), tool(feedback_generator),
+                 ScoringTool().as_langchain_tool(), ValidationTool().as_langchain_tool(), ComparisonTool().as_langchain_tool()]
+        if workspace is not None:
+            tools.append(ReportGeneratorTool(workspace).as_langchain_tool())
+        super().__init__("evaluator_agent", model, tools, **kwargs)
         self.system_prompt = (
             "You are a Quality Evaluation Specialist. Evaluate supplied outputs against explicit criteria "
             "and available evidence. Accuracy and completeness weigh 30% each, clarity and performance "

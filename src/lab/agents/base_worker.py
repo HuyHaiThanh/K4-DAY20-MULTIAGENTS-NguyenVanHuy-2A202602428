@@ -49,9 +49,14 @@ class BaseWorker:
                 for call in response.tool_calls:
                     if len(executed) >= self.max_tool_calls:
                         raise ValueError("Tool-call budget exhausted")
-                    result = self._execute_tool(call["name"], call.get("args", call.get("input", {})))
+                    if call["name"] not in self.tools:
+                        raise ValueError(f"Unknown tool: {call['name']}")
+                    arguments = call.get("args", call.get("input", {}))
+                    result = await self.tools[call["name"]].ainvoke(arguments)
                     executed.append(call["name"])
-                    events.append({"name": call["name"], "id": call["id"], "output": result})
+                    events.append({"name": call["name"], "id": call["id"], "input": arguments, "output": result})
+                    if isinstance(result, dict) and result.get("status") == "error":
+                        raise ValueError(result.get("error", "Tool reported failure"))
                     messages.append(ToolMessage(content=json.dumps(result, ensure_ascii=False), tool_call_id=call["id"]))
             raise ValueError("Model-step budget exhausted")
         except Exception as exc:

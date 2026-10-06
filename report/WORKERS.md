@@ -1,5 +1,7 @@
 # Phần 3: Worker Agents và Communication
 
+Phần 4 bổ sung class tools, child-process Python, chart/report và async tool invocation; xem `TOOLS.md` cho hành vi hiện tại. Các mô tả Phần 3 dưới đây ghi nhận triển khai/checkpoint ban đầu; trace standalone được chạy lại với tools mới.
+
 Phần bổ sung nằm trong package `lab`, nối với coordinator của Phần 2. Các module gốc được cung cấp của bài Deep Agents, bộ chấm và task không bị thay đổi. Phần này chưa triển khai các TODO của harness gốc.
 
 ## Chạy offline

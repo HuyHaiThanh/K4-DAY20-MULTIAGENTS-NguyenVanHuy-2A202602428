@@ -4,7 +4,7 @@
     "status": "success",
     "results": [
       {
-        "id": "request-5b90bfd5db1749c2b325f6bc2ac418a5-0",
+        "id": "request-02c7367e1e7f46b3965e6fe15ba20e70-0",
         "worker": "data_agent",
         "type": "data",
         "content": {
@@ -19,6 +19,17 @@
               {
                 "name": "data_analysis",
                 "id": "local-tool",
+                "input": {
+                  "rows": [
+                    {
+                      "sales": 10
+                    },
+                    {
+                      "sales": 20
+                    }
+                  ],
+                  "column": "sales"
+                },
                 "output": {
                   "all": 30.0
                 }
@@ -30,10 +41,10 @@
         "attempts": 1,
         "status": "success",
         "error": null,
-        "seconds": 0.031
+        "seconds": 0.047
       },
       {
-        "id": "request-5b90bfd5db1749c2b325f6bc2ac418a5-1",
+        "id": "request-02c7367e1e7f46b3965e6fe15ba20e70-1",
         "worker": "code_agent",
         "type": "code",
         "content": {
@@ -48,12 +59,19 @@
               {
                 "name": "python_repl",
                 "id": "local-tool",
+                "input": {
+                  "code": "total = 10 + 20\nprint(total)"
+                },
                 "output": {
+                  "status": "success",
                   "stdout": "30",
                   "variables": {
                     "total": 30
                   },
-                  "restricted": true
+                  "restricted": true,
+                  "stderr": "",
+                  "isolated_process": true,
+                  "seconds": 1.125
                 }
               }
             ],
@@ -64,7 +82,7 @@
         "attempts": 1,
         "status": "success",
         "error": null,
-        "seconds": 0.031
+        "seconds": 1.157
       }
     ],
     "outputs": {
@@ -81,6 +99,17 @@
               {
                 "name": "data_analysis",
                 "id": "local-tool",
+                "input": {
+                  "rows": [
+                    {
+                      "sales": 10
+                    },
+                    {
+                      "sales": 20
+                    }
+                  ],
+                  "column": "sales"
+                },
                 "output": {
                   "all": 30.0
                 }
@@ -103,12 +132,19 @@
               {
                 "name": "python_repl",
                 "id": "local-tool",
+                "input": {
+                  "code": "total = 10 + 20\nprint(total)"
+                },
                 "output": {
+                  "status": "success",
                   "stdout": "30",
                   "variables": {
                     "total": 30
                   },
-                  "restricted": true
+                  "restricted": true,
+                  "stderr": "",
+                  "isolated_process": true,
+                  "seconds": 1.125
                 }
               }
             ],
@@ -119,13 +155,13 @@
       ]
     },
     "errors": [],
-    "timestamp": "2026-10-06T06:07:23.367631+00:00"
+    "timestamp": "2026-10-06T06:31:20.917453+00:00"
   },
   "evaluation": {
     "status": "success",
     "results": [
       {
-        "id": "request-e317005932364ec18ecd81f1426c47ba-0",
+        "id": "request-b9cf5c43d26c47f689d31f2de91f0630-0",
         "worker": "evaluator_agent",
         "type": "evaluator",
         "content": {
@@ -145,6 +181,12 @@
               {
                 "name": "scoring",
                 "id": "local-tool",
+                "input": {
+                  "accuracy": 100,
+                  "completeness": 100,
+                  "clarity": 100,
+                  "performance": 100
+                },
                 "output": {
                   "score": 100.0
                 }
@@ -178,6 +220,12 @@
               {
                 "name": "scoring",
                 "id": "local-tool",
+                "input": {
+                  "accuracy": 100,
+                  "completeness": 100,
+                  "clarity": 100,
+                  "performance": 100
+                },
                 "output": {
                   "score": 100.0
                 }
@@ -189,12 +237,12 @@
       ]
     },
     "errors": [],
-    "timestamp": "2026-10-06T06:07:23.369631+00:00"
+    "timestamp": "2026-10-06T06:31:20.920452+00:00"
   },
   "messages": [
     {
       "type": "task",
-      "correlation_id": "86e4a494b2204f0f8cc87d582362a202",
+      "correlation_id": "d8853368f8914e4489433d8c6e52a907",
       "content": {
         "task_type": "complex",
         "content": "Analyze data and create report",
@@ -203,12 +251,12 @@
       },
       "from": "coordinator",
       "to": "data_agent",
-      "timestamp": "2026-10-06T06:07:23.333834+00:00",
-      "id": "6f95e82be4774fa4a1052f31cd354363"
+      "timestamp": "2026-10-06T06:31:19.764888+00:00",
+      "id": "7d15924a9c904819bac3907b31c49702"
     },
     {
       "type": "task",
-      "correlation_id": "b6f62942103e412584a2f1c2c331f2df",
+      "correlation_id": "6129b38ccdd141a38a719509395a9198",
       "content": {
         "task_type": "complex",
         "content": "Analyze data and create report",
@@ -217,12 +265,12 @@
       },
       "from": "coordinator",
       "to": "code_agent",
-      "timestamp": "2026-10-06T06:07:23.333834+00:00",
-      "id": "5307bcc99e9f4d1ca27380e4d92529cf"
+      "timestamp": "2026-10-06T06:31:19.764888+00:00",
+      "id": "ad666223410240209fdd8f43012d2805"
     },
     {
       "type": "result",
-      "correlation_id": "86e4a494b2204f0f8cc87d582362a202",
+      "correlation_id": "d8853368f8914e4489433d8c6e52a907",
       "content": {
         "status": "success",
         "result": "Verified total: 30",
@@ -235,6 +283,17 @@
             {
               "name": "data_analysis",
               "id": "local-tool",
+              "input": {
+                "rows": [
+                  {
+                    "sales": 10
+                  },
+                  {
+                    "sales": 20
+                  }
+                ],
+                "column": "sales"
+              },
               "output": {
                 "all": 30.0
               }
@@ -245,12 +304,12 @@
       },
       "from": "data_agent",
       "to": "coordinator",
-      "timestamp": "2026-10-06T06:07:23.367631+00:00",
-      "id": "ddfa723dd83c4ffdb0045d397c7939eb"
+      "timestamp": "2026-10-06T06:31:19.811527+00:00",
+      "id": "caec61735a1c4c63ad16e84f038270f2"
     },
     {
       "type": "result",
-      "correlation_id": "b6f62942103e412584a2f1c2c331f2df",
+      "correlation_id": "6129b38ccdd141a38a719509395a9198",
       "content": {
         "status": "success",
         "result": "Executed arithmetic: 30",
@@ -263,12 +322,19 @@
             {
               "name": "python_repl",
               "id": "local-tool",
+              "input": {
+                "code": "total = 10 + 20\nprint(total)"
+              },
               "output": {
+                "status": "success",
                 "stdout": "30",
                 "variables": {
                   "total": 30
                 },
-                "restricted": true
+                "restricted": true,
+                "stderr": "",
+                "isolated_process": true,
+                "seconds": 1.125
               }
             }
           ],
@@ -278,19 +344,19 @@
       },
       "from": "code_agent",
       "to": "coordinator",
-      "timestamp": "2026-10-06T06:07:23.367631+00:00",
-      "id": "e2400b5da6b14b6b9cc6d892d8251d47"
+      "timestamp": "2026-10-06T06:31:20.917453+00:00",
+      "id": "99e56f6750164a69b43ccf354ef87c0d"
     },
     {
       "type": "task",
-      "correlation_id": "85e4f8ccc60947a88952655a5c007aa1",
+      "correlation_id": "7351d4dbb8dc411fad90dc1fae0615f2",
       "content": {
         "task_type": "evaluation",
         "content": {
           "status": "success",
           "results": [
             {
-              "id": "request-5b90bfd5db1749c2b325f6bc2ac418a5-0",
+              "id": "request-02c7367e1e7f46b3965e6fe15ba20e70-0",
               "worker": "data_agent",
               "type": "data",
               "content": {
@@ -305,6 +371,17 @@
                     {
                       "name": "data_analysis",
                       "id": "local-tool",
+                      "input": {
+                        "rows": [
+                          {
+                            "sales": 10
+                          },
+                          {
+                            "sales": 20
+                          }
+                        ],
+                        "column": "sales"
+                      },
                       "output": {
                         "all": 30.0
                       }
@@ -316,10 +393,10 @@
               "attempts": 1,
               "status": "success",
               "error": null,
-              "seconds": 0.031
+              "seconds": 0.047
             },
             {
-              "id": "request-5b90bfd5db1749c2b325f6bc2ac418a5-1",
+              "id": "request-02c7367e1e7f46b3965e6fe15ba20e70-1",
               "worker": "code_agent",
               "type": "code",
               "content": {
@@ -334,12 +411,19 @@
                     {
                       "name": "python_repl",
                       "id": "local-tool",
+                      "input": {
+                        "code": "total = 10 + 20\nprint(total)"
+                      },
                       "output": {
+                        "status": "success",
                         "stdout": "30",
                         "variables": {
                           "total": 30
                         },
-                        "restricted": true
+                        "restricted": true,
+                        "stderr": "",
+                        "isolated_process": true,
+                        "seconds": 1.125
                       }
                     }
                   ],
@@ -350,7 +434,7 @@
               "attempts": 1,
               "status": "success",
               "error": null,
-              "seconds": 0.031
+              "seconds": 1.157
             }
           ],
           "outputs": {
@@ -367,6 +451,17 @@
                     {
                       "name": "data_analysis",
                       "id": "local-tool",
+                      "input": {
+                        "rows": [
+                          {
+                            "sales": 10
+                          },
+                          {
+                            "sales": 20
+                          }
+                        ],
+                        "column": "sales"
+                      },
                       "output": {
                         "all": 30.0
                       }
@@ -389,12 +484,19 @@
                     {
                       "name": "python_repl",
                       "id": "local-tool",
+                      "input": {
+                        "code": "total = 10 + 20\nprint(total)"
+                      },
                       "output": {
+                        "status": "success",
                         "stdout": "30",
                         "variables": {
                           "total": 30
                         },
-                        "restricted": true
+                        "restricted": true,
+                        "stderr": "",
+                        "isolated_process": true,
+                        "seconds": 1.125
                       }
                     }
                   ],
@@ -405,19 +507,19 @@
             ]
           },
           "errors": [],
-          "timestamp": "2026-10-06T06:07:23.367631+00:00"
+          "timestamp": "2026-10-06T06:31:20.917453+00:00"
         },
         "parameters": {},
         "priority": "normal"
       },
       "from": "coordinator",
       "to": "evaluator_agent",
-      "timestamp": "2026-10-06T06:07:23.367631+00:00",
-      "id": "120dbb90fcfb4325826615b03cdbef07"
+      "timestamp": "2026-10-06T06:31:20.918454+00:00",
+      "id": "77f05c9cab824adf80ba2ae40986c6f2"
     },
     {
       "type": "result",
-      "correlation_id": "85e4f8ccc60947a88952655a5c007aa1",
+      "correlation_id": "7351d4dbb8dc411fad90dc1fae0615f2",
       "content": {
         "status": "success",
         "result": {
@@ -435,6 +537,12 @@
             {
               "name": "scoring",
               "id": "local-tool",
+              "input": {
+                "accuracy": 100,
+                "completeness": 100,
+                "clarity": 100,
+                "performance": 100
+              },
               "output": {
                 "score": 100.0
               }
@@ -445,8 +553,8 @@
       },
       "from": "evaluator_agent",
       "to": "coordinator",
-      "timestamp": "2026-10-06T06:07:23.369631+00:00",
-      "id": "6afcd28ca6f1484b8dc6e262be34d4b0"
+      "timestamp": "2026-10-06T06:31:20.920452+00:00",
+      "id": "72828d2274184583b81d507b17034d1e"
     }
   ]
 }

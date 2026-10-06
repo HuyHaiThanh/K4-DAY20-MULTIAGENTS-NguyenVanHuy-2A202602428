@@ -73,11 +73,9 @@ def test_restricted_python_rejects_unsafe_code(code):
 
 def test_file_boundary_and_edit(tmp_path):
     worker = CodeAgent(fake(AIMessage(content="done")), tmp_path)
-    with pytest.raises(ValueError):
-        worker._execute_tool("create_file", {"path": "../outside.py", "content": "x"})
+    assert worker._execute_tool("create_file", {"path": "../outside.py", "content": "x"})["status"] == "error"
     worker._execute_tool("create_file", {"path": "x.py", "content": "print(1)"})
-    with pytest.raises(FileExistsError):
-        worker._execute_tool("create_file", {"path": "x.py", "content": "print(2)"})
+    assert worker._execute_tool("create_file", {"path": "x.py", "content": "print(2)"})["status"] == "error"
     worker._execute_tool("edit_file", {"path": "x.py", "old": "1", "new": "2"})
     assert worker._execute_tool("run_script", {"path": "x.py"})["stdout"] == "2"
 

@@ -1,0 +1,925 @@
+{
+  "model": "scripted-fake",
+  "data": {
+    "status": "success",
+    "results": [
+      {
+        "id": "request-18a289ac5307486988a6110b8e3c49d7-0",
+        "worker": "data_agent",
+        "type": "data",
+        "content": {
+          "status": "success",
+          "result": "Queried 2026 sales",
+          "metadata": {
+            "tools_used": 1,
+            "tool_names": [
+              "query_database"
+            ],
+            "tool_events": [
+              {
+                "name": "query_database",
+                "id": "tool-0",
+                "input": {
+                  "query": "SELECT month, amount FROM sales WHERE year=? ORDER BY month DESC",
+                  "parameters": [
+                    2026
+                  ]
+                },
+                "output": {
+                  "status": "success",
+                  "rows": 2,
+                  "data": [
+                    {
+                      "month": "Jan",
+                      "amount": 10.0
+                    },
+                    {
+                      "month": "Feb",
+                      "amount": 20.0
+                    }
+                  ],
+                  "columns": [
+                    "month",
+                    "amount"
+                  ],
+                  "truncated": false,
+                  "seconds": 0.0
+                }
+              }
+            ],
+            "model_calls": 2
+          }
+        },
+        "attempts": 1,
+        "status": "success",
+        "error": null,
+        "seconds": 0.031
+      }
+    ],
+    "outputs": {
+      "data": [
+        {
+          "status": "success",
+          "result": "Queried 2026 sales",
+          "metadata": {
+            "tools_used": 1,
+            "tool_names": [
+              "query_database"
+            ],
+            "tool_events": [
+              {
+                "name": "query_database",
+                "id": "tool-0",
+                "input": {
+                  "query": "SELECT month, amount FROM sales WHERE year=? ORDER BY month DESC",
+                  "parameters": [
+                    2026
+                  ]
+                },
+                "output": {
+                  "status": "success",
+                  "rows": 2,
+                  "data": [
+                    {
+                      "month": "Jan",
+                      "amount": 10.0
+                    },
+                    {
+                      "month": "Feb",
+                      "amount": 20.0
+                    }
+                  ],
+                  "columns": [
+                    "month",
+                    "amount"
+                  ],
+                  "truncated": false,
+                  "seconds": 0.0
+                }
+              }
+            ],
+            "model_calls": 2
+          }
+        }
+      ]
+    },
+    "errors": [],
+    "timestamp": "2026-10-06T06:31:16.863244+00:00"
+  },
+  "code": {
+    "status": "success",
+    "results": [
+      {
+        "id": "request-f9c3da3d809b424884afa1f1d5422a91-0",
+        "worker": "code_agent",
+        "type": "code",
+        "content": {
+          "status": "success",
+          "result": "Created SVG chart and verified total 30",
+          "metadata": {
+            "tools_used": 2,
+            "tool_names": [
+              "create_visualization",
+              "python_repl"
+            ],
+            "tool_events": [
+              {
+                "name": "create_visualization",
+                "id": "tool-0",
+                "input": {
+                  "path": "sales_chart.svg",
+                  "labels": [
+                    "Jan",
+                    "Feb"
+                  ],
+                  "values": [
+                    10.0,
+                    20.0
+                  ],
+                  "title": "Sales 2026"
+                },
+                "output": {
+                  "status": "success",
+                  "path": "sales_chart.svg",
+                  "bytes": 545,
+                  "seconds": 0.0
+                }
+              },
+              {
+                "name": "python_repl",
+                "id": "tool-1",
+                "input": {
+                  "code": "total = 10.0 + 20.0\nprint(total)"
+                },
+                "output": {
+                  "status": "success",
+                  "stdout": "30.0",
+                  "variables": {
+                    "total": 30.0
+                  },
+                  "restricted": true,
+                  "stderr": "",
+                  "isolated_process": true,
+                  "seconds": 1.141
+                }
+              }
+            ],
+            "model_calls": 3,
+            "execution_verified": true
+          }
+        },
+        "attempts": 1,
+        "status": "success",
+        "error": null,
+        "seconds": 1.141
+      }
+    ],
+    "outputs": {
+      "code": [
+        {
+          "status": "success",
+          "result": "Created SVG chart and verified total 30",
+          "metadata": {
+            "tools_used": 2,
+            "tool_names": [
+              "create_visualization",
+              "python_repl"
+            ],
+            "tool_events": [
+              {
+                "name": "create_visualization",
+                "id": "tool-0",
+                "input": {
+                  "path": "sales_chart.svg",
+                  "labels": [
+                    "Jan",
+                    "Feb"
+                  ],
+                  "values": [
+                    10.0,
+                    20.0
+                  ],
+                  "title": "Sales 2026"
+                },
+                "output": {
+                  "status": "success",
+                  "path": "sales_chart.svg",
+                  "bytes": 545,
+                  "seconds": 0.0
+                }
+              },
+              {
+                "name": "python_repl",
+                "id": "tool-1",
+                "input": {
+                  "code": "total = 10.0 + 20.0\nprint(total)"
+                },
+                "output": {
+                  "status": "success",
+                  "stdout": "30.0",
+                  "variables": {
+                    "total": 30.0
+                  },
+                  "restricted": true,
+                  "stderr": "",
+                  "isolated_process": true,
+                  "seconds": 1.141
+                }
+              }
+            ],
+            "model_calls": 3,
+            "execution_verified": true
+          }
+        }
+      ]
+    },
+    "errors": [],
+    "timestamp": "2026-10-06T06:31:18.023398+00:00"
+  },
+  "evaluation": {
+    "status": "success",
+    "results": [
+      {
+        "id": "request-373ae3df83fa462b95d104910a54bfcd-0",
+        "worker": "evaluator_agent",
+        "type": "evaluator",
+        "content": {
+          "status": "success",
+          "result": {
+            "score": 85.5,
+            "feedback": "Demonstration ratings, not an independent quality assessment",
+            "issues": [],
+            "suggestions": []
+          },
+          "metadata": {
+            "tools_used": 3,
+            "tool_names": [
+              "score_result",
+              "compare_results",
+              "generate_report"
+            ],
+            "tool_events": [
+              {
+                "name": "score_result",
+                "id": "tool-0",
+                "input": {
+                  "scores": {
+                    "accuracy": 85.0,
+                    "completeness": 90.0,
+                    "clarity": 80.0,
+                    "performance": 85.0
+                  }
+                },
+                "output": {
+                  "status": "success",
+                  "scores": {
+                    "accuracy": 85.0,
+                    "completeness": 90.0,
+                    "clarity": 80.0,
+                    "performance": 85.0
+                  },
+                  "weighted_score": 85.5,
+                  "grade": "B",
+                  "basis": "supplied_ratings",
+                  "seconds": 0.0
+                }
+              },
+              {
+                "name": "compare_results",
+                "id": "tool-1",
+                "input": {
+                  "actual": 30.0,
+                  "expected": 30.0
+                },
+                "output": {
+                  "status": "success",
+                  "matches": true,
+                  "seconds": 0.0
+                }
+              },
+              {
+                "name": "generate_report",
+                "id": "tool-2",
+                "input": {
+                  "path": "evaluation.md",
+                  "title": "Local tool integration",
+                  "findings": [
+                    "SQLite returned 2 rows for 2026",
+                    "Created sales_chart.svg",
+                    "Executed total = 30.0",
+                    "Ratings are supplied demo values"
+                  ],
+                  "evaluation": {
+                    "score": 85.5,
+                    "feedback": "Demonstration ratings, not an independent quality assessment",
+                    "issues": [],
+                    "suggestions": []
+                  }
+                },
+                "output": {
+                  "status": "success",
+                  "path": "evaluation.md",
+                  "bytes": 308,
+                  "seconds": 0.0
+                }
+              }
+            ],
+            "model_calls": 4
+          }
+        },
+        "attempts": 1,
+        "status": "success",
+        "error": null,
+        "seconds": 0.0
+      }
+    ],
+    "outputs": {
+      "evaluator": [
+        {
+          "status": "success",
+          "result": {
+            "score": 85.5,
+            "feedback": "Demonstration ratings, not an independent quality assessment",
+            "issues": [],
+            "suggestions": []
+          },
+          "metadata": {
+            "tools_used": 3,
+            "tool_names": [
+              "score_result",
+              "compare_results",
+              "generate_report"
+            ],
+            "tool_events": [
+              {
+                "name": "score_result",
+                "id": "tool-0",
+                "input": {
+                  "scores": {
+                    "accuracy": 85.0,
+                    "completeness": 90.0,
+                    "clarity": 80.0,
+                    "performance": 85.0
+                  }
+                },
+                "output": {
+                  "status": "success",
+                  "scores": {
+                    "accuracy": 85.0,
+                    "completeness": 90.0,
+                    "clarity": 80.0,
+                    "performance": 85.0
+                  },
+                  "weighted_score": 85.5,
+                  "grade": "B",
+                  "basis": "supplied_ratings",
+                  "seconds": 0.0
+                }
+              },
+              {
+                "name": "compare_results",
+                "id": "tool-1",
+                "input": {
+                  "actual": 30.0,
+                  "expected": 30.0
+                },
+                "output": {
+                  "status": "success",
+                  "matches": true,
+                  "seconds": 0.0
+                }
+              },
+              {
+                "name": "generate_report",
+                "id": "tool-2",
+                "input": {
+                  "path": "evaluation.md",
+                  "title": "Local tool integration",
+                  "findings": [
+                    "SQLite returned 2 rows for 2026",
+                    "Created sales_chart.svg",
+                    "Executed total = 30.0",
+                    "Ratings are supplied demo values"
+                  ],
+                  "evaluation": {
+                    "score": 85.5,
+                    "feedback": "Demonstration ratings, not an independent quality assessment",
+                    "issues": [],
+                    "suggestions": []
+                  }
+                },
+                "output": {
+                  "status": "success",
+                  "path": "evaluation.md",
+                  "bytes": 308,
+                  "seconds": 0.0
+                }
+              }
+            ],
+            "model_calls": 4
+          }
+        }
+      ]
+    },
+    "errors": [],
+    "timestamp": "2026-10-06T06:31:18.049929+00:00"
+  },
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "5105b2ac5e844a169b0bbf1d9b98820e",
+      "content": {
+        "task_type": "data_analysis",
+        "content": "Query sales for 2026",
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "data_agent",
+      "timestamp": "2026-10-06T06:31:16.828113+00:00",
+      "id": "0b079ca3228b44eb8bfa115d3d9430d5"
+    },
+    {
+      "type": "result",
+      "correlation_id": "5105b2ac5e844a169b0bbf1d9b98820e",
+      "content": {
+        "status": "success",
+        "result": "Queried 2026 sales",
+        "metadata": {
+          "tools_used": 1,
+          "tool_names": [
+            "query_database"
+          ],
+          "tool_events": [
+            {
+              "name": "query_database",
+              "id": "tool-0",
+              "input": {
+                "query": "SELECT month, amount FROM sales WHERE year=? ORDER BY month DESC",
+                "parameters": [
+                  2026
+                ]
+              },
+              "output": {
+                "status": "success",
+                "rows": 2,
+                "data": [
+                  {
+                    "month": "Jan",
+                    "amount": 10.0
+                  },
+                  {
+                    "month": "Feb",
+                    "amount": 20.0
+                  }
+                ],
+                "columns": [
+                  "month",
+                  "amount"
+                ],
+                "truncated": false,
+                "seconds": 0.0
+              }
+            }
+          ],
+          "model_calls": 2
+        }
+      },
+      "from": "data_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:31:16.862245+00:00",
+      "id": "ad0666ab89b24561a46b61812e176ef8"
+    },
+    {
+      "type": "task",
+      "correlation_id": "5fcac69c7dcc4c8ebe4963e02b6c7212",
+      "content": {
+        "task_type": "code_generation",
+        "content": "Visualize queried rows",
+        "parameters": {
+          "rows": [
+            {
+              "month": "Jan",
+              "amount": 10.0
+            },
+            {
+              "month": "Feb",
+              "amount": 20.0
+            }
+          ]
+        },
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "code_agent",
+      "timestamp": "2026-10-06T06:31:16.881897+00:00",
+      "id": "9a81bdb6affd4e35b613dc81a062f6a6"
+    },
+    {
+      "type": "result",
+      "correlation_id": "5fcac69c7dcc4c8ebe4963e02b6c7212",
+      "content": {
+        "status": "success",
+        "result": "Created SVG chart and verified total 30",
+        "metadata": {
+          "tools_used": 2,
+          "tool_names": [
+            "create_visualization",
+            "python_repl"
+          ],
+          "tool_events": [
+            {
+              "name": "create_visualization",
+              "id": "tool-0",
+              "input": {
+                "path": "sales_chart.svg",
+                "labels": [
+                  "Jan",
+                  "Feb"
+                ],
+                "values": [
+                  10.0,
+                  20.0
+                ],
+                "title": "Sales 2026"
+              },
+              "output": {
+                "status": "success",
+                "path": "sales_chart.svg",
+                "bytes": 545,
+                "seconds": 0.0
+              }
+            },
+            {
+              "name": "python_repl",
+              "id": "tool-1",
+              "input": {
+                "code": "total = 10.0 + 20.0\nprint(total)"
+              },
+              "output": {
+                "status": "success",
+                "stdout": "30.0",
+                "variables": {
+                  "total": 30.0
+                },
+                "restricted": true,
+                "stderr": "",
+                "isolated_process": true,
+                "seconds": 1.141
+              }
+            }
+          ],
+          "model_calls": 3,
+          "execution_verified": true
+        }
+      },
+      "from": "code_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:31:18.023398+00:00",
+      "id": "0584eedeb10b4a1ca366a4136725e71f"
+    },
+    {
+      "type": "task",
+      "correlation_id": "c0e750fda28d470c81b57fdb38fb8aab",
+      "content": {
+        "task_type": "evaluation",
+        "content": {
+          "data": {
+            "status": "success",
+            "results": [
+              {
+                "id": "request-18a289ac5307486988a6110b8e3c49d7-0",
+                "worker": "data_agent",
+                "type": "data",
+                "content": {
+                  "status": "success",
+                  "result": "Queried 2026 sales",
+                  "metadata": {
+                    "tools_used": 1,
+                    "tool_names": [
+                      "query_database"
+                    ],
+                    "tool_events": [
+                      {
+                        "name": "query_database",
+                        "id": "tool-0",
+                        "input": {
+                          "query": "SELECT month, amount FROM sales WHERE year=? ORDER BY month DESC",
+                          "parameters": [
+                            2026
+                          ]
+                        },
+                        "output": {
+                          "status": "success",
+                          "rows": 2,
+                          "data": [
+                            {
+                              "month": "Jan",
+                              "amount": 10.0
+                            },
+                            {
+                              "month": "Feb",
+                              "amount": 20.0
+                            }
+                          ],
+                          "columns": [
+                            "month",
+                            "amount"
+                          ],
+                          "truncated": false,
+                          "seconds": 0.0
+                        }
+                      }
+                    ],
+                    "model_calls": 2
+                  }
+                },
+                "attempts": 1,
+                "status": "success",
+                "error": null,
+                "seconds": 0.031
+              }
+            ],
+            "outputs": {
+              "data": [
+                {
+                  "status": "success",
+                  "result": "Queried 2026 sales",
+                  "metadata": {
+                    "tools_used": 1,
+                    "tool_names": [
+                      "query_database"
+                    ],
+                    "tool_events": [
+                      {
+                        "name": "query_database",
+                        "id": "tool-0",
+                        "input": {
+                          "query": "SELECT month, amount FROM sales WHERE year=? ORDER BY month DESC",
+                          "parameters": [
+                            2026
+                          ]
+                        },
+                        "output": {
+                          "status": "success",
+                          "rows": 2,
+                          "data": [
+                            {
+                              "month": "Jan",
+                              "amount": 10.0
+                            },
+                            {
+                              "month": "Feb",
+                              "amount": 20.0
+                            }
+                          ],
+                          "columns": [
+                            "month",
+                            "amount"
+                          ],
+                          "truncated": false,
+                          "seconds": 0.0
+                        }
+                      }
+                    ],
+                    "model_calls": 2
+                  }
+                }
+              ]
+            },
+            "errors": [],
+            "timestamp": "2026-10-06T06:31:16.863244+00:00"
+          },
+          "code": {
+            "status": "success",
+            "results": [
+              {
+                "id": "request-f9c3da3d809b424884afa1f1d5422a91-0",
+                "worker": "code_agent",
+                "type": "code",
+                "content": {
+                  "status": "success",
+                  "result": "Created SVG chart and verified total 30",
+                  "metadata": {
+                    "tools_used": 2,
+                    "tool_names": [
+                      "create_visualization",
+                      "python_repl"
+                    ],
+                    "tool_events": [
+                      {
+                        "name": "create_visualization",
+                        "id": "tool-0",
+                        "input": {
+                          "path": "sales_chart.svg",
+                          "labels": [
+                            "Jan",
+                            "Feb"
+                          ],
+                          "values": [
+                            10.0,
+                            20.0
+                          ],
+                          "title": "Sales 2026"
+                        },
+                        "output": {
+                          "status": "success",
+                          "path": "sales_chart.svg",
+                          "bytes": 545,
+                          "seconds": 0.0
+                        }
+                      },
+                      {
+                        "name": "python_repl",
+                        "id": "tool-1",
+                        "input": {
+                          "code": "total = 10.0 + 20.0\nprint(total)"
+                        },
+                        "output": {
+                          "status": "success",
+                          "stdout": "30.0",
+                          "variables": {
+                            "total": 30.0
+                          },
+                          "restricted": true,
+                          "stderr": "",
+                          "isolated_process": true,
+                          "seconds": 1.141
+                        }
+                      }
+                    ],
+                    "model_calls": 3,
+                    "execution_verified": true
+                  }
+                },
+                "attempts": 1,
+                "status": "success",
+                "error": null,
+                "seconds": 1.141
+              }
+            ],
+            "outputs": {
+              "code": [
+                {
+                  "status": "success",
+                  "result": "Created SVG chart and verified total 30",
+                  "metadata": {
+                    "tools_used": 2,
+                    "tool_names": [
+                      "create_visualization",
+                      "python_repl"
+                    ],
+                    "tool_events": [
+                      {
+                        "name": "create_visualization",
+                        "id": "tool-0",
+                        "input": {
+                          "path": "sales_chart.svg",
+                          "labels": [
+                            "Jan",
+                            "Feb"
+                          ],
+                          "values": [
+                            10.0,
+                            20.0
+                          ],
+                          "title": "Sales 2026"
+                        },
+                        "output": {
+                          "status": "success",
+                          "path": "sales_chart.svg",
+                          "bytes": 545,
+                          "seconds": 0.0
+                        }
+                      },
+                      {
+                        "name": "python_repl",
+                        "id": "tool-1",
+                        "input": {
+                          "code": "total = 10.0 + 20.0\nprint(total)"
+                        },
+                        "output": {
+                          "status": "success",
+                          "stdout": "30.0",
+                          "variables": {
+                            "total": 30.0
+                          },
+                          "restricted": true,
+                          "stderr": "",
+                          "isolated_process": true,
+                          "seconds": 1.141
+                        }
+                      }
+                    ],
+                    "model_calls": 3,
+                    "execution_verified": true
+                  }
+                }
+              ]
+            },
+            "errors": [],
+            "timestamp": "2026-10-06T06:31:18.023398+00:00"
+          }
+        },
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "evaluator_agent",
+      "timestamp": "2026-10-06T06:31:18.039421+00:00",
+      "id": "305c186515b2485fa118822d0ccfd094"
+    },
+    {
+      "type": "result",
+      "correlation_id": "c0e750fda28d470c81b57fdb38fb8aab",
+      "content": {
+        "status": "success",
+        "result": {
+          "score": 85.5,
+          "feedback": "Demonstration ratings, not an independent quality assessment",
+          "issues": [],
+          "suggestions": []
+        },
+        "metadata": {
+          "tools_used": 3,
+          "tool_names": [
+            "score_result",
+            "compare_results",
+            "generate_report"
+          ],
+          "tool_events": [
+            {
+              "name": "score_result",
+              "id": "tool-0",
+              "input": {
+                "scores": {
+                  "accuracy": 85.0,
+                  "completeness": 90.0,
+                  "clarity": 80.0,
+                  "performance": 85.0
+                }
+              },
+              "output": {
+                "status": "success",
+                "scores": {
+                  "accuracy": 85.0,
+                  "completeness": 90.0,
+                  "clarity": 80.0,
+                  "performance": 85.0
+                },
+                "weighted_score": 85.5,
+                "grade": "B",
+                "basis": "supplied_ratings",
+                "seconds": 0.0
+              }
+            },
+            {
+              "name": "compare_results",
+              "id": "tool-1",
+              "input": {
+                "actual": 30.0,
+                "expected": 30.0
+              },
+              "output": {
+                "status": "success",
+                "matches": true,
+                "seconds": 0.0
+              }
+            },
+            {
+              "name": "generate_report",
+              "id": "tool-2",
+              "input": {
+                "path": "evaluation.md",
+                "title": "Local tool integration",
+                "findings": [
+                  "SQLite returned 2 rows for 2026",
+                  "Created sales_chart.svg",
+                  "Executed total = 30.0",
+                  "Ratings are supplied demo values"
+                ],
+                "evaluation": {
+                  "score": 85.5,
+                  "feedback": "Demonstration ratings, not an independent quality assessment",
+                  "issues": [],
+                  "suggestions": []
+                }
+              },
+              "output": {
+                "status": "success",
+                "path": "evaluation.md",
+                "bytes": 308,
+                "seconds": 0.0
+              }
+            }
+          ],
+          "model_calls": 4
+        }
+      },
+      "from": "evaluator_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:31:18.049929+00:00",
+      "id": "604538828caf4bde90f441571b154f13"
+    }
+  ]
+}
