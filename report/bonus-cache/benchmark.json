@@ -1,0 +1,96 @@
+{
+  "mode": "offline-scripted",
+  "request": "Analyze sales data and create chart",
+  "iterations": 5,
+  "measurements": {
+    "uncached": {
+      "samples": [
+        {
+          "seconds": 0.125,
+          "cache_hit": false,
+          "run_id": "8b49cb534c0c47068c16d9fa49ea7d2f",
+          "synthetic_tokens_this_call": 840
+        },
+        {
+          "seconds": 0.10899999999674037,
+          "cache_hit": false,
+          "run_id": "1e086718a4c84b979a78cf40b8e483fd",
+          "synthetic_tokens_this_call": 840
+        },
+        {
+          "seconds": 0.09399999998277053,
+          "cache_hit": false,
+          "run_id": "bb4cb3a458e34019ac30a918476b7855",
+          "synthetic_tokens_this_call": 840
+        },
+        {
+          "seconds": 0.125,
+          "cache_hit": false,
+          "run_id": "679fd71129c24816afa6d724702fd790",
+          "synthetic_tokens_this_call": 840
+        },
+        {
+          "seconds": 0.09299999999348074,
+          "cache_hit": false,
+          "run_id": "ae080fe7752d4461931d349980c3dd3b",
+          "synthetic_tokens_this_call": 840
+        }
+      ],
+      "wall_seconds": 0.5459999999729916,
+      "requests_per_minute": 549.4505494777285,
+      "underlying_run_ids": [
+        "1e086718a4c84b979a78cf40b8e483fd",
+        "679fd71129c24816afa6d724702fd790",
+        "8b49cb534c0c47068c16d9fa49ea7d2f",
+        "ae080fe7752d4461931d349980c3dd3b",
+        "bb4cb3a458e34019ac30a918476b7855"
+      ]
+    },
+    "cached": {
+      "samples": [
+        {
+          "seconds": 0.11000000004423782,
+          "cache_hit": false,
+          "run_id": "7a4aafc1477e47a386b26e1ff6aff75b",
+          "synthetic_tokens_this_call": 840
+        },
+        {
+          "seconds": 0.0,
+          "cache_hit": true,
+          "run_id": "7a4aafc1477e47a386b26e1ff6aff75b",
+          "synthetic_tokens_this_call": 0
+        },
+        {
+          "seconds": 0.0,
+          "cache_hit": true,
+          "run_id": "7a4aafc1477e47a386b26e1ff6aff75b",
+          "synthetic_tokens_this_call": 0
+        },
+        {
+          "seconds": 0.0,
+          "cache_hit": true,
+          "run_id": "7a4aafc1477e47a386b26e1ff6aff75b",
+          "synthetic_tokens_this_call": 0
+        },
+        {
+          "seconds": 0.0,
+          "cache_hit": true,
+          "run_id": "7a4aafc1477e47a386b26e1ff6aff75b",
+          "synthetic_tokens_this_call": 0
+        }
+      ],
+      "wall_seconds": 0.11000000004423782,
+      "requests_per_minute": 2727.272726175922,
+      "underlying_run_ids": [
+        "7a4aafc1477e47a386b26e1ff6aff75b"
+      ]
+    }
+  },
+  "cache": {
+    "hits": 4,
+    "misses": 1,
+    "ttl_seconds": 60,
+    "max_entries": 32
+  },
+  "limits": "Identical warm fixture requests only; not evidence of production/API throughput; no provider tokens spent"
+}

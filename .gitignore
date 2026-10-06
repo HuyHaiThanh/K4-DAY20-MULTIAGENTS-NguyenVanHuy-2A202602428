@@ -9,5 +9,6 @@ __pycache__/
 report/acceptance/*.data
 report/acceptance/*.pstats
 report/acceptance/*-runs/*/sales.db
+report/bonus-cache/runs/*/sales.db
 # Tài liệu và mã dành cho giảng viên (đáp án, bản cài đặt tham chiếu, bộ sinh dữ liệu). Chỉ giữ cục bộ.
 instructor/

@@ -9,6 +9,7 @@ src/lab/agents/data_agent.py                13      2    85%
 src/lab/agents/evaluator_agent.py           33      2    94%
 src/lab/agents/tools.py                    121     25    79%
 src/lab/benchmarking.py                     39      3    92%
+src/lab/caching.py                          75      3    96%
 src/lab/communication/__init__.py            2      0   100%
 src/lab/communication/message_queue.py      81      7    91%
 src/lab/compare.py                          43      5    88%
@@ -29,4 +30,4 @@ src/lab/tools/data_tools.py                 39     13    67%
 src/lab/tools/database_tools.py             17      0   100%
 src/lab/tools/evaluation_tools.py           71      1    99%
 ------------------------------------------------------------
-TOTAL                                     1312    156    88%
+TOTAL                                     1387    159    89%
