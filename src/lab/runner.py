@@ -86,9 +86,11 @@ def run_task(task_id: str, condition: str, results_dir="results", model=None, re
         start = time.monotonic()
         try:
             agent = build_agent(sandbox, mode=cfg["mode"], use_skills=bool(cfg["skills_dir"]), model=model)
-            result = agent.invoke({"messages": [{"role": "user", "content": task.instruction}]},
-                                  config={"callbacks": [usage], "recursion_limit": recursion_limit})
-            messages = result["messages"]
+            # Keep completed main-thread messages even if a later API call fails.
+            for state in agent.stream({"messages": [{"role": "user", "content": task.instruction}]},
+                                      config={"callbacks": [usage], "recursion_limit": recursion_limit},
+                                      stream_mode="values"):
+                messages = state["messages"]
         except Exception as exc:
             record["error"] = f"{type(exc).__name__}: {exc}"
         record["seconds"] = round(time.monotonic() - start, 1)

@@ -1,0 +1,12 @@
+model response received usage={"input_tokens": 3507, "output_tokens": 57, "total_tokens": 3564, "input_token_details": {}, "output_token_details": {}}
+model response received usage={"input_tokens": 6035, "output_tokens": 42, "total_tokens": 6077, "input_token_details": {}, "output_token_details": {}}
+model response received usage={"input_tokens": 3582, "output_tokens": 616, "total_tokens": 4198, "input_token_details": {}, "output_token_details": {}}
+model response received usage={"input_tokens": 5234, "output_tokens": 42, "total_tokens": 5276, "input_token_details": {}, "output_token_details": {}}
+model response received usage={"input_tokens": 2770, "output_tokens": 1195, "total_tokens": 3965, "input_token_details": {}, "output_token_details": {}}
+{"condition": "baseline", "task": "logs-learn", "passed": 0, "total": 9, "tokens": {"input": 21128, "output": 1952, "total": 23080}, "seconds": 126.9, "tool_calls": 4, "subagent_calls": 0, "skills_read": 0} error=True
+Traceback (most recent call last):
+  File "/mnt/d/Documents/VIN_AI/LAB_20/K4-DAY20-MULTIAGENTS-NguyenVanHuy-2A202602428/scripts/run_official.py", line 75, in <module>
+    main()
+  File "/mnt/d/Documents/VIN_AI/LAB_20/K4-DAY20-MULTIAGENTS-NguyenVanHuy-2A202602428/scripts/run_official.py", line 67, in main
+    raise RuntimeError(f"Context budget cannot fit: {args.condition}/{task}; fix configuration before retry")
+RuntimeError: Context budget cannot fit: baseline/logs-learn; fix configuration before retry

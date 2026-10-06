@@ -1,6 +1,6 @@
 # Báo cáo Lab: Self evolving Agentic
 
-**Trạng thái:** mã và kiểm chứng extension đã hoàn thành; thí nghiệm gốc đang thực hiện theo thứ tự học → curator → hypotheses → freeze → eval. Báo cáo 10 mục theo checklist gửi thêm nằm tại [FINAL_REPORT.md](FINAL_REPORT.md). Không dùng số liệu extension thay cho điểm sáu tác vụ chính thức.
+**Trạng thái:** mã và kiểm chứng extension đã hoàn thành; thí nghiệm gốc đã bắt đầu và hiện bị chặn bởi giới hạn API/context; chưa đủ điều kiện freeze/eval. Báo cáo 10 mục theo checklist gửi thêm nằm tại [FINAL_REPORT.md](FINAL_REPORT.md). Không dùng số liệu extension thay cho điểm sáu tác vụ chính thức.
 
 ## 1. Thông tin nhóm và cấu hình
 
@@ -9,6 +9,7 @@
 | Nguyễn Văn Huy (người nộp cần xác nhận) | 2A202602428 | TODO harness và extension coordinator/worker/tools/test; mã provided giữ nguyên |
 
 - Model kiểm chứng extension: `openai/gpt-oss-120b`, `LAB_TEMPERATURE=0`; worker tối đa 4 lượt model trong pipeline acceptance.
+- Model thí nghiệm gốc bổ sung: `qwen/qwen3.8-27b`, temperature 0, output 4096, recursion 40, SDK retry 2/timeout 120s; profile 11000 cho input budget hữu hiệu 6354. Chi tiết và giới hạn ở [OFFICIAL_EXPERIMENTS.md](OFFICIAL_EXPERIMENTS.md).
 - Deep Agents: 0.7.21. Python Windows 3.11.9; Python WSL ERPNext 3.12.3. Harness shell kiểm chứng bằng Linux.
 - Lượt chính thức hợp lệ đã có: baseline/data-learn; các lượt tiếp theo đang chạy. Chưa có skill sinh thật hoặc tag `freeze`.
 - Benchmark API cuối extension: 9 request / 27.343 token; các probe và lần lỗi trước đó có usage riêng, không nằm trong tổng này.
@@ -65,7 +66,7 @@ Kết quả hợp lệ đầu tiên: baseline/data-learn đạt 5/8, 56.057 toke
 | data-learn | rule_meta_block | E | answer.json has an object `meta`, gồm source, rows_in, rows_used |
 | data-learn | rule_clean_csv | E | write workspace/clean.csv with the header order_id,timestamp_utc,region,amount_cents |
 
-Ở data-learn, check kỹ thuật đạt 5/5 và check quy ước đạt 0/3. Trace có đọc dữ liệu, chạy analyze.py và đọc lại answer.json; chưa có bằng chứng lỗi A–D hoặc F ở lượt này. Ba lỗi đều thuộc E vì quy ước Acme không được trình bày đầy đủ trong đề. Skill từ feedback có thể truyền lại những quy tắc còn thiếu. Bảng sẽ được bổ sung sau các lượt học còn lại.
+Ở data-learn, check kỹ thuật đạt 5/5 và check quy ước đạt 0/3. Trace có đọc dữ liệu, chạy analyze.py và đọc lại answer.json; chưa có bằng chứng lỗi A–D hoặc F ở lượt này. Ba lỗi đều thuộc E vì quy ước Acme không được trình bày đầy đủ trong đề. Skill từ feedback có thể truyền lại những quy tắc còn thiếu. code-learn và logs-learn có lỗi context, không đưa các check đó vào taxonomy. Cần lượt hợp lệ để bổ sung ít nhất bốn check thất bại theo rubric.
 
 ## 5. Điều kiện `subagents` (Phần 2.3)
 
@@ -77,7 +78,7 @@ Kết quả hợp lệ đầu tiên: baseline/data-learn đạt 5/8, 56.057 toke
 - Coordinator 15; workers/queue 21; tools 7; integration/e2e/benchmark 6.
 - Provided 12; agent/backend 9; runner 6; curator 2.
 - Stress data offline 10/10 request đạt. Đo tài nguyên bổ sung chạy 10/10 complex offline đạt.
-- Gate cuối có bonus: **83/83 passed, coverage 88.54%**; xem [pytest-linux.txt](acceptance/pytest-linux.txt), [coverage-linux.txt](acceptance/coverage-linux.txt).
+- Gate cuối có bonus: **85/85 passed, coverage 89.22%**; xem [pytest-linux.txt](acceptance/pytest-linux.txt), [coverage-linux.txt](acceptance/coverage-linux.txt).
 - Windows native có hai lỗi shell Linux; không dùng kết quả Windows để tuyên bố harness toàn bộ đạt.
 
 ## 6. Self-evolving: skill do curator sinh (Phần 3)
@@ -107,7 +108,7 @@ Chưa có report/table.md chính thức vì chưa chạy đủ ba điều kiện
 
 ## 8. Phân tích
 
-Chưa kết luận về lợi ích subagents/skills-auto, check rule_, overfitting hoặc transfer sang eval vì chưa có thí nghiệm gốc. Phân tích extension có bằng chứng trong FINAL_REPORT mục 5–8; benchmark offline/live và bonus được ghi riêng.
+Chưa kết luận về lợi ích subagents/skills-auto, check rule_, overfitting hoặc transfer sang eval vì chưa đủ bộ thí nghiệm gốc. Phân tích extension có bằng chứng trong FINAL_REPORT mục 5–8; benchmark offline/live và bonus được ghi riêng.
 
 ## 9. Hạn chế và tính hợp lệ
 
@@ -115,7 +116,7 @@ Chưa kết luận về lợi ích subagents/skills-auto, check rule_, overfitti
 2. Ratings evaluator được cung cấp: weighted score không phải chứng minh accuracy thật.
 3. Linux/Windows khác nhau, quota/pacing và network ảnh hưởng thời gian; lỗi/timeout có thể thiếu usage.
 4. Python subset và queue/cache single-process; chưa có OS sandbox, distributed recovery hoặc RAM quota Windows.
-5. Các tác vụ chính thức, curator thật, hypotheses/freeze chưa chạy; repo chưa đầy đủ theo RUBRIC gốc.
+5. Chỉ có một baseline hợp lệ; H1–H3 đã commit tại d5313da, nhưng curator chính thức trên đủ tập học, freeze và eval chưa hoàn thành. Repo chưa đầy đủ theo RUBRIC gốc.
 
 ## 10. Kết luận
 
@@ -126,3 +127,9 @@ Mã harness và extension đã được kiểm chứng bằng test Linux và API
 - Lệnh test/debug/profile/benchmark: TESTING.md.
 - Bonus: FINAL_REPORT phụ lục Result Caching; scripts/benchmark_cache.py và report/bonus-cache/benchmark.json.
 - Mã và module theo từng pha: COORDINATOR.md, WORKERS.md, TOOLS.md.
+
+### Checkpoint bổ sung
+
+[official-status.json](official-status.json) ghi số lượt hợp lệ/lỗi và token quan sát tối thiểu. code-learn/logs-learn lỗi ContextOverflowError, không dùng như điểm chính thức. Bonus GUIDE 6c có bốn case scripted và hai case live đối chứng/injection ở [bonus-redteam/README.md](bonus-redteam/README.md); skill bonus chỉ ở thư mục tạm, không thay auto. Prompt curator đã được bổ sung quy tắc tên lowercase/hyphen sau khi model thật sinh tên không hợp lệ.
+
+Giới hạn SDK worker extension đã sửa đến client thực: retry 0 và timeout 20s; số đo live Phần 5 được giữ nguyên như snapshot trước sửa (SDK khi đó thực tế retry 2/timeout 120s, timeout stage 30s vẫn áp dụng). Chưa đo lại live sau sửa này.

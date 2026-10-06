@@ -39,8 +39,15 @@ class MultiAgentSystem:
         model = make_model()
         if hasattr(model, "max_retries"):
             model.max_retries = 0
-        if hasattr(model, "timeout"):
-            model.timeout = 20
+        if hasattr(model, "request_timeout"):
+            model.request_timeout = 20
+        # ChatOpenAI has already built SDK clients in make_model(). Updating
+        # model fields alone does not change their retry/timeout defaults.
+        for name in ("root_client", "root_async_client"):
+            client = getattr(model, name, None)
+            if client is not None:
+                client.max_retries = 0
+                client.timeout = 20
         if hasattr(model, "max_tokens"):
             model.max_tokens = 700
         return model

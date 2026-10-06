@@ -1,0 +1,12 @@
+model response received
+model response received
+model response received
+{"condition": "baseline", "task": "data-learn", "passed": 0, "total": 8, "tokens": {"input": 17144, "output": 849, "total": 17993}, "seconds": 93.0, "tool_calls": 5, "subagent_calls": 0, "skills_read": 0} error=True
+Traceback (most recent call last):
+  File "/mnt/d/Documents/VIN_AI/LAB_20/K4-DAY20-MULTIAGENTS-NguyenVanHuy-2A202602428/scripts/run_official.py", line 62, in <module>
+    if __name__ == "__main__":
+        ^^^^^^
+  File "/mnt/d/Documents/VIN_AI/LAB_20/K4-DAY20-MULTIAGENTS-NguyenVanHuy-2A202602428/scripts/run_official.py", line 54, in main
+    if "429" in record["error"] or "rate_limit" in record["error"]:
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Quota/rate limit: baseline/data-learn; preserve run and wait for provider reset

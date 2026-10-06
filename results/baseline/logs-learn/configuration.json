@@ -1,0 +1,10 @@
+{
+  "model": "qwen/qwen3.8-27b",
+  "temperature": 0.0,
+  "max_tokens": 4096,
+  "max_retries": 2,
+  "timeout_seconds": 120.0,
+  "recursion_limit": 40,
+  "profile_max_input_tokens": 11000,
+  "effective_input_budget": 6354
+}

@@ -1,9 +1,13 @@
 {
   "phase": 6,
-  "linux_tests_passed": 83,
-  "coverage_percent": 88.53640951694304,
+  "linux_tests_passed": 85,
+  "coverage_percent": 89.22413793103448,
   "bonus_tests": 5,
   "bonus_hits": 4,
   "bonus_misses": 1,
-  "official_experiments_complete": false
+  "official_experiments_complete": false,
+  "runner_recovery_tests": 2,
+  "official_valid_runs": 1,
+  "official_expected_runs": 18,
+  "sdk_worker_limits_verified_offline": true
 }

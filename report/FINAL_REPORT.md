@@ -74,7 +74,7 @@ Backend Deep Agents gốc không kế thừa biến môi trường chứa key; w
 
 ## 4. Test results
 
-Checkpoint Phần 5: 78/78 test đạt trong Linux/WSL; coverage package `lab` 88,11%. Windows native có hai lỗi do `which`/`cat`; kết quả Linux là gate đúng môi trường quy định. Bonus thêm các test TTL/LRU, payload isolation, artifact bị xóa, single-flight, cancellation và clear khi còn request đang chạy. Gate cuối cùng: **83/83 passed, coverage 88.54%**. Kết quả ghi tại [pytest-linux.txt](acceptance/pytest-linux.txt) và [coverage-linux.txt](acceptance/coverage-linux.txt).
+Checkpoint Phần 5: 78/78 test đạt trong Linux/WSL; coverage package `lab` 88,11%. Windows native có hai lỗi do `which`/`cat`; kết quả Linux là gate đúng môi trường quy định. Bonus thêm các test TTL/LRU, payload isolation, artifact bị xóa, single-flight, cancellation và clear khi còn request đang chạy. Gate cuối cùng: **85/85 passed, coverage 89.22%**. Kết quả ghi tại [pytest-linux.txt](acceptance/pytest-linux.txt) và [coverage-linux.txt](acceptance/coverage-linux.txt).
 
 | Nhóm trước bonus | Số test đạt |
 |---|---:|
@@ -152,11 +152,11 @@ Nếu mở rộng nhiều máy, cần broker bền vững, request/task ID và i
 3. Python subset, không OS/container sandbox và chưa có RAM quota tổng trên Windows. File tools chỉ dùng trong workspace do ứng dụng sở hữu; không chống race symlink do tiến trình bên ngoài.
 4. Queue/cache single-process, không persistence. Trace/artifact được lưu nhưng chưa có recovery/replay khi crash.
 5. Cache chỉ hợp lệ với request read-only đã version hóa dữ liệu/model/config; cache hit không tạo bằng chứng model mới. Artifact cũ có thể bị thay đổi bên ngoài; hiện chỉ kiểm tồn tại, chưa kiểm checksum.
-6. Thí nghiệm baseline/subagents/skills-auto trên sáu tác vụ gốc, curator thật và tag freeze chưa thực hiện. Báo cáo extension chưa đủ thay cho toàn bộ sản phẩm nộp theo RUBRIC.md gốc.
+6. Thí nghiệm baseline/subagents/skills-auto trên sáu tác vụ gốc, curator thật và tag freeze chưa hoàn thành. Báo cáo extension chưa đủ thay cho toàn bộ sản phẩm nộp theo RUBRIC.md gốc.
 
 ## 10. Kết luận và bước tiếp theo
 
-Đã triển khai và kiểm chứng hệ orchestration cục bộ, harness gốc và trace đo thực tế. Full suite đạt trong Linux và benchmark API cuối đạt 9/9, nhưng latency complex còn vượt mục tiêu. Bonus cache giảm số lần tính lại trong workload lặp offline, chưa chứng minh lợi ích API hoặc distributed scaling. Bước tiếp theo cho repo gốc là chạy tác vụ học, sinh/đánh giá skill, viết giả thuyết, freeze rồi chạy eval đúng trình tự. Trước nộp cần xác nhận danh tính, yêu cầu chấm nào áp dụng và nộp link repo vào hệ thống lớp.
+Đã triển khai và kiểm chứng hệ orchestration cục bộ, harness gốc và trace đo thực tế. Full suite đạt trong Linux và benchmark API cuối đạt 9/9, nhưng latency complex còn vượt mục tiêu. Bonus cache giảm số lần tính lại trong workload lặp offline, chưa chứng minh lợi ích API hoặc distributed scaling. Thí nghiệm gốc đang được bổ sung: data-learn có kết quả hợp lệ 5/8 và H1–H3 đã commit trước eval; code-learn gặp lỗi context. Cần hoàn tất learning/curator/freeze/eval đúng trình tự. Trước nộp cần xác nhận danh tính, yêu cầu chấm nào áp dụng và nộp link repo vào hệ thống lớp.
 
 ## Phụ lục: Bonus 6c — Result Caching
 
@@ -170,5 +170,13 @@ Lệnh: `python scripts/benchmark_cache.py`; test: `python -m pytest tests/test_
 
 - Đã làm: code, unit/integration/e2e, benchmark offline/live, profiling, resource observations, báo cáo 10 mục và bonus cache.
 - Bằng chứng: `acceptance/`, `bonus-cache/`, `TESTING.md`, `TOOLS.md`, `WORKERS.md`, `COORDINATOR.md`.
-- Chưa làm theo repo gốc: `results/` đủ 18 run chính thức, `skills/auto/` sinh thật, commit hypotheses/tag freeze và `report/table.md`.
+- Theo repo gốc đã có baseline/data-learn 5/8 và commit hypotheses `d5313da`; còn thiếu phần lớn 18 run chính thức, skill sinh thật, tag freeze và bảng đủ. Xem OFFICIAL_EXPERIMENTS.md.
 - Nộp GitHub: commit/push sau review cuối; việc nộp LMS do người học thực hiện vì chưa có URL hoặc phiên truy cập LMS.
+
+## Bổ sung review cuối và bonus GUIDE 6c
+
+Hai regression test kiểm tra giữ trace khi API lỗi giữa chừng và cấu hình SDK worker thực sự nhận retry 0/timeout 20s. Benchmark live cũ là snapshot trước sửa SDK (khi đó client retry 2/timeout 120s); timeout stage 30s vẫn có hiệu lực. Chưa đo lại live sau sửa SDK.
+
+Bonus GUIDE 6c đã có bốn probe scripted và hai case live sau cải thiện tên skill: đối chứng và injection đều trả checklist kiểm chứng hợp lệ; injection bỏ kiểm chứng không thành công trong một case này. Validator vẫn nhận skill gian lận nếu đầu ra bị điều khiển. Xem bonus-redteam/README.md và raw prompt/output. Các skill bonus không nằm trong auto.
+
+Thí nghiệm gốc có một baseline hợp lệ (data-learn 5/8); code/logs bị ContextOverflowError, không tính làm kết quả hợp lệ. Chưa tạo freeze hoặc chạy eval. API có input cap 7000 và output cap 1000/phút; cần chọn cấu hình/harness phù hợp và chạy đồng nhất toàn bộ điều kiện trước khi tuyên bố đủ rubric.

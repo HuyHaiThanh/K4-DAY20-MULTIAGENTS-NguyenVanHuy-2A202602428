@@ -1,0 +1,1 @@
+{"condition": "baseline", "task": "data-learn", "passed": 0, "total": 8, "tokens": {"input": 0, "output": 0, "total": 0}, "seconds": 0.6, "tool_calls": 0, "subagent_calls": 0, "skills_read": 0} error=True
