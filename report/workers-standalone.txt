@@ -1,0 +1,453 @@
+﻿{
+  "model": "scripted-fake",
+  "result": {
+    "status": "success",
+    "results": [
+      {
+        "id": "request-5b90bfd5db1749c2b325f6bc2ac418a5-0",
+        "worker": "data_agent",
+        "type": "data",
+        "content": {
+          "status": "success",
+          "result": "Verified total: 30",
+          "metadata": {
+            "tools_used": 1,
+            "tool_names": [
+              "data_analysis"
+            ],
+            "tool_events": [
+              {
+                "name": "data_analysis",
+                "id": "local-tool",
+                "output": {
+                  "all": 30.0
+                }
+              }
+            ],
+            "model_calls": 2
+          }
+        },
+        "attempts": 1,
+        "status": "success",
+        "error": null,
+        "seconds": 0.031
+      },
+      {
+        "id": "request-5b90bfd5db1749c2b325f6bc2ac418a5-1",
+        "worker": "code_agent",
+        "type": "code",
+        "content": {
+          "status": "success",
+          "result": "Executed arithmetic: 30",
+          "metadata": {
+            "tools_used": 1,
+            "tool_names": [
+              "python_repl"
+            ],
+            "tool_events": [
+              {
+                "name": "python_repl",
+                "id": "local-tool",
+                "output": {
+                  "stdout": "30",
+                  "variables": {
+                    "total": 30
+                  },
+                  "restricted": true
+                }
+              }
+            ],
+            "model_calls": 2,
+            "execution_verified": true
+          }
+        },
+        "attempts": 1,
+        "status": "success",
+        "error": null,
+        "seconds": 0.031
+      }
+    ],
+    "outputs": {
+      "data": [
+        {
+          "status": "success",
+          "result": "Verified total: 30",
+          "metadata": {
+            "tools_used": 1,
+            "tool_names": [
+              "data_analysis"
+            ],
+            "tool_events": [
+              {
+                "name": "data_analysis",
+                "id": "local-tool",
+                "output": {
+                  "all": 30.0
+                }
+              }
+            ],
+            "model_calls": 2
+          }
+        }
+      ],
+      "code": [
+        {
+          "status": "success",
+          "result": "Executed arithmetic: 30",
+          "metadata": {
+            "tools_used": 1,
+            "tool_names": [
+              "python_repl"
+            ],
+            "tool_events": [
+              {
+                "name": "python_repl",
+                "id": "local-tool",
+                "output": {
+                  "stdout": "30",
+                  "variables": {
+                    "total": 30
+                  },
+                  "restricted": true
+                }
+              }
+            ],
+            "model_calls": 2,
+            "execution_verified": true
+          }
+        }
+      ]
+    },
+    "errors": [],
+    "timestamp": "2026-10-06T06:07:23.367631+00:00"
+  },
+  "evaluation": {
+    "status": "success",
+    "results": [
+      {
+        "id": "request-e317005932364ec18ecd81f1426c47ba-0",
+        "worker": "evaluator_agent",
+        "type": "evaluator",
+        "content": {
+          "status": "success",
+          "result": {
+            "score": 100,
+            "feedback": "Scripted demonstration, not independent quality evidence",
+            "issues": [],
+            "suggestions": []
+          },
+          "metadata": {
+            "tools_used": 1,
+            "tool_names": [
+              "scoring"
+            ],
+            "tool_events": [
+              {
+                "name": "scoring",
+                "id": "local-tool",
+                "output": {
+                  "score": 100.0
+                }
+              }
+            ],
+            "model_calls": 2
+          }
+        },
+        "attempts": 1,
+        "status": "success",
+        "error": null,
+        "seconds": 0.0
+      }
+    ],
+    "outputs": {
+      "evaluator": [
+        {
+          "status": "success",
+          "result": {
+            "score": 100,
+            "feedback": "Scripted demonstration, not independent quality evidence",
+            "issues": [],
+            "suggestions": []
+          },
+          "metadata": {
+            "tools_used": 1,
+            "tool_names": [
+              "scoring"
+            ],
+            "tool_events": [
+              {
+                "name": "scoring",
+                "id": "local-tool",
+                "output": {
+                  "score": 100.0
+                }
+              }
+            ],
+            "model_calls": 2
+          }
+        }
+      ]
+    },
+    "errors": [],
+    "timestamp": "2026-10-06T06:07:23.369631+00:00"
+  },
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "86e4a494b2204f0f8cc87d582362a202",
+      "content": {
+        "task_type": "complex",
+        "content": "Analyze data and create report",
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "data_agent",
+      "timestamp": "2026-10-06T06:07:23.333834+00:00",
+      "id": "6f95e82be4774fa4a1052f31cd354363"
+    },
+    {
+      "type": "task",
+      "correlation_id": "b6f62942103e412584a2f1c2c331f2df",
+      "content": {
+        "task_type": "complex",
+        "content": "Analyze data and create report",
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "code_agent",
+      "timestamp": "2026-10-06T06:07:23.333834+00:00",
+      "id": "5307bcc99e9f4d1ca27380e4d92529cf"
+    },
+    {
+      "type": "result",
+      "correlation_id": "86e4a494b2204f0f8cc87d582362a202",
+      "content": {
+        "status": "success",
+        "result": "Verified total: 30",
+        "metadata": {
+          "tools_used": 1,
+          "tool_names": [
+            "data_analysis"
+          ],
+          "tool_events": [
+            {
+              "name": "data_analysis",
+              "id": "local-tool",
+              "output": {
+                "all": 30.0
+              }
+            }
+          ],
+          "model_calls": 2
+        }
+      },
+      "from": "data_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:07:23.367631+00:00",
+      "id": "ddfa723dd83c4ffdb0045d397c7939eb"
+    },
+    {
+      "type": "result",
+      "correlation_id": "b6f62942103e412584a2f1c2c331f2df",
+      "content": {
+        "status": "success",
+        "result": "Executed arithmetic: 30",
+        "metadata": {
+          "tools_used": 1,
+          "tool_names": [
+            "python_repl"
+          ],
+          "tool_events": [
+            {
+              "name": "python_repl",
+              "id": "local-tool",
+              "output": {
+                "stdout": "30",
+                "variables": {
+                  "total": 30
+                },
+                "restricted": true
+              }
+            }
+          ],
+          "model_calls": 2,
+          "execution_verified": true
+        }
+      },
+      "from": "code_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:07:23.367631+00:00",
+      "id": "e2400b5da6b14b6b9cc6d892d8251d47"
+    },
+    {
+      "type": "task",
+      "correlation_id": "85e4f8ccc60947a88952655a5c007aa1",
+      "content": {
+        "task_type": "evaluation",
+        "content": {
+          "status": "success",
+          "results": [
+            {
+              "id": "request-5b90bfd5db1749c2b325f6bc2ac418a5-0",
+              "worker": "data_agent",
+              "type": "data",
+              "content": {
+                "status": "success",
+                "result": "Verified total: 30",
+                "metadata": {
+                  "tools_used": 1,
+                  "tool_names": [
+                    "data_analysis"
+                  ],
+                  "tool_events": [
+                    {
+                      "name": "data_analysis",
+                      "id": "local-tool",
+                      "output": {
+                        "all": 30.0
+                      }
+                    }
+                  ],
+                  "model_calls": 2
+                }
+              },
+              "attempts": 1,
+              "status": "success",
+              "error": null,
+              "seconds": 0.031
+            },
+            {
+              "id": "request-5b90bfd5db1749c2b325f6bc2ac418a5-1",
+              "worker": "code_agent",
+              "type": "code",
+              "content": {
+                "status": "success",
+                "result": "Executed arithmetic: 30",
+                "metadata": {
+                  "tools_used": 1,
+                  "tool_names": [
+                    "python_repl"
+                  ],
+                  "tool_events": [
+                    {
+                      "name": "python_repl",
+                      "id": "local-tool",
+                      "output": {
+                        "stdout": "30",
+                        "variables": {
+                          "total": 30
+                        },
+                        "restricted": true
+                      }
+                    }
+                  ],
+                  "model_calls": 2,
+                  "execution_verified": true
+                }
+              },
+              "attempts": 1,
+              "status": "success",
+              "error": null,
+              "seconds": 0.031
+            }
+          ],
+          "outputs": {
+            "data": [
+              {
+                "status": "success",
+                "result": "Verified total: 30",
+                "metadata": {
+                  "tools_used": 1,
+                  "tool_names": [
+                    "data_analysis"
+                  ],
+                  "tool_events": [
+                    {
+                      "name": "data_analysis",
+                      "id": "local-tool",
+                      "output": {
+                        "all": 30.0
+                      }
+                    }
+                  ],
+                  "model_calls": 2
+                }
+              }
+            ],
+            "code": [
+              {
+                "status": "success",
+                "result": "Executed arithmetic: 30",
+                "metadata": {
+                  "tools_used": 1,
+                  "tool_names": [
+                    "python_repl"
+                  ],
+                  "tool_events": [
+                    {
+                      "name": "python_repl",
+                      "id": "local-tool",
+                      "output": {
+                        "stdout": "30",
+                        "variables": {
+                          "total": 30
+                        },
+                        "restricted": true
+                      }
+                    }
+                  ],
+                  "model_calls": 2,
+                  "execution_verified": true
+                }
+              }
+            ]
+          },
+          "errors": [],
+          "timestamp": "2026-10-06T06:07:23.367631+00:00"
+        },
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "evaluator_agent",
+      "timestamp": "2026-10-06T06:07:23.367631+00:00",
+      "id": "120dbb90fcfb4325826615b03cdbef07"
+    },
+    {
+      "type": "result",
+      "correlation_id": "85e4f8ccc60947a88952655a5c007aa1",
+      "content": {
+        "status": "success",
+        "result": {
+          "score": 100,
+          "feedback": "Scripted demonstration, not independent quality evidence",
+          "issues": [],
+          "suggestions": []
+        },
+        "metadata": {
+          "tools_used": 1,
+          "tool_names": [
+            "scoring"
+          ],
+          "tool_events": [
+            {
+              "name": "scoring",
+              "id": "local-tool",
+              "output": {
+                "score": 100.0
+              }
+            }
+          ],
+          "model_calls": 2
+        }
+      },
+      "from": "evaluator_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:07:23.369631+00:00",
+      "id": "6afcd28ca6f1484b8dc6e262be34d4b0"
+    }
+  ]
+}
+PASS: three workers, real local tools, six correlated queue messages; no API calls.

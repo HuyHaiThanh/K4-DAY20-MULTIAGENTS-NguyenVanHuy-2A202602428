@@ -17,9 +17,9 @@ Trên Windows với môi trường hiện tại, dùng `.venv/Scripts/python.exe
 
 `process_async` nhận request → `parse_request` kiểm tra cấu trúc hoặc phân loại từ khóa → `route_task` chọn worker → `execute_tasks` chạy đồng thời → `aggregate_results` giữ kết quả từng task và tổng hợp trạng thái. Dùng `process` nếu chương trình đồng bộ; trong event loop phải dùng `await process_async`.
 
-Worker có tên duy nhất và phương thức async `process_async(content)`. Request có thể là chuỗi hoặc dict gồm `task_type`, `content`, `parameters`, `priority`. Các loại hỗ trợ: `data_analysis`, `code_generation`, `evaluation`, `complex`. Priority là metadata, chưa có scheduler ưu tiên. Coordinator truyền cả request đã phân tích cho worker.
+Worker có tên duy nhất và phương thức async `process_async(content)`. Request có thể là chuỗi hoặc dict gồm `task_type`, `content`, `parameters`, `priority`. Các loại hỗ trợ: `data_analysis`, `code_generation`, `evaluation`, `complex`. Priority là metadata, chưa có scheduler ưu tiên. Coordinator truyền cả request đã phân tích cho worker. Phần 3 đã bổ sung queue và worker chuyên biệt; xem `WORKERS.md`.
 
-Không gọi model để parse request. Phân loại bằng từ khóa chỉ là cách minh họa; câu không nhận diện được phải dùng request có `task_type` rõ ràng. Không âm thầm chuyển câu lạ cho data worker. Model và message_queue là điểm mở rộng, chưa sử dụng để thực thi; không tuyên bố có message broker.
+Không gọi model để parse request. Phân loại bằng từ khóa chỉ là cách minh họa; câu không nhận diện được phải dùng request có `task_type` rõ ràng. Không âm thầm chuyển câu lạ cho data worker. Model của coordinator chưa sử dụng để parse. Khi truyền message_queue, coordinator thực thi qua mailbox in-memory có correlation; nếu không truyền, vẫn gọi worker trực tiếp.
 
 ## Xử lý lỗi và tự phản biện
 

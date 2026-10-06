@@ -44,7 +44,7 @@ class Coordinator:
             if not callable(getattr(worker, "process_async", None)):
                 raise CoordinatorException("Worker requires process_async")
             self.workers[worker.name] = worker
-        self.task_queue = message_queue  # optional metadata; execution uses asyncio tasks
+        self.task_queue = message_queue
         self.active_tasks = {}
         self.max_tasks = max_tasks
         self.logger = logging.getLogger("lab.coordinator")
@@ -115,7 +115,12 @@ class Coordinator:
                     outcome["attempts"] = attempt + 1
                     self.logger.info("task=%s worker=%s start attempt=%s", task["id"], task["worker"], attempt + 1)
                     try:
-                        value = await asyncio.wait_for(self.workers[task["worker"]].process_async(task["content"]), timeout)
+                        worker = self.workers[task["worker"]]
+                        operation = (self.task_queue.exchange("coordinator", worker, task["content"], timeout)
+                                     if self.task_queue is not None else worker.process_async(task["content"]))
+                        value = await asyncio.wait_for(operation, timeout)
+                        if isinstance(value, Mapping) and value.get("status") in ("error", "timeout"):
+                            raise RuntimeError(value.get("error", "Worker reported failure"))
                         outcome.update(status="success", content=value, error=None)
                         break
                     except TimeoutError:
