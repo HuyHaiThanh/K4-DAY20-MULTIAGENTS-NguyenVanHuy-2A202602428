@@ -1,0 +1,117 @@
+{
+  "run_id": "64eb0f6d72bf47609beedbaa714df8e0",
+  "mode": "live",
+  "status": "error",
+  "request": "Analyze supplied sales data",
+  "stages": {
+    "data": {
+      "status": "error",
+      "results": [
+        {
+          "id": "request-ef56b1f4e56a46428f4f6552bc92e11f-0",
+          "worker": "data_agent",
+          "type": "data",
+          "content": {
+            "status": "error",
+            "error": "OpenAIConnectionError: Connection error.",
+            "result": null,
+            "metadata": {
+              "tools_used": 0,
+              "tool_names": [],
+              "tool_events": [],
+              "model_calls": 1,
+              "tokens": {
+                "input": 0,
+                "output": 0,
+                "total": 0
+              },
+              "token_source": "provider"
+            }
+          },
+          "attempts": 1,
+          "status": "error",
+          "error": "RuntimeError: OpenAIConnectionError: Connection error.",
+          "seconds": 7.484
+        }
+      ],
+      "outputs": {},
+      "errors": [
+        {
+          "id": "request-ef56b1f4e56a46428f4f6552bc92e11f-0",
+          "worker": "data_agent",
+          "type": "data",
+          "content": {
+            "status": "error",
+            "error": "OpenAIConnectionError: Connection error.",
+            "result": null,
+            "metadata": {
+              "tools_used": 0,
+              "tool_names": [],
+              "tool_events": [],
+              "model_calls": 1,
+              "tokens": {
+                "input": 0,
+                "output": 0,
+                "total": 0
+              },
+              "token_source": "provider"
+            }
+          },
+          "attempts": 1,
+          "status": "error",
+          "error": "RuntimeError: OpenAIConnectionError: Connection error.",
+          "seconds": 7.484
+        }
+      ],
+      "timestamp": "2026-10-06T06:56:46.321375+00:00"
+    }
+  },
+  "error": "ValueError: Data stage failed",
+  "token_usage": 0,
+  "token_source": "provider",
+  "seconds": 7.51600000000326,
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "eb2984e3175d4e1590314702e9554e29",
+      "content": {
+        "task_type": "data_analysis",
+        "content": "Use query_database to SELECT month, amount FROM sales ORDER BY rowid. Return the query results; do not invent data.",
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "data_agent",
+      "timestamp": "2026-10-06T06:56:38.843078+00:00",
+      "id": "411b319b86a64ca0b4686df9b93dcb72"
+    },
+    {
+      "type": "result",
+      "correlation_id": "eb2984e3175d4e1590314702e9554e29",
+      "content": {
+        "status": "error",
+        "error": "OpenAIConnectionError: Connection error.",
+        "result": null,
+        "metadata": {
+          "tools_used": 0,
+          "tool_names": [],
+          "tool_events": [],
+          "model_calls": 1,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "token_source": "provider"
+        }
+      },
+      "from": "data_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:56:46.321375+00:00",
+      "id": "1428c748e97249f284cfcdd6264834c7"
+    }
+  ],
+  "worker_seconds": {
+    "data_agent": 7.484
+  }
+}

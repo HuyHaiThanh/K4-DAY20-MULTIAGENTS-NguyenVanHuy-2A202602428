@@ -1,0 +1,210 @@
+{
+  "run_id": "5f4b7fbfa41a40859ea746277d3d625f",
+  "mode": "offline-scripted",
+  "status": "success",
+  "request": "Analyze supplied sales data",
+  "stages": {
+    "data": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-ca8ef4f5670a4e68bacdd931c41dd4c5-0",
+          "worker": "data_agent",
+          "type": "data",
+          "content": {
+            "status": "success",
+            "result": "Queried supplied sales rows",
+            "metadata": {
+              "tools_used": 1,
+              "tool_names": [
+                "query_database"
+              ],
+              "tool_events": [
+                {
+                  "name": "query_database",
+                  "id": "tool-0",
+                  "input": {
+                    "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                  },
+                  "output": {
+                    "status": "success",
+                    "rows": 2,
+                    "data": [
+                      {
+                        "month": "Jan",
+                        "amount": 10.0
+                      },
+                      {
+                        "month": "Feb",
+                        "amount": 20.0
+                      }
+                    ],
+                    "columns": [
+                      "month",
+                      "amount"
+                    ],
+                    "truncated": false,
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 200,
+                "output": 40,
+                "total": 240
+              },
+              "token_source": "synthetic"
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 0.0
+        }
+      ],
+      "outputs": {
+        "data": [
+          {
+            "status": "success",
+            "result": "Queried supplied sales rows",
+            "metadata": {
+              "tools_used": 1,
+              "tool_names": [
+                "query_database"
+              ],
+              "tool_events": [
+                {
+                  "name": "query_database",
+                  "id": "tool-0",
+                  "input": {
+                    "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                  },
+                  "output": {
+                    "status": "success",
+                    "rows": 2,
+                    "data": [
+                      {
+                        "month": "Jan",
+                        "amount": 10.0
+                      },
+                      {
+                        "month": "Feb",
+                        "amount": 20.0
+                      }
+                    ],
+                    "columns": [
+                      "month",
+                      "amount"
+                    ],
+                    "truncated": false,
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 200,
+                "output": 40,
+                "total": 240
+              },
+              "token_source": "synthetic"
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T06:56:30.378476+00:00"
+    }
+  },
+  "error": null,
+  "token_usage": 240,
+  "token_source": "synthetic",
+  "data": {
+    "rows": [
+      {
+        "month": "Jan",
+        "sales": 10.0
+      },
+      {
+        "month": "Feb",
+        "sales": 20.0
+      }
+    ],
+    "revenue": 30.0
+  },
+  "seconds": 0.030999999988125637,
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "5c805a59753b45dab13af5c67087031f",
+      "content": {
+        "task_type": "data_analysis",
+        "content": "Use query_database to SELECT month, amount FROM sales ORDER BY rowid. Return the query results; do not invent data.",
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "data_agent",
+      "timestamp": "2026-10-06T06:56:30.371812+00:00",
+      "id": "f33478336dc84c769d41d73ae5d12c20"
+    },
+    {
+      "type": "result",
+      "correlation_id": "5c805a59753b45dab13af5c67087031f",
+      "content": {
+        "status": "success",
+        "result": "Queried supplied sales rows",
+        "metadata": {
+          "tools_used": 1,
+          "tool_names": [
+            "query_database"
+          ],
+          "tool_events": [
+            {
+              "name": "query_database",
+              "id": "tool-0",
+              "input": {
+                "query": "SELECT month, amount FROM sales ORDER BY rowid"
+              },
+              "output": {
+                "status": "success",
+                "rows": 2,
+                "data": [
+                  {
+                    "month": "Jan",
+                    "amount": 10.0
+                  },
+                  {
+                    "month": "Feb",
+                    "amount": 20.0
+                  }
+                ],
+                "columns": [
+                  "month",
+                  "amount"
+                ],
+                "truncated": false,
+                "seconds": 0.0
+              }
+            }
+          ],
+          "model_calls": 2,
+          "tokens": {
+            "input": 200,
+            "output": 40,
+            "total": 240
+          },
+          "token_source": "synthetic"
+        }
+      },
+      "from": "data_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:56:30.377481+00:00",
+      "id": "ca6134e816484d91aa2e3bffe5793805"
+    }
+  ],
+  "worker_seconds": {
+    "data_agent": 0.0
+  }
+}

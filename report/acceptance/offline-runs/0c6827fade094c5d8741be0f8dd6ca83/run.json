@@ -1,0 +1,255 @@
+{
+  "run_id": "0c6827fade094c5d8741be0f8dd6ca83",
+  "mode": "offline-scripted",
+  "status": "success",
+  "request": "Create a chart",
+  "stages": {
+    "code": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-fe78bfc580f94453b6c48b2684ef7c32-0",
+          "worker": "code_agent",
+          "type": "code",
+          "content": {
+            "status": "success",
+            "result": "Created chart and executed supplied total",
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "create_visualization",
+                "python_repl"
+              ],
+              "tool_events": [
+                {
+                  "name": "create_visualization",
+                  "id": "tool-0",
+                  "input": {
+                    "path": "sales_chart.svg",
+                    "labels": [
+                      "Jan",
+                      "Feb"
+                    ],
+                    "values": [
+                      10.0,
+                      20.0
+                    ],
+                    "title": "Supplied sales"
+                  },
+                  "output": {
+                    "status": "success",
+                    "path": "sales_chart.svg",
+                    "bytes": 549,
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "python_repl",
+                  "id": "tool-1",
+                  "input": {
+                    "code": "print(10.0 + 20.0)"
+                  },
+                  "output": {
+                    "status": "success",
+                    "stdout": "30.0",
+                    "variables": {},
+                    "restricted": true,
+                    "stderr": "",
+                    "isolated_process": true,
+                    "seconds": 0.062
+                  }
+                }
+              ],
+              "model_calls": 3,
+              "tokens": {
+                "input": 300,
+                "output": 60,
+                "total": 360
+              },
+              "token_source": "synthetic",
+              "execution_verified": true
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 0.078
+        }
+      ],
+      "outputs": {
+        "code": [
+          {
+            "status": "success",
+            "result": "Created chart and executed supplied total",
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "create_visualization",
+                "python_repl"
+              ],
+              "tool_events": [
+                {
+                  "name": "create_visualization",
+                  "id": "tool-0",
+                  "input": {
+                    "path": "sales_chart.svg",
+                    "labels": [
+                      "Jan",
+                      "Feb"
+                    ],
+                    "values": [
+                      10.0,
+                      20.0
+                    ],
+                    "title": "Supplied sales"
+                  },
+                  "output": {
+                    "status": "success",
+                    "path": "sales_chart.svg",
+                    "bytes": 549,
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "python_repl",
+                  "id": "tool-1",
+                  "input": {
+                    "code": "print(10.0 + 20.0)"
+                  },
+                  "output": {
+                    "status": "success",
+                    "stdout": "30.0",
+                    "variables": {},
+                    "restricted": true,
+                    "stderr": "",
+                    "isolated_process": true,
+                    "seconds": 0.062
+                  }
+                }
+              ],
+              "model_calls": 3,
+              "tokens": {
+                "input": 300,
+                "output": 60,
+                "total": 360
+              },
+              "token_source": "synthetic",
+              "execution_verified": true
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T06:58:19.491382+00:00"
+    }
+  },
+  "error": null,
+  "token_usage": 360,
+  "token_source": "synthetic",
+  "code": {
+    "chart": "report\\acceptance\\offline-runs\\0c6827fade094c5d8741be0f8dd6ca83\\sales_chart.svg"
+  },
+  "seconds": 0.09399999998277053,
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "586d454646814066a62bc1be9eea1119",
+      "content": {
+        "task_type": "code_generation",
+        "content": "Call create_visualization and python_repl with these exact arguments, then report verified outputs.",
+        "parameters": {
+          "chart": {
+            "path": "sales_chart.svg",
+            "labels": [
+              "Jan",
+              "Feb"
+            ],
+            "values": [
+              10.0,
+              20.0
+            ],
+            "title": "Supplied sales"
+          },
+          "python": {
+            "code": "print(10.0 + 20.0)"
+          }
+        },
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "code_agent",
+      "timestamp": "2026-10-06T06:58:19.420739+00:00",
+      "id": "7189aa9717384ad0b033654d38a847b8"
+    },
+    {
+      "type": "result",
+      "correlation_id": "586d454646814066a62bc1be9eea1119",
+      "content": {
+        "status": "success",
+        "result": "Created chart and executed supplied total",
+        "metadata": {
+          "tools_used": 2,
+          "tool_names": [
+            "create_visualization",
+            "python_repl"
+          ],
+          "tool_events": [
+            {
+              "name": "create_visualization",
+              "id": "tool-0",
+              "input": {
+                "path": "sales_chart.svg",
+                "labels": [
+                  "Jan",
+                  "Feb"
+                ],
+                "values": [
+                  10.0,
+                  20.0
+                ],
+                "title": "Supplied sales"
+              },
+              "output": {
+                "status": "success",
+                "path": "sales_chart.svg",
+                "bytes": 549,
+                "seconds": 0.0
+              }
+            },
+            {
+              "name": "python_repl",
+              "id": "tool-1",
+              "input": {
+                "code": "print(10.0 + 20.0)"
+              },
+              "output": {
+                "status": "success",
+                "stdout": "30.0",
+                "variables": {},
+                "restricted": true,
+                "stderr": "",
+                "isolated_process": true,
+                "seconds": 0.062
+              }
+            }
+          ],
+          "model_calls": 3,
+          "tokens": {
+            "input": 300,
+            "output": 60,
+            "total": 360
+          },
+          "token_source": "synthetic",
+          "execution_verified": true
+        }
+      },
+      "from": "code_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:58:19.490385+00:00",
+      "id": "c275a1f715344ba59f614a4a87c830ac"
+    }
+  ],
+  "worker_seconds": {
+    "code_agent": 0.078
+  }
+}

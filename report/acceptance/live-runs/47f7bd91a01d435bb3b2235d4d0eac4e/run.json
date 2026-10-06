@@ -1,0 +1,255 @@
+{
+  "run_id": "47f7bd91a01d435bb3b2235d4d0eac4e",
+  "mode": "live",
+  "status": "success",
+  "request": "Create a chart",
+  "stages": {
+    "code": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-2da04930dcdc4e6488474d82ea136bd7-0",
+          "worker": "code_agent",
+          "type": "code",
+          "content": {
+            "status": "success",
+            "result": "Created **sales_chart.svg** (SVG bar chart) and executed the Python code.\n\n**Visualization output**\n- Path: `sales_chart.svg`\n- Labels: `[\"Jan\", \"Feb\"]`\n- Values: `[10, 20]`\n- Title: `Supplied sales`\n\n**Python REPL output**\n```text\n30.0\n```",
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "create_visualization",
+                "python_repl"
+              ],
+              "tool_events": [
+                {
+                  "name": "create_visualization",
+                  "id": "fc_80c5dd2a-339e-4d10-8c9b-e5f1238f540a",
+                  "input": {
+                    "labels": [
+                      "Jan",
+                      "Feb"
+                    ],
+                    "path": "sales_chart.svg",
+                    "title": "Supplied sales",
+                    "values": [
+                      10,
+                      20
+                    ]
+                  },
+                  "output": {
+                    "status": "success",
+                    "path": "sales_chart.svg",
+                    "bytes": 549,
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "python_repl",
+                  "id": "fc_8f56358e-e687-4f8f-b364-547eac71592e",
+                  "input": {
+                    "code": "print(10.0 + 20.0)"
+                  },
+                  "output": {
+                    "status": "success",
+                    "stdout": "30.0",
+                    "variables": {},
+                    "restricted": true,
+                    "stderr": "",
+                    "isolated_process": true,
+                    "seconds": 0.047
+                  }
+                }
+              ],
+              "model_calls": 3,
+              "tokens": {
+                "input": 2268,
+                "output": 223,
+                "total": 2491
+              },
+              "token_source": "provider",
+              "execution_verified": true
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 7.266
+        }
+      ],
+      "outputs": {
+        "code": [
+          {
+            "status": "success",
+            "result": "Created **sales_chart.svg** (SVG bar chart) and executed the Python code.\n\n**Visualization output**\n- Path: `sales_chart.svg`\n- Labels: `[\"Jan\", \"Feb\"]`\n- Values: `[10, 20]`\n- Title: `Supplied sales`\n\n**Python REPL output**\n```text\n30.0\n```",
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "create_visualization",
+                "python_repl"
+              ],
+              "tool_events": [
+                {
+                  "name": "create_visualization",
+                  "id": "fc_80c5dd2a-339e-4d10-8c9b-e5f1238f540a",
+                  "input": {
+                    "labels": [
+                      "Jan",
+                      "Feb"
+                    ],
+                    "path": "sales_chart.svg",
+                    "title": "Supplied sales",
+                    "values": [
+                      10,
+                      20
+                    ]
+                  },
+                  "output": {
+                    "status": "success",
+                    "path": "sales_chart.svg",
+                    "bytes": 549,
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "python_repl",
+                  "id": "fc_8f56358e-e687-4f8f-b364-547eac71592e",
+                  "input": {
+                    "code": "print(10.0 + 20.0)"
+                  },
+                  "output": {
+                    "status": "success",
+                    "stdout": "30.0",
+                    "variables": {},
+                    "restricted": true,
+                    "stderr": "",
+                    "isolated_process": true,
+                    "seconds": 0.047
+                  }
+                }
+              ],
+              "model_calls": 3,
+              "tokens": {
+                "input": 2268,
+                "output": 223,
+                "total": 2491
+              },
+              "token_source": "provider",
+              "execution_verified": true
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T06:58:26.839893+00:00"
+    }
+  },
+  "error": null,
+  "token_usage": 2491,
+  "token_source": "provider",
+  "code": {
+    "chart": "report\\acceptance\\live-runs\\47f7bd91a01d435bb3b2235d4d0eac4e\\sales_chart.svg"
+  },
+  "seconds": 7.282000000006519,
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "4299f336e8454708bb0f59ef2e859902",
+      "content": {
+        "task_type": "code_generation",
+        "content": "Call create_visualization and python_repl with these exact arguments, then report verified outputs.",
+        "parameters": {
+          "chart": {
+            "path": "sales_chart.svg",
+            "labels": [
+              "Jan",
+              "Feb"
+            ],
+            "values": [
+              10.0,
+              20.0
+            ],
+            "title": "Supplied sales"
+          },
+          "python": {
+            "code": "print(10.0 + 20.0)"
+          }
+        },
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "code_agent",
+      "timestamp": "2026-10-06T06:58:19.574839+00:00",
+      "id": "cf4faad653724e1eb69d5d17b19e07eb"
+    },
+    {
+      "type": "result",
+      "correlation_id": "4299f336e8454708bb0f59ef2e859902",
+      "content": {
+        "status": "success",
+        "result": "Created **sales_chart.svg** (SVG bar chart) and executed the Python code.\n\n**Visualization output**\n- Path: `sales_chart.svg`\n- Labels: `[\"Jan\", \"Feb\"]`\n- Values: `[10, 20]`\n- Title: `Supplied sales`\n\n**Python REPL output**\n```text\n30.0\n```",
+        "metadata": {
+          "tools_used": 2,
+          "tool_names": [
+            "create_visualization",
+            "python_repl"
+          ],
+          "tool_events": [
+            {
+              "name": "create_visualization",
+              "id": "fc_80c5dd2a-339e-4d10-8c9b-e5f1238f540a",
+              "input": {
+                "labels": [
+                  "Jan",
+                  "Feb"
+                ],
+                "path": "sales_chart.svg",
+                "title": "Supplied sales",
+                "values": [
+                  10,
+                  20
+                ]
+              },
+              "output": {
+                "status": "success",
+                "path": "sales_chart.svg",
+                "bytes": 549,
+                "seconds": 0.0
+              }
+            },
+            {
+              "name": "python_repl",
+              "id": "fc_8f56358e-e687-4f8f-b364-547eac71592e",
+              "input": {
+                "code": "print(10.0 + 20.0)"
+              },
+              "output": {
+                "status": "success",
+                "stdout": "30.0",
+                "variables": {},
+                "restricted": true,
+                "stderr": "",
+                "isolated_process": true,
+                "seconds": 0.047
+              }
+            }
+          ],
+          "model_calls": 3,
+          "tokens": {
+            "input": 2268,
+            "output": 223,
+            "total": 2491
+          },
+          "token_source": "provider",
+          "execution_verified": true
+        }
+      },
+      "from": "code_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:58:26.839893+00:00",
+      "id": "c4cb5434fcd746f38f9dd4312f75afab"
+    }
+  ],
+  "worker_seconds": {
+    "code_agent": 7.266
+  }
+}

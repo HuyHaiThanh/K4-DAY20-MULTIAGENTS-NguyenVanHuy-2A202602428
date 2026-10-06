@@ -75,3 +75,18 @@ class ReportGeneratorTool(CreateFileTool):
         content = "# " + values["title"] + "\n\n" + "\n".join("- " + item for item in values["findings"])
         content += "\n\n```json\n" + json.dumps(values["evaluation"], ensure_ascii=False, indent=2, allow_nan=False) + "\n```\n"
         return self._tool.invoke({"path": values["path"], "content": content})
+
+
+class EvaluationInput(ToolInput):
+    score: float = Field(ge=0, le=100, allow_inf_nan=False)
+    feedback: str = Field(max_length=2000)
+    issues: list[str] = Field(max_length=30)
+    suggestions: list[str] = Field(max_length=30)
+
+
+class SubmitEvaluationTool(BaseTool):
+    name = "submit_evaluation"
+    description = "Submit the final validated evaluation after score_result; use this tool rather than an invented json tool"
+    schema = EvaluationInput
+    def _execute(self, values):
+        return {"result": values}

@@ -14,4 +14,11 @@ def get_subagents() -> list[dict]:
       "system_prompt": chỉ dẫn cho subagent
     Gợi ý vai trò: explorer (đọc và báo cáo), implementer (thực hiện), reviewer (kiểm tra độc lập).
     """
-    raise NotImplementedError("TODO: cài đặt get_subagents (xem guides/pseudocode/02_subagents.md)")
+    return [
+        {"name": "explorer", "description": "Use before making changes when specifications, docstrings or data formats need inspection.",
+         "system_prompt": "Inspect the supplied paths and specifications. Do not edit files. Report facts, edge cases and uncertainties with evidence."},
+        {"name": "implementer", "description": "Use to implement a bounded change with explicit requirements and verify it using local tests.",
+         "system_prompt": "Implement only the assigned change. Read the supplied specifications, fix root causes and run appropriate tests. Report actual changes and results."},
+        {"name": "reviewer", "description": "Use after implementation for independent verification against requirements and edge cases.",
+         "system_prompt": "Review outputs independently against all supplied rules. Do not edit files. Run checks where appropriate and report defects with evidence; do not assume success."},
+    ]

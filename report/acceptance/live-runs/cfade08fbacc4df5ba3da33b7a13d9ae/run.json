@@ -1,0 +1,210 @@
+{
+  "run_id": "cfade08fbacc4df5ba3da33b7a13d9ae",
+  "mode": "live",
+  "status": "success",
+  "request": "Analyze supplied sales data",
+  "stages": {
+    "data": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-fd24e1e00774477498a562c41a3ded59-0",
+          "worker": "data_agent",
+          "type": "data",
+          "content": {
+            "status": "success",
+            "result": "Here are the results of the query:\n\n| month | amount |\n|-------|--------|\n| Jan   | 10.0   |\n| Feb   | 20.0   |",
+            "metadata": {
+              "tools_used": 1,
+              "tool_names": [
+                "query_database"
+              ],
+              "tool_events": [
+                {
+                  "name": "query_database",
+                  "id": "fc_5fdfbd8d-3f6a-4ec8-8c6e-d38807ab0fab",
+                  "input": {
+                    "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                  },
+                  "output": {
+                    "status": "success",
+                    "rows": 2,
+                    "data": [
+                      {
+                        "month": "Jan",
+                        "amount": 10.0
+                      },
+                      {
+                        "month": "Feb",
+                        "amount": 20.0
+                      }
+                    ],
+                    "columns": [
+                      "month",
+                      "amount"
+                    ],
+                    "truncated": false,
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 944,
+                "output": 161,
+                "total": 1105
+              },
+              "token_source": "provider"
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 1.562
+        }
+      ],
+      "outputs": {
+        "data": [
+          {
+            "status": "success",
+            "result": "Here are the results of the query:\n\n| month | amount |\n|-------|--------|\n| Jan   | 10.0   |\n| Feb   | 20.0   |",
+            "metadata": {
+              "tools_used": 1,
+              "tool_names": [
+                "query_database"
+              ],
+              "tool_events": [
+                {
+                  "name": "query_database",
+                  "id": "fc_5fdfbd8d-3f6a-4ec8-8c6e-d38807ab0fab",
+                  "input": {
+                    "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                  },
+                  "output": {
+                    "status": "success",
+                    "rows": 2,
+                    "data": [
+                      {
+                        "month": "Jan",
+                        "amount": 10.0
+                      },
+                      {
+                        "month": "Feb",
+                        "amount": 20.0
+                      }
+                    ],
+                    "columns": [
+                      "month",
+                      "amount"
+                    ],
+                    "truncated": false,
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 944,
+                "output": 161,
+                "total": 1105
+              },
+              "token_source": "provider"
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T06:58:11.644453+00:00"
+    }
+  },
+  "error": null,
+  "token_usage": 1105,
+  "token_source": "provider",
+  "data": {
+    "rows": [
+      {
+        "month": "Jan",
+        "sales": 10.0
+      },
+      {
+        "month": "Feb",
+        "sales": 20.0
+      }
+    ],
+    "revenue": 30.0
+  },
+  "seconds": 2.5460000000020955,
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "3edc8d402ebe4fb69f0f7d10ba07172d",
+      "content": {
+        "task_type": "data_analysis",
+        "content": "Use query_database to SELECT month, amount FROM sales ORDER BY rowid. Return the query results; do not invent data.",
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "data_agent",
+      "timestamp": "2026-10-06T06:58:10.078130+00:00",
+      "id": "dcb96aa0a07c48818e5801c4a9e090c1"
+    },
+    {
+      "type": "result",
+      "correlation_id": "3edc8d402ebe4fb69f0f7d10ba07172d",
+      "content": {
+        "status": "success",
+        "result": "Here are the results of the query:\n\n| month | amount |\n|-------|--------|\n| Jan   | 10.0   |\n| Feb   | 20.0   |",
+        "metadata": {
+          "tools_used": 1,
+          "tool_names": [
+            "query_database"
+          ],
+          "tool_events": [
+            {
+              "name": "query_database",
+              "id": "fc_5fdfbd8d-3f6a-4ec8-8c6e-d38807ab0fab",
+              "input": {
+                "query": "SELECT month, amount FROM sales ORDER BY rowid"
+              },
+              "output": {
+                "status": "success",
+                "rows": 2,
+                "data": [
+                  {
+                    "month": "Jan",
+                    "amount": 10.0
+                  },
+                  {
+                    "month": "Feb",
+                    "amount": 20.0
+                  }
+                ],
+                "columns": [
+                  "month",
+                  "amount"
+                ],
+                "truncated": false,
+                "seconds": 0.0
+              }
+            }
+          ],
+          "model_calls": 2,
+          "tokens": {
+            "input": 944,
+            "output": 161,
+            "total": 1105
+          },
+          "token_source": "provider"
+        }
+      },
+      "from": "data_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:58:11.644453+00:00",
+      "id": "64ed19ba7f24455ebb73a9cd65ddf24c"
+    }
+  ],
+  "worker_seconds": {
+    "data_agent": 1.562
+  }
+}

@@ -119,6 +119,7 @@ class Coordinator:
                         operation = (self.task_queue.exchange("coordinator", worker, task["content"], timeout)
                                      if self.task_queue is not None else worker.process_async(task["content"]))
                         value = await asyncio.wait_for(operation, timeout)
+                        outcome["content"] = value
                         if isinstance(value, Mapping) and value.get("status") in ("error", "timeout"):
                             raise RuntimeError(value.get("error", "Worker reported failure"))
                         outcome.update(status="success", content=value, error=None)

@@ -5,19 +5,26 @@ import math
 
 
 class EvaluatorAgent(BaseWorker):
-    def __init__(self, model, workspace=None, **kwargs):
+    def __init__(self, model, workspace=None, minimal=False, **kwargs):
         from lab.tools import ScoringTool, ValidationTool, ComparisonTool, ReportGeneratorTool
         tools = [tool(scoring), tool(validation), tool(quality_check), tool(feedback_generator),
                  ScoringTool().as_langchain_tool(), ValidationTool().as_langchain_tool(), ComparisonTool().as_langchain_tool()]
         if workspace is not None:
             tools.append(ReportGeneratorTool(workspace).as_langchain_tool())
+        if minimal:
+            from lab.tools.evaluation_tools import SubmitEvaluationTool
+            tools = [ScoringTool().as_langchain_tool(), SubmitEvaluationTool().as_langchain_tool()]
         super().__init__("evaluator_agent", model, tools, **kwargs)
+        if minimal:
+            self.final_tool = "submit_evaluation"
         self.system_prompt = (
             "You are a Quality Evaluation Specialist. Evaluate supplied outputs against explicit criteria "
             "and available evidence. Accuracy and completeness weigh 30% each, clarity and performance "
             "20% each. Scoring only weights supplied ratings; literal quality checks do not prove accuracy. "
             "Return JSON with score (0-100), feedback, issues and suggestions. State missing evidence."
         )
+        if minimal:
+            self.system_prompt += " First call score_result; then call submit_evaluation to finish. Never invent a json tool."
 
     async def process_async(self, task_content, parameters=None):
         response = await super().process_async(task_content, parameters)

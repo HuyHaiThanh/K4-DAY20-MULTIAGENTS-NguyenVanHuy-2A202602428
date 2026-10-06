@@ -1,0 +1,734 @@
+{
+  "run_id": "ab5d3745bfb14b2a96953e8d5e45837a",
+  "mode": "offline-scripted",
+  "status": "success",
+  "request": "Analyze data and create chart",
+  "stages": {
+    "data": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-aa923295d3f34f4eb8f29f041f6ee9fd-0",
+          "worker": "data_agent",
+          "type": "data",
+          "content": {
+            "status": "success",
+            "result": "Queried supplied sales rows",
+            "metadata": {
+              "tools_used": 1,
+              "tool_names": [
+                "query_database"
+              ],
+              "tool_events": [
+                {
+                  "name": "query_database",
+                  "id": "tool-0",
+                  "input": {
+                    "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                  },
+                  "output": {
+                    "status": "success",
+                    "rows": 2,
+                    "data": [
+                      {
+                        "month": "Jan",
+                        "amount": 10.0
+                      },
+                      {
+                        "month": "Feb",
+                        "amount": 20.0
+                      }
+                    ],
+                    "columns": [
+                      "month",
+                      "amount"
+                    ],
+                    "truncated": false,
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 200,
+                "output": 40,
+                "total": 240
+              },
+              "token_source": "synthetic"
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 0.0
+        }
+      ],
+      "outputs": {
+        "data": [
+          {
+            "status": "success",
+            "result": "Queried supplied sales rows",
+            "metadata": {
+              "tools_used": 1,
+              "tool_names": [
+                "query_database"
+              ],
+              "tool_events": [
+                {
+                  "name": "query_database",
+                  "id": "tool-0",
+                  "input": {
+                    "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                  },
+                  "output": {
+                    "status": "success",
+                    "rows": 2,
+                    "data": [
+                      {
+                        "month": "Jan",
+                        "amount": 10.0
+                      },
+                      {
+                        "month": "Feb",
+                        "amount": 20.0
+                      }
+                    ],
+                    "columns": [
+                      "month",
+                      "amount"
+                    ],
+                    "truncated": false,
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 200,
+                "output": 40,
+                "total": 240
+              },
+              "token_source": "synthetic"
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T07:01:16.126414+00:00"
+    },
+    "code": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-44af3e830e7d4c3c8ea79dccd60a8779-0",
+          "worker": "code_agent",
+          "type": "code",
+          "content": {
+            "status": "success",
+            "result": "Created chart and executed supplied total",
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "create_visualization",
+                "python_repl"
+              ],
+              "tool_events": [
+                {
+                  "name": "create_visualization",
+                  "id": "tool-0",
+                  "input": {
+                    "path": "sales_chart.svg",
+                    "labels": [
+                      "Jan",
+                      "Feb"
+                    ],
+                    "values": [
+                      10.0,
+                      20.0
+                    ],
+                    "title": "Supplied sales"
+                  },
+                  "output": {
+                    "status": "success",
+                    "path": "sales_chart.svg",
+                    "bytes": 549,
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "python_repl",
+                  "id": "tool-1",
+                  "input": {
+                    "code": "print(10.0 + 20.0)"
+                  },
+                  "output": {
+                    "status": "success",
+                    "stdout": "30.0",
+                    "variables": {},
+                    "restricted": true,
+                    "stderr": "",
+                    "isolated_process": true,
+                    "seconds": 0.078
+                  }
+                }
+              ],
+              "model_calls": 3,
+              "tokens": {
+                "input": 300,
+                "output": 60,
+                "total": 360
+              },
+              "token_source": "synthetic",
+              "execution_verified": true
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 0.094
+        }
+      ],
+      "outputs": {
+        "code": [
+          {
+            "status": "success",
+            "result": "Created chart and executed supplied total",
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "create_visualization",
+                "python_repl"
+              ],
+              "tool_events": [
+                {
+                  "name": "create_visualization",
+                  "id": "tool-0",
+                  "input": {
+                    "path": "sales_chart.svg",
+                    "labels": [
+                      "Jan",
+                      "Feb"
+                    ],
+                    "values": [
+                      10.0,
+                      20.0
+                    ],
+                    "title": "Supplied sales"
+                  },
+                  "output": {
+                    "status": "success",
+                    "path": "sales_chart.svg",
+                    "bytes": 549,
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "python_repl",
+                  "id": "tool-1",
+                  "input": {
+                    "code": "print(10.0 + 20.0)"
+                  },
+                  "output": {
+                    "status": "success",
+                    "stdout": "30.0",
+                    "variables": {},
+                    "restricted": true,
+                    "stderr": "",
+                    "isolated_process": true,
+                    "seconds": 0.078
+                  }
+                }
+              ],
+              "model_calls": 3,
+              "tokens": {
+                "input": 300,
+                "output": 60,
+                "total": 360
+              },
+              "token_source": "synthetic",
+              "execution_verified": true
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T07:01:16.252570+00:00"
+    },
+    "evaluation": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-924cf25d56584e9fa534c29821df0ea1-0",
+          "worker": "evaluator_agent",
+          "type": "evaluator",
+          "content": {
+            "status": "success",
+            "result": {
+              "score": 85.5,
+              "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+              "issues": [],
+              "suggestions": []
+            },
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "score_result",
+                "submit_evaluation"
+              ],
+              "tool_events": [
+                {
+                  "name": "score_result",
+                  "id": "tool-0",
+                  "input": {
+                    "scores": {
+                      "accuracy": 85.0,
+                      "completeness": 90.0,
+                      "clarity": 80.0,
+                      "performance": 85.0
+                    }
+                  },
+                  "output": {
+                    "status": "success",
+                    "scores": {
+                      "accuracy": 85.0,
+                      "completeness": 90.0,
+                      "clarity": 80.0,
+                      "performance": 85.0
+                    },
+                    "weighted_score": 85.5,
+                    "grade": "B",
+                    "basis": "supplied_ratings",
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "submit_evaluation",
+                  "id": "tool-1",
+                  "input": {
+                    "score": 85.5,
+                    "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+                    "issues": [],
+                    "suggestions": []
+                  },
+                  "output": {
+                    "status": "success",
+                    "result": {
+                      "score": 85.5,
+                      "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+                      "issues": [],
+                      "suggestions": []
+                    },
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 200,
+                "output": 40,
+                "total": 240
+              },
+              "token_source": "synthetic"
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 0.016
+        }
+      ],
+      "outputs": {
+        "evaluator": [
+          {
+            "status": "success",
+            "result": {
+              "score": 85.5,
+              "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+              "issues": [],
+              "suggestions": []
+            },
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "score_result",
+                "submit_evaluation"
+              ],
+              "tool_events": [
+                {
+                  "name": "score_result",
+                  "id": "tool-0",
+                  "input": {
+                    "scores": {
+                      "accuracy": 85.0,
+                      "completeness": 90.0,
+                      "clarity": 80.0,
+                      "performance": 85.0
+                    }
+                  },
+                  "output": {
+                    "status": "success",
+                    "scores": {
+                      "accuracy": 85.0,
+                      "completeness": 90.0,
+                      "clarity": 80.0,
+                      "performance": 85.0
+                    },
+                    "weighted_score": 85.5,
+                    "grade": "B",
+                    "basis": "supplied_ratings",
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "submit_evaluation",
+                  "id": "tool-1",
+                  "input": {
+                    "score": 85.5,
+                    "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+                    "issues": [],
+                    "suggestions": []
+                  },
+                  "output": {
+                    "status": "success",
+                    "result": {
+                      "score": 85.5,
+                      "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+                      "issues": [],
+                      "suggestions": []
+                    },
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 200,
+                "output": 40,
+                "total": 240
+              },
+              "token_source": "synthetic"
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T07:01:16.277569+00:00"
+    }
+  },
+  "error": null,
+  "token_usage": 840,
+  "token_source": "synthetic",
+  "data": {
+    "rows": [
+      {
+        "month": "Jan",
+        "sales": 10.0
+      },
+      {
+        "month": "Feb",
+        "sales": 20.0
+      }
+    ],
+    "revenue": 30.0
+  },
+  "code": {
+    "chart": "report\\acceptance\\profile-runs\\ab5d3745bfb14b2a96953e8d5e45837a\\sales_chart.svg"
+  },
+  "evaluation": {
+    "score": 85.5,
+    "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+    "issues": [],
+    "suggestions": []
+  },
+  "seconds": 0.1870000000053551,
+  "tokens_complete": true,
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "b696c084dd1e4347a6377c2d588f26c7",
+      "content": {
+        "task_type": "data_analysis",
+        "content": "Use query_database to SELECT month, amount FROM sales ORDER BY rowid. Return the query results; do not invent data.",
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "data_agent",
+      "timestamp": "2026-10-06T07:01:16.117413+00:00",
+      "id": "6a28f0c5528a4529b7abf1dd91116df8"
+    },
+    {
+      "type": "result",
+      "correlation_id": "b696c084dd1e4347a6377c2d588f26c7",
+      "content": {
+        "status": "success",
+        "result": "Queried supplied sales rows",
+        "metadata": {
+          "tools_used": 1,
+          "tool_names": [
+            "query_database"
+          ],
+          "tool_events": [
+            {
+              "name": "query_database",
+              "id": "tool-0",
+              "input": {
+                "query": "SELECT month, amount FROM sales ORDER BY rowid"
+              },
+              "output": {
+                "status": "success",
+                "rows": 2,
+                "data": [
+                  {
+                    "month": "Jan",
+                    "amount": 10.0
+                  },
+                  {
+                    "month": "Feb",
+                    "amount": 20.0
+                  }
+                ],
+                "columns": [
+                  "month",
+                  "amount"
+                ],
+                "truncated": false,
+                "seconds": 0.0
+              }
+            }
+          ],
+          "model_calls": 2,
+          "tokens": {
+            "input": 200,
+            "output": 40,
+            "total": 240
+          },
+          "token_source": "synthetic"
+        }
+      },
+      "from": "data_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T07:01:16.125413+00:00",
+      "id": "7abe9d8337794cfe950f2cc83dd96a11"
+    },
+    {
+      "type": "task",
+      "correlation_id": "172a2ee542dc4055bc1a2f5477868a6d",
+      "content": {
+        "task_type": "code_generation",
+        "content": "Call create_visualization and python_repl with these exact arguments, then report verified outputs.",
+        "parameters": {
+          "chart": {
+            "path": "sales_chart.svg",
+            "labels": [
+              "Jan",
+              "Feb"
+            ],
+            "values": [
+              10.0,
+              20.0
+            ],
+            "title": "Supplied sales"
+          },
+          "python": {
+            "code": "print(10.0 + 20.0)"
+          }
+        },
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "code_agent",
+      "timestamp": "2026-10-06T07:01:16.159984+00:00",
+      "id": "0686d60bf01c42599d686f1e29e8c72c"
+    },
+    {
+      "type": "result",
+      "correlation_id": "172a2ee542dc4055bc1a2f5477868a6d",
+      "content": {
+        "status": "success",
+        "result": "Created chart and executed supplied total",
+        "metadata": {
+          "tools_used": 2,
+          "tool_names": [
+            "create_visualization",
+            "python_repl"
+          ],
+          "tool_events": [
+            {
+              "name": "create_visualization",
+              "id": "tool-0",
+              "input": {
+                "path": "sales_chart.svg",
+                "labels": [
+                  "Jan",
+                  "Feb"
+                ],
+                "values": [
+                  10.0,
+                  20.0
+                ],
+                "title": "Supplied sales"
+              },
+              "output": {
+                "status": "success",
+                "path": "sales_chart.svg",
+                "bytes": 549,
+                "seconds": 0.0
+              }
+            },
+            {
+              "name": "python_repl",
+              "id": "tool-1",
+              "input": {
+                "code": "print(10.0 + 20.0)"
+              },
+              "output": {
+                "status": "success",
+                "stdout": "30.0",
+                "variables": {},
+                "restricted": true,
+                "stderr": "",
+                "isolated_process": true,
+                "seconds": 0.078
+              }
+            }
+          ],
+          "model_calls": 3,
+          "tokens": {
+            "input": 300,
+            "output": 60,
+            "total": 360
+          },
+          "token_source": "synthetic",
+          "execution_verified": true
+        }
+      },
+      "from": "code_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T07:01:16.252570+00:00",
+      "id": "0e49e1d94e184820aff6a2ee19f77b76"
+    },
+    {
+      "type": "task",
+      "correlation_id": "83b384d6f573412986fced5754b4740e",
+      "content": {
+        "task_type": "evaluation",
+        "content": "Call score_result with supplied scores, then submit_evaluation using its weighted_score, feedback, issues, suggestions. Label score as supplied ratings.",
+        "parameters": {
+          "scores": {
+            "accuracy": 85.0,
+            "completeness": 90.0,
+            "clarity": 80.0,
+            "performance": 85.0
+          },
+          "evidence": {
+            "data": {
+              "rows": [
+                {
+                  "month": "Jan",
+                  "sales": 10.0
+                },
+                {
+                  "month": "Feb",
+                  "sales": 20.0
+                }
+              ],
+              "revenue": 30.0
+            },
+            "code": {
+              "chart": "report\\acceptance\\profile-runs\\ab5d3745bfb14b2a96953e8d5e45837a\\sales_chart.svg"
+            }
+          }
+        },
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "evaluator_agent",
+      "timestamp": "2026-10-06T07:01:16.268569+00:00",
+      "id": "60a4a8ee923743b18b635826e89a4704"
+    },
+    {
+      "type": "result",
+      "correlation_id": "83b384d6f573412986fced5754b4740e",
+      "content": {
+        "status": "success",
+        "result": {
+          "score": 85.5,
+          "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+          "issues": [],
+          "suggestions": []
+        },
+        "metadata": {
+          "tools_used": 2,
+          "tool_names": [
+            "score_result",
+            "submit_evaluation"
+          ],
+          "tool_events": [
+            {
+              "name": "score_result",
+              "id": "tool-0",
+              "input": {
+                "scores": {
+                  "accuracy": 85.0,
+                  "completeness": 90.0,
+                  "clarity": 80.0,
+                  "performance": 85.0
+                }
+              },
+              "output": {
+                "status": "success",
+                "scores": {
+                  "accuracy": 85.0,
+                  "completeness": 90.0,
+                  "clarity": 80.0,
+                  "performance": 85.0
+                },
+                "weighted_score": 85.5,
+                "grade": "B",
+                "basis": "supplied_ratings",
+                "seconds": 0.0
+              }
+            },
+            {
+              "name": "submit_evaluation",
+              "id": "tool-1",
+              "input": {
+                "score": 85.5,
+                "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+                "issues": [],
+                "suggestions": []
+              },
+              "output": {
+                "status": "success",
+                "result": {
+                  "score": 85.5,
+                  "feedback": "Weighted supplied ratings, not independent accuracy evidence",
+                  "issues": [],
+                  "suggestions": []
+                },
+                "seconds": 0.0
+              }
+            }
+          ],
+          "model_calls": 2,
+          "tokens": {
+            "input": 200,
+            "output": 40,
+            "total": 240
+          },
+          "token_source": "synthetic"
+        }
+      },
+      "from": "evaluator_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T07:01:16.277569+00:00",
+      "id": "747d25abbfb5437faad6faef7a404cd4"
+    }
+  ],
+  "worker_seconds": {
+    "data_agent": 0.0,
+    "code_agent": 0.094,
+    "evaluator_agent": 0.016
+  }
+}

@@ -1,8 +1,13 @@
 .env
 .venv/
+.venv-linux/
 __pycache__/
 *.pyc
 .pytest_cache/
 *.egg-info/
+.coverage
+report/acceptance/*.data
+report/acceptance/*.pstats
+report/acceptance/*-runs/*/sales.db
 # Tài liệu và mã dành cho giảng viên (đáp án, bản cài đặt tham chiếu, bộ sinh dữ liệu). Chỉ giữ cục bộ.
 instructor/

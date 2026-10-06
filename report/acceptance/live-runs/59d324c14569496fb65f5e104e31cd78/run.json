@@ -1,0 +1,762 @@
+{
+  "run_id": "59d324c14569496fb65f5e104e31cd78",
+  "mode": "live",
+  "status": "error",
+  "request": "Analyze sales data and create chart",
+  "stages": {
+    "data": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-74b7d319786f4df6ad6195bfd658a87f-0",
+          "worker": "data_agent",
+          "type": "data",
+          "content": {
+            "status": "success",
+            "result": "Here are the results of the query:\n\n| month | amount |\n|-------|--------|\n| Jan   | 10.0   |\n| Feb   | 20.0   |",
+            "metadata": {
+              "tools_used": 1,
+              "tool_names": [
+                "query_database"
+              ],
+              "tool_events": [
+                {
+                  "name": "query_database",
+                  "id": "fc_4fdcf389-1af3-4881-9b01-2202c6e4d6ad",
+                  "input": {
+                    "limit": 1000,
+                    "parameters": [],
+                    "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                  },
+                  "output": {
+                    "status": "success",
+                    "rows": 2,
+                    "data": [
+                      {
+                        "month": "Jan",
+                        "amount": 10.0
+                      },
+                      {
+                        "month": "Feb",
+                        "amount": 20.0
+                      }
+                    ],
+                    "columns": [
+                      "month",
+                      "amount"
+                    ],
+                    "truncated": false,
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 955,
+                "output": 166,
+                "total": 1121
+              },
+              "token_source": "provider"
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 8.906
+        }
+      ],
+      "outputs": {
+        "data": [
+          {
+            "status": "success",
+            "result": "Here are the results of the query:\n\n| month | amount |\n|-------|--------|\n| Jan   | 10.0   |\n| Feb   | 20.0   |",
+            "metadata": {
+              "tools_used": 1,
+              "tool_names": [
+                "query_database"
+              ],
+              "tool_events": [
+                {
+                  "name": "query_database",
+                  "id": "fc_4fdcf389-1af3-4881-9b01-2202c6e4d6ad",
+                  "input": {
+                    "limit": 1000,
+                    "parameters": [],
+                    "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                  },
+                  "output": {
+                    "status": "success",
+                    "rows": 2,
+                    "data": [
+                      {
+                        "month": "Jan",
+                        "amount": 10.0
+                      },
+                      {
+                        "month": "Feb",
+                        "amount": 20.0
+                      }
+                    ],
+                    "columns": [
+                      "month",
+                      "amount"
+                    ],
+                    "truncated": false,
+                    "seconds": 0.0
+                  }
+                }
+              ],
+              "model_calls": 2,
+              "tokens": {
+                "input": 955,
+                "output": 166,
+                "total": 1121
+              },
+              "token_source": "provider"
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T07:00:12.274867+00:00"
+    },
+    "code": {
+      "status": "success",
+      "results": [
+        {
+          "id": "request-57e1dea4a8f74916aac8160ce06c2c4a-0",
+          "worker": "code_agent",
+          "type": "code",
+          "content": {
+            "status": "success",
+            "result": "Created **sales_chart.svg** (SVG bar chart) with labels Jan, Feb and values 10, 20 titled “Supplied sales”.\n\nExecuted Python code:\n```python\nprint(10.0 + 20.0)\n```\nOutput:\n```\n30.0\n```",
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "create_visualization",
+                "python_repl"
+              ],
+              "tool_events": [
+                {
+                  "name": "create_visualization",
+                  "id": "fc_fd75893f-f7c2-495a-9295-a3914e849110",
+                  "input": {
+                    "labels": [
+                      "Jan",
+                      "Feb"
+                    ],
+                    "path": "sales_chart.svg",
+                    "title": "Supplied sales",
+                    "values": [
+                      10,
+                      20
+                    ]
+                  },
+                  "output": {
+                    "status": "success",
+                    "path": "sales_chart.svg",
+                    "bytes": 549,
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "python_repl",
+                  "id": "fc_ed07031f-6364-4b36-b653-e1997f8314ec",
+                  "input": {
+                    "code": "print(10.0 + 20.0)"
+                  },
+                  "output": {
+                    "status": "success",
+                    "stdout": "30.0",
+                    "variables": {},
+                    "restricted": true,
+                    "stderr": "",
+                    "isolated_process": true,
+                    "seconds": 0.063
+                  }
+                }
+              ],
+              "model_calls": 3,
+              "tokens": {
+                "input": 2268,
+                "output": 209,
+                "total": 2477
+              },
+              "token_source": "provider",
+              "execution_verified": true
+            }
+          },
+          "attempts": 1,
+          "status": "success",
+          "error": null,
+          "seconds": 14.781
+        }
+      ],
+      "outputs": {
+        "code": [
+          {
+            "status": "success",
+            "result": "Created **sales_chart.svg** (SVG bar chart) with labels Jan, Feb and values 10, 20 titled “Supplied sales”.\n\nExecuted Python code:\n```python\nprint(10.0 + 20.0)\n```\nOutput:\n```\n30.0\n```",
+            "metadata": {
+              "tools_used": 2,
+              "tool_names": [
+                "create_visualization",
+                "python_repl"
+              ],
+              "tool_events": [
+                {
+                  "name": "create_visualization",
+                  "id": "fc_fd75893f-f7c2-495a-9295-a3914e849110",
+                  "input": {
+                    "labels": [
+                      "Jan",
+                      "Feb"
+                    ],
+                    "path": "sales_chart.svg",
+                    "title": "Supplied sales",
+                    "values": [
+                      10,
+                      20
+                    ]
+                  },
+                  "output": {
+                    "status": "success",
+                    "path": "sales_chart.svg",
+                    "bytes": 549,
+                    "seconds": 0.0
+                  }
+                },
+                {
+                  "name": "python_repl",
+                  "id": "fc_ed07031f-6364-4b36-b653-e1997f8314ec",
+                  "input": {
+                    "code": "print(10.0 + 20.0)"
+                  },
+                  "output": {
+                    "status": "success",
+                    "stdout": "30.0",
+                    "variables": {},
+                    "restricted": true,
+                    "stderr": "",
+                    "isolated_process": true,
+                    "seconds": 0.063
+                  }
+                }
+              ],
+              "model_calls": 3,
+              "tokens": {
+                "input": 2268,
+                "output": 209,
+                "total": 2477
+              },
+              "token_source": "provider",
+              "execution_verified": true
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "timestamp": "2026-10-06T07:00:27.070034+00:00"
+    },
+    "evaluation": {
+      "status": "error",
+      "results": [
+        {
+          "id": "request-c7eeca3da6764db387b2901a97608b6d-0",
+          "worker": "evaluator_agent",
+          "type": "evaluator",
+          "content": null,
+          "attempts": 1,
+          "status": "timeout",
+          "error": "Worker exceeded timeout",
+          "seconds": 30.0
+        }
+      ],
+      "outputs": {},
+      "errors": [
+        {
+          "id": "request-c7eeca3da6764db387b2901a97608b6d-0",
+          "worker": "evaluator_agent",
+          "type": "evaluator",
+          "content": null,
+          "attempts": 1,
+          "status": "timeout",
+          "error": "Worker exceeded timeout",
+          "seconds": 30.0
+        }
+      ],
+      "timestamp": "2026-10-06T07:00:57.074016+00:00"
+    }
+  },
+  "error": "ValueError: Evaluation stage failed",
+  "token_usage": 3598,
+  "token_source": "provider",
+  "data": {
+    "rows": [
+      {
+        "month": "Jan",
+        "sales": 10.0
+      },
+      {
+        "month": "Feb",
+        "sales": 20.0
+      }
+    ],
+    "revenue": 30.0
+  },
+  "code": {
+    "chart": "report\\acceptance\\live-runs\\59d324c14569496fb65f5e104e31cd78\\sales_chart.svg"
+  },
+  "seconds": 53.71899999998277,
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "7cff3508821d47e4a71c6e3c0aad1b51",
+      "content": {
+        "task_type": "data_analysis",
+        "content": "Use query_database to SELECT month, amount FROM sales ORDER BY rowid. Return the query results; do not invent data.",
+        "parameters": {},
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "data_agent",
+      "timestamp": "2026-10-06T07:00:03.369738+00:00",
+      "id": "58876352da0d4d9994f3c96b89dacb0e"
+    },
+    {
+      "type": "result",
+      "correlation_id": "7cff3508821d47e4a71c6e3c0aad1b51",
+      "content": {
+        "status": "success",
+        "result": "Here are the results of the query:\n\n| month | amount |\n|-------|--------|\n| Jan   | 10.0   |\n| Feb   | 20.0   |",
+        "metadata": {
+          "tools_used": 1,
+          "tool_names": [
+            "query_database"
+          ],
+          "tool_events": [
+            {
+              "name": "query_database",
+              "id": "fc_4fdcf389-1af3-4881-9b01-2202c6e4d6ad",
+              "input": {
+                "limit": 1000,
+                "parameters": [],
+                "query": "SELECT month, amount FROM sales ORDER BY rowid"
+              },
+              "output": {
+                "status": "success",
+                "rows": 2,
+                "data": [
+                  {
+                    "month": "Jan",
+                    "amount": 10.0
+                  },
+                  {
+                    "month": "Feb",
+                    "amount": 20.0
+                  }
+                ],
+                "columns": [
+                  "month",
+                  "amount"
+                ],
+                "truncated": false,
+                "seconds": 0.0
+              }
+            }
+          ],
+          "model_calls": 2,
+          "tokens": {
+            "input": 955,
+            "output": 166,
+            "total": 1121
+          },
+          "token_source": "provider"
+        }
+      },
+      "from": "data_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T07:00:12.274867+00:00",
+      "id": "d38caaf4fd594a74b994624510f97e9b"
+    },
+    {
+      "type": "task",
+      "correlation_id": "7190f631d88c4a7ea2218d9ae617ae03",
+      "content": {
+        "task_type": "code_generation",
+        "content": "Call create_visualization and python_repl with these exact arguments, then report verified outputs.",
+        "parameters": {
+          "chart": {
+            "path": "sales_chart.svg",
+            "labels": [
+              "Jan",
+              "Feb"
+            ],
+            "values": [
+              10.0,
+              20.0
+            ],
+            "title": "Supplied sales"
+          },
+          "python": {
+            "code": "print(10.0 + 20.0)"
+          }
+        },
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "code_agent",
+      "timestamp": "2026-10-06T07:00:12.296866+00:00",
+      "id": "b9444434f47640c48682ea45671e0a31"
+    },
+    {
+      "type": "result",
+      "correlation_id": "7190f631d88c4a7ea2218d9ae617ae03",
+      "content": {
+        "status": "success",
+        "result": "Created **sales_chart.svg** (SVG bar chart) with labels Jan, Feb and values 10, 20 titled “Supplied sales”.\n\nExecuted Python code:\n```python\nprint(10.0 + 20.0)\n```\nOutput:\n```\n30.0\n```",
+        "metadata": {
+          "tools_used": 2,
+          "tool_names": [
+            "create_visualization",
+            "python_repl"
+          ],
+          "tool_events": [
+            {
+              "name": "create_visualization",
+              "id": "fc_fd75893f-f7c2-495a-9295-a3914e849110",
+              "input": {
+                "labels": [
+                  "Jan",
+                  "Feb"
+                ],
+                "path": "sales_chart.svg",
+                "title": "Supplied sales",
+                "values": [
+                  10,
+                  20
+                ]
+              },
+              "output": {
+                "status": "success",
+                "path": "sales_chart.svg",
+                "bytes": 549,
+                "seconds": 0.0
+              }
+            },
+            {
+              "name": "python_repl",
+              "id": "fc_ed07031f-6364-4b36-b653-e1997f8314ec",
+              "input": {
+                "code": "print(10.0 + 20.0)"
+              },
+              "output": {
+                "status": "success",
+                "stdout": "30.0",
+                "variables": {},
+                "restricted": true,
+                "stderr": "",
+                "isolated_process": true,
+                "seconds": 0.063
+              }
+            }
+          ],
+          "model_calls": 3,
+          "tokens": {
+            "input": 2268,
+            "output": 209,
+            "total": 2477
+          },
+          "token_source": "provider",
+          "execution_verified": true
+        }
+      },
+      "from": "code_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T07:00:27.070034+00:00",
+      "id": "770e41df03494991a1234f38e203ef8d"
+    },
+    {
+      "type": "task",
+      "correlation_id": "b144600e4f374ce1b7f4f8557f8aada1",
+      "content": {
+        "task_type": "evaluation",
+        "content": "Call score_result with supplied scores and return JSON with score, feedback, issues, suggestions. Label score as supplied ratings.",
+        "parameters": {
+          "scores": {
+            "accuracy": 85.0,
+            "completeness": 90.0,
+            "clarity": 80.0,
+            "performance": 85.0
+          },
+          "previous_stages": {
+            "data": {
+              "status": "success",
+              "results": [
+                {
+                  "id": "request-74b7d319786f4df6ad6195bfd658a87f-0",
+                  "worker": "data_agent",
+                  "type": "data",
+                  "content": {
+                    "status": "success",
+                    "result": "Here are the results of the query:\n\n| month | amount |\n|-------|--------|\n| Jan   | 10.0   |\n| Feb   | 20.0   |",
+                    "metadata": {
+                      "tools_used": 1,
+                      "tool_names": [
+                        "query_database"
+                      ],
+                      "tool_events": [
+                        {
+                          "name": "query_database",
+                          "id": "fc_4fdcf389-1af3-4881-9b01-2202c6e4d6ad",
+                          "input": {
+                            "limit": 1000,
+                            "parameters": [],
+                            "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                          },
+                          "output": {
+                            "status": "success",
+                            "rows": 2,
+                            "data": [
+                              {
+                                "month": "Jan",
+                                "amount": 10.0
+                              },
+                              {
+                                "month": "Feb",
+                                "amount": 20.0
+                              }
+                            ],
+                            "columns": [
+                              "month",
+                              "amount"
+                            ],
+                            "truncated": false,
+                            "seconds": 0.0
+                          }
+                        }
+                      ],
+                      "model_calls": 2,
+                      "tokens": {
+                        "input": 955,
+                        "output": 166,
+                        "total": 1121
+                      },
+                      "token_source": "provider"
+                    }
+                  },
+                  "attempts": 1,
+                  "status": "success",
+                  "error": null,
+                  "seconds": 8.906
+                }
+              ],
+              "outputs": {
+                "data": [
+                  {
+                    "status": "success",
+                    "result": "Here are the results of the query:\n\n| month | amount |\n|-------|--------|\n| Jan   | 10.0   |\n| Feb   | 20.0   |",
+                    "metadata": {
+                      "tools_used": 1,
+                      "tool_names": [
+                        "query_database"
+                      ],
+                      "tool_events": [
+                        {
+                          "name": "query_database",
+                          "id": "fc_4fdcf389-1af3-4881-9b01-2202c6e4d6ad",
+                          "input": {
+                            "limit": 1000,
+                            "parameters": [],
+                            "query": "SELECT month, amount FROM sales ORDER BY rowid"
+                          },
+                          "output": {
+                            "status": "success",
+                            "rows": 2,
+                            "data": [
+                              {
+                                "month": "Jan",
+                                "amount": 10.0
+                              },
+                              {
+                                "month": "Feb",
+                                "amount": 20.0
+                              }
+                            ],
+                            "columns": [
+                              "month",
+                              "amount"
+                            ],
+                            "truncated": false,
+                            "seconds": 0.0
+                          }
+                        }
+                      ],
+                      "model_calls": 2,
+                      "tokens": {
+                        "input": 955,
+                        "output": 166,
+                        "total": 1121
+                      },
+                      "token_source": "provider"
+                    }
+                  }
+                ]
+              },
+              "errors": [],
+              "timestamp": "2026-10-06T07:00:12.274867+00:00"
+            },
+            "code": {
+              "status": "success",
+              "results": [
+                {
+                  "id": "request-57e1dea4a8f74916aac8160ce06c2c4a-0",
+                  "worker": "code_agent",
+                  "type": "code",
+                  "content": {
+                    "status": "success",
+                    "result": "Created **sales_chart.svg** (SVG bar chart) with labels Jan, Feb and values 10, 20 titled “Supplied sales”.\n\nExecuted Python code:\n```python\nprint(10.0 + 20.0)\n```\nOutput:\n```\n30.0\n```",
+                    "metadata": {
+                      "tools_used": 2,
+                      "tool_names": [
+                        "create_visualization",
+                        "python_repl"
+                      ],
+                      "tool_events": [
+                        {
+                          "name": "create_visualization",
+                          "id": "fc_fd75893f-f7c2-495a-9295-a3914e849110",
+                          "input": {
+                            "labels": [
+                              "Jan",
+                              "Feb"
+                            ],
+                            "path": "sales_chart.svg",
+                            "title": "Supplied sales",
+                            "values": [
+                              10,
+                              20
+                            ]
+                          },
+                          "output": {
+                            "status": "success",
+                            "path": "sales_chart.svg",
+                            "bytes": 549,
+                            "seconds": 0.0
+                          }
+                        },
+                        {
+                          "name": "python_repl",
+                          "id": "fc_ed07031f-6364-4b36-b653-e1997f8314ec",
+                          "input": {
+                            "code": "print(10.0 + 20.0)"
+                          },
+                          "output": {
+                            "status": "success",
+                            "stdout": "30.0",
+                            "variables": {},
+                            "restricted": true,
+                            "stderr": "",
+                            "isolated_process": true,
+                            "seconds": 0.063
+                          }
+                        }
+                      ],
+                      "model_calls": 3,
+                      "tokens": {
+                        "input": 2268,
+                        "output": 209,
+                        "total": 2477
+                      },
+                      "token_source": "provider",
+                      "execution_verified": true
+                    }
+                  },
+                  "attempts": 1,
+                  "status": "success",
+                  "error": null,
+                  "seconds": 14.781
+                }
+              ],
+              "outputs": {
+                "code": [
+                  {
+                    "status": "success",
+                    "result": "Created **sales_chart.svg** (SVG bar chart) with labels Jan, Feb and values 10, 20 titled “Supplied sales”.\n\nExecuted Python code:\n```python\nprint(10.0 + 20.0)\n```\nOutput:\n```\n30.0\n```",
+                    "metadata": {
+                      "tools_used": 2,
+                      "tool_names": [
+                        "create_visualization",
+                        "python_repl"
+                      ],
+                      "tool_events": [
+                        {
+                          "name": "create_visualization",
+                          "id": "fc_fd75893f-f7c2-495a-9295-a3914e849110",
+                          "input": {
+                            "labels": [
+                              "Jan",
+                              "Feb"
+                            ],
+                            "path": "sales_chart.svg",
+                            "title": "Supplied sales",
+                            "values": [
+                              10,
+                              20
+                            ]
+                          },
+                          "output": {
+                            "status": "success",
+                            "path": "sales_chart.svg",
+                            "bytes": 549,
+                            "seconds": 0.0
+                          }
+                        },
+                        {
+                          "name": "python_repl",
+                          "id": "fc_ed07031f-6364-4b36-b653-e1997f8314ec",
+                          "input": {
+                            "code": "print(10.0 + 20.0)"
+                          },
+                          "output": {
+                            "status": "success",
+                            "stdout": "30.0",
+                            "variables": {},
+                            "restricted": true,
+                            "stderr": "",
+                            "isolated_process": true,
+                            "seconds": 0.063
+                          }
+                        }
+                      ],
+                      "model_calls": 3,
+                      "tokens": {
+                        "input": 2268,
+                        "output": 209,
+                        "total": 2477
+                      },
+                      "token_source": "provider",
+                      "execution_verified": true
+                    }
+                  }
+                ]
+              },
+              "errors": [],
+              "timestamp": "2026-10-06T07:00:27.070034+00:00"
+            }
+          }
+        },
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "evaluator_agent",
+      "timestamp": "2026-10-06T07:00:27.078028+00:00",
+      "id": "1d192a557bc54b408d841fb1df655e78"
+    }
+  ],
+  "worker_seconds": {
+    "data_agent": 8.906,
+    "code_agent": 14.781,
+    "evaluator_agent": 30.0
+  }
+}

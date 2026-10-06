@@ -31,7 +31,7 @@ class PythonREPLTool(BaseTool):
         source = str(Path(__file__).resolve().parents[2])
         program = (
             "import sys,json; sys.path.insert(0," + repr(source) + "); "
-            "from lab.agents.tools import restricted_python; "
+            "from lab.restricted_runtime import restricted_python; "
             "r=restricted_python(json.load(sys.stdin)['code']); print(json.dumps(r))"
         )
         return [sys.executable, "-I", "-c", program]

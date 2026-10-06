@@ -1,0 +1,136 @@
+{
+  "run_id": "2bdbb96809ba438fad8e11e77872ad39",
+  "mode": "live",
+  "status": "error",
+  "request": "Create a chart",
+  "stages": {
+    "code": {
+      "status": "error",
+      "results": [
+        {
+          "id": "request-c52be979c6b84ca3abee6b0a3ef30cf4-0",
+          "worker": "code_agent",
+          "type": "code",
+          "content": {
+            "status": "error",
+            "error": "OpenAIConnectionError: Connection error.",
+            "result": null,
+            "metadata": {
+              "tools_used": 0,
+              "tool_names": [],
+              "tool_events": [],
+              "model_calls": 1,
+              "tokens": {
+                "input": 0,
+                "output": 0,
+                "total": 0
+              },
+              "token_source": "provider",
+              "execution_verified": false
+            }
+          },
+          "attempts": 1,
+          "status": "error",
+          "error": "RuntimeError: OpenAIConnectionError: Connection error.",
+          "seconds": 7.531
+        }
+      ],
+      "outputs": {},
+      "errors": [
+        {
+          "id": "request-c52be979c6b84ca3abee6b0a3ef30cf4-0",
+          "worker": "code_agent",
+          "type": "code",
+          "content": {
+            "status": "error",
+            "error": "OpenAIConnectionError: Connection error.",
+            "result": null,
+            "metadata": {
+              "tools_used": 0,
+              "tool_names": [],
+              "tool_events": [],
+              "model_calls": 1,
+              "tokens": {
+                "input": 0,
+                "output": 0,
+                "total": 0
+              },
+              "token_source": "provider",
+              "execution_verified": false
+            }
+          },
+          "attempts": 1,
+          "status": "error",
+          "error": "RuntimeError: OpenAIConnectionError: Connection error.",
+          "seconds": 7.531
+        }
+      ],
+      "timestamp": "2026-10-06T06:57:09.052321+00:00"
+    }
+  },
+  "error": "ValueError: Code stage failed or chart not created",
+  "token_usage": 0,
+  "token_source": "provider",
+  "seconds": 7.546999999991385,
+  "messages": [
+    {
+      "type": "task",
+      "correlation_id": "a5cb58efae134ef4ad037f85f32a21ba",
+      "content": {
+        "task_type": "code_generation",
+        "content": "Call create_visualization and python_repl with these exact arguments, then report verified outputs.",
+        "parameters": {
+          "chart": {
+            "path": "sales_chart.svg",
+            "labels": [
+              "Jan",
+              "Feb"
+            ],
+            "values": [
+              10.0,
+              20.0
+            ],
+            "title": "Supplied sales"
+          },
+          "python": {
+            "code": "print(10.0 + 20.0)"
+          }
+        },
+        "priority": "normal"
+      },
+      "from": "coordinator",
+      "to": "code_agent",
+      "timestamp": "2026-10-06T06:57:01.525828+00:00",
+      "id": "70f7dc7b2b8a4b72bc7ff46c798c729e"
+    },
+    {
+      "type": "result",
+      "correlation_id": "a5cb58efae134ef4ad037f85f32a21ba",
+      "content": {
+        "status": "error",
+        "error": "OpenAIConnectionError: Connection error.",
+        "result": null,
+        "metadata": {
+          "tools_used": 0,
+          "tool_names": [],
+          "tool_events": [],
+          "model_calls": 1,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "token_source": "provider",
+          "execution_verified": false
+        }
+      },
+      "from": "code_agent",
+      "to": "coordinator",
+      "timestamp": "2026-10-06T06:57:09.052321+00:00",
+      "id": "fac1d6a8a85348159ecd36200381583b"
+    }
+  ],
+  "worker_seconds": {
+    "code_agent": 7.531
+  }
+}

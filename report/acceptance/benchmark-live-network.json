@@ -1,0 +1,201 @@
+{
+  "timestamp": "2026-10-06T07:00:57.076023+00:00",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python": "3.11.9",
+  "mode": "live",
+  "fixture": "supplied local sales: Jan=10, Feb=20; ratings=85/90/80/85",
+  "limits": "P99 from 3 samples is descriptive, not a population estimate; offline tokens are synthetic; failed request usage may be incomplete",
+  "results": [
+    {
+      "name": "Simple data query",
+      "mode": "live",
+      "iterations": 3,
+      "concurrency": 1,
+      "min": 1.3910000000032596,
+      "max": 2.562000000005355,
+      "avg": 1.875,
+      "median": 1.6719999999913853,
+      "p50": 1.6719999999913853,
+      "p99": 2.544200000005076,
+      "elapsed": 5.625,
+      "throughput_requests_per_minute": 32.0,
+      "successful_requests_per_minute": 32.0,
+      "successes": 3,
+      "error_rate": 0.0,
+      "worker_busy_seconds": {
+        "data_agent": 4.579000000000001
+      },
+      "worker_busy_fraction_per_configured_slot": {
+        "data_agent": 0.8140444444444446
+      },
+      "provider_tokens": 3341,
+      "synthetic_tokens": 0,
+      "samples": [
+        {
+          "latency": 2.562000000005355,
+          "run_id": "cfade08fbacc4df5ba3da33b7a13d9ae",
+          "status": "success",
+          "error": null,
+          "tokens": 1105,
+          "token_source": "provider",
+          "worker_seconds": {
+            "data_agent": 1.562
+          }
+        },
+        {
+          "latency": 1.3910000000032596,
+          "run_id": "67b7340b8c27458bb187ccaba210cfd8",
+          "status": "success",
+          "error": null,
+          "tokens": 1105,
+          "token_source": "provider",
+          "worker_seconds": {
+            "data_agent": 1.36
+          }
+        },
+        {
+          "latency": 1.6719999999913853,
+          "run_id": "aa57ee76baff4058a4dab6ff559e7bc0",
+          "status": "success",
+          "error": null,
+          "tokens": 1131,
+          "token_source": "provider",
+          "worker_seconds": {
+            "data_agent": 1.657
+          }
+        }
+      ]
+    },
+    {
+      "name": "Code generation",
+      "mode": "live",
+      "iterations": 3,
+      "concurrency": 1,
+      "min": 2.2809999999881256,
+      "max": 7.282000000006519,
+      "avg": 4.041666666666667,
+      "median": 2.562000000005355,
+      "p50": 2.562000000005355,
+      "p99": 7.187600000006496,
+      "elapsed": 12.125,
+      "throughput_requests_per_minute": 14.845360824742269,
+      "successful_requests_per_minute": 14.845360824742269,
+      "successes": 3,
+      "error_rate": 0.0,
+      "worker_busy_seconds": {
+        "code_agent": 12.063
+      },
+      "worker_busy_fraction_per_configured_slot": {
+        "code_agent": 0.9948865979381444
+      },
+      "provider_tokens": 7422,
+      "synthetic_tokens": 0,
+      "samples": [
+        {
+          "latency": 2.2809999999881256,
+          "run_id": "98d83e7ea9e04994bf74265afe63fb6e",
+          "status": "success",
+          "error": null,
+          "tokens": 2465,
+          "token_source": "provider",
+          "worker_seconds": {
+            "code_agent": 2.266
+          }
+        },
+        {
+          "latency": 2.562000000005355,
+          "run_id": "bacc74a351ce4c3fb6b8ea87f902ca87",
+          "status": "success",
+          "error": null,
+          "tokens": 2466,
+          "token_source": "provider",
+          "worker_seconds": {
+            "code_agent": 2.531
+          }
+        },
+        {
+          "latency": 7.282000000006519,
+          "run_id": "47f7bd91a01d435bb3b2235d4d0eac4e",
+          "status": "success",
+          "error": null,
+          "tokens": 2491,
+          "token_source": "provider",
+          "worker_seconds": {
+            "code_agent": 7.266
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complex workflow",
+      "mode": "live",
+      "iterations": 3,
+      "concurrency": 1,
+      "min": 45.312000000005355,
+      "max": 53.71899999998277,
+      "avg": 50.077999999998916,
+      "median": 51.203000000008615,
+      "p50": 51.203000000008615,
+      "p99": 53.66867999998329,
+      "elapsed": 150.23399999999674,
+      "throughput_requests_per_minute": 1.1981309157714226,
+      "successful_requests_per_minute": 0.0,
+      "successes": 0,
+      "error_rate": 1.0,
+      "worker_busy_seconds": {
+        "data_agent": 21.828000000000003,
+        "code_agent": 41.436,
+        "evaluator_agent": 86.797
+      },
+      "worker_busy_fraction_per_configured_slot": {
+        "data_agent": 0.1452933423858812,
+        "code_agent": 0.27580973681058146,
+        "evaluator_agent": 0.5777453838678454
+      },
+      "provider_tokens": 13223,
+      "synthetic_tokens": 0,
+      "samples": [
+        {
+          "latency": 51.203000000008615,
+          "run_id": "1e6b84c1b1ec4a2ea281835abcd6d3dd",
+          "status": "error",
+          "error": "ValueError: Evaluation stage failed",
+          "tokens": 3569,
+          "token_source": "provider",
+          "worker_seconds": {
+            "data_agent": 11.781,
+            "code_agent": 9.343,
+            "evaluator_agent": 30.0
+          }
+        },
+        {
+          "latency": 45.312000000005355,
+          "run_id": "e25549822d7e4d9ab6f75dc114fdbca8",
+          "status": "error",
+          "error": "ValueError: Evaluation stage failed",
+          "tokens": 6056,
+          "token_source": "provider",
+          "worker_seconds": {
+            "data_agent": 1.141,
+            "code_agent": 17.312,
+            "evaluator_agent": 26.797
+          }
+        },
+        {
+          "latency": 53.71899999998277,
+          "run_id": "59d324c14569496fb65f5e104e31cd78",
+          "status": "error",
+          "error": "ValueError: Evaluation stage failed",
+          "tokens": 3598,
+          "token_source": "provider",
+          "worker_seconds": {
+            "data_agent": 8.906,
+            "code_agent": 14.781,
+            "evaluator_agent": 30.0
+          }
+        }
+      ]
+    }
+  ],
+  "model": "openai/gpt-oss-120b"
+}

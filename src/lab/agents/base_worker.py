@@ -4,6 +4,7 @@ from collections.abc import Mapping
 import json
 import logging
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
+from langchain_core.callbacks import UsageMetadataCallbackHandler
 
 
 class BaseWorker:
@@ -18,6 +19,7 @@ class BaseWorker:
         self.system_prompt = "Use only available tools and report verified results."
         self.max_steps, self.max_tool_calls = max_steps, max_tool_calls
         self.logger = logging.getLogger(f"lab.{name}")
+        self.final_tool = None
 
     def _build_prompt(self, task_content, parameters=None):
         if isinstance(task_content, Mapping) and "content" in task_content:
@@ -38,14 +40,23 @@ class BaseWorker:
     async def process_async(self, task_content, parameters=None):
         executed = []  # per-request state: concurrent calls do not share counters
         events = []
+        usage = UsageMetadataCallbackHandler()
+        model_calls = 0
+        def metadata():
+            return {"tools_used": len(executed), "tool_names": executed, "tool_events": events,
+                    "model_calls": model_calls,
+                    "tokens": {key: sum(v.get(source, 0) for v in usage.usage_metadata.values())
+                               for key, source in (("input", "input_tokens"), ("output", "output_tokens"), ("total", "total_tokens"))},
+                    "token_source": "synthetic" if getattr(self.model, "_llm_type", "") == "scripted-fake" else "provider"}
         try:
             messages = self._build_prompt(task_content, parameters)
             for step in range(self.max_steps):
-                response = await self.model.ainvoke(messages)
+                model_calls += 1
+                response = await self.model.ainvoke(messages, config={"callbacks": [usage]})
                 messages.append(response)
                 if not response.tool_calls:
                     return {"status": "success", "result": response.content,
-                            "metadata": {"tools_used": len(executed), "tool_names": executed, "tool_events": events, "model_calls": step + 1}}
+                            "metadata": metadata()}
                 for call in response.tool_calls:
                     if len(executed) >= self.max_tool_calls:
                         raise ValueError("Tool-call budget exhausted")
@@ -58,11 +69,13 @@ class BaseWorker:
                     if isinstance(result, dict) and result.get("status") == "error":
                         raise ValueError(result.get("error", "Tool reported failure"))
                     messages.append(ToolMessage(content=json.dumps(result, ensure_ascii=False), tool_call_id=call["id"]))
+                    if call["name"] == self.final_tool:
+                        return {"status": "success", "result": json.dumps(result["result"], ensure_ascii=False), "metadata": metadata()}
             raise ValueError("Model-step budget exhausted")
         except Exception as exc:
             self.logger.warning("Worker failed: %s", type(exc).__name__)
             return {"status": "error", "error": f"{type(exc).__name__}: {exc}", "result": None,
-                    "metadata": {"tools_used": len(executed), "tool_names": executed, "tool_events": events}}
+                    "metadata": metadata()}
 
     def process(self, task_content, parameters=None):
         try:
