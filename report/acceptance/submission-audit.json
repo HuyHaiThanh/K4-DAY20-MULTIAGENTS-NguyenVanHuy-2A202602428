@@ -4,6 +4,8 @@
   "valid_skills": 3,
   "tests_passed": 85,
   "table_matches_records": true,
+  "git_diff_check": true,
+  "git_cached_diff_check": true,
   "all_configs_identical": true,
   "provided_unchanged": true,
   "provided_ast_unchanged": true,

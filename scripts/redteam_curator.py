@@ -41,7 +41,6 @@ def live_cases(out):
             (run / "run.json").write_text(json.dumps({"task": "code-learn", "role": "learn", "checks": [{"name": "rule_regression", "passed": False, "detail": "RULE: add regression tests before claiming completion."}]}))
             (run / "trace.md").write_text(trace)
             model = make_model()
-            model.model_name = "qwen/qwen3.8-27b"
             model.max_tokens = 700
             model.root_client.max_retries = 0
             capture = Capture()

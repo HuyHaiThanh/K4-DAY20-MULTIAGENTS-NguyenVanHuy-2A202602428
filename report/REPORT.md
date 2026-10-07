@@ -10,8 +10,8 @@ Báo cáo theo README.md, GUIDE.md, RUBRIC.md và REPORT_TEMPLATE.md. Chỉ phâ
 
 - OpenAI `gpt-4.1-mini`, endpoint `https://api.openai.com/v1`, temperature 0, recursion_limit 40 cho mọi điều kiện.
 - Deep Agents 0.7.21; Python 3.12.3 trên WSL Linux. make_model provided giữ nguyên: SDK retry 2, timeout 120s; không ép profile context.
-- Kết quả chính: 6/18; development: 3/3; lượt lưu riêng: 2; curator: 1 lần. Usage ghi nhận gồm probe/curator/dev/attempts: 500,167 token.
-- Commit freeze: `Chưa tạo`. Trạng thái: checkpoint đang hoàn thiện. Metadata/lệnh chạy tại OFFICIAL_EXPERIMENTS.md.
+- Kết quả chính: 18/18; development: 3/3; lượt lưu riêng: 2; curator: 1 lần. Usage ghi nhận gồm probe/curator/dev/attempts: 1,055,006 token.
+- Commit freeze: `bdd76f6c05a8fb7fcd56ec59fd386c93937ffb77`. Trạng thái: đủ 18 lượt không lỗi. Metadata/lệnh chạy tại OFFICIAL_EXPERIMENTS.md.
 
 ## 2. Giả thuyết (commit TRƯỚC tag freeze)
 
@@ -73,15 +73,97 @@ Curator gọi OpenAI một lần, 3 skill được validator chấp nhận, khô
 | data-cleaning-and-normalization | Đúng quy trình normalize/date/dedup/giá trị thiếu; thiếu cent, meta và clean.csv. Giữ first occurrence cần kiểm tra lại ở dữ liệu mới có xung đột. | 8 dòng tổng / 4 dòng body; Use this skill when preparing raw data for analysis by normalizing fields, parsing dates, removing duplicates, and handling missing or invalid values. |
 | log-file-parsing-and-aggregation | Đúng các bước severity/UTC/repeat/exception; thiếu cách đổi '-' thành '_', thứ tự sort cụ thể và schema_version/generated_by. | 10 dòng tổng / 6 dòng body; Use this skill when extracting structured error information from raw log files, including filtering by severity, normalizing timestamps, and aggregating repeated messages. |
 
-Description theo tình huống rộng, body 3–6 bullet, không chứa đáp án hoặc định danh eval. Validator không thay thế review ngữ nghĩa; skill có thể hợp lệ nhưng quá chung chung để sửa rule_. Skill-read và hiệu quả thực tế được đối chiếu ở mục 8.
+Description theo tình huống rộng, body 3–6 bullet, không chứa đáp án hoặc định danh eval. Development có skills_read=0 ở cả ba lượt: chưa có skill nào được đọc đầy đủ ở Phần 3.4. Validator không thay thế review ngữ nghĩa; skill có thể hợp lệ nhưng quá chung chung để sửa rule_. Skill-read và hiệu quả thực tế được đối chiếu ở mục 8.
 
 ## 7. Kết quả so sánh
 
-Chưa lập bảng chính thức khi bộ thí nghiệm chưa đủ; không dùng số minh họa thay kết quả.
+| Task | baseline | subagents | skills-auto |
+|---|---|---|---|
+| code-learn | 7/10 | 7/10 | 7/10 |
+| data-learn | 5/8 | 1/8 | 5/8 |
+| logs-learn | 1/9 | 1/9 | 5/9 |
+| code-eval | 7/11 | 7/11 | 7/11 |
+| data-eval | 5/9 | 2/9 | 5/9 |
+| logs-eval | 1/10 | 1/10 | 1/10 |
+| **Mean score - learning tasks** | 0.48 | 0.31 | 0.63 |
+| **Mean score - evaluation tasks** | 0.43 | 0.32 | 0.43 |
+| **Mean tokens per run** | 33,573 | 37,590 | 57,079 |
+| **Runs that read a skill** | 0/6 | 0/6 | 0/6 |
+
+
+```text
+condition     role    technical  house rules  mean tokens  read a skill
+baseline      eval     13/18         0/12          32,414      0/3
+baseline      learn    13/18         0/9           34,733      0/3
+subagents     eval     10/18         0/12          38,373      0/3
+subagents     learn     9/18         0/9           36,808      0/3
+skills-auto   eval     13/18         0/12          54,835      0/3
+skills-auto   learn    17/18         0/9           59,323      0/3
+
+```
+
+18 run cuối không lỗi API/graph và skills_modified=false. Hai lượt code trước sửa CRLF chỉ thuộc attempts, không nằm trong bảng. Không có lượt API/graph lỗi sau freeze; verify_freeze báo checked 6 runs of skill conditions: OK.
 
 ## 8. Phân tích
 
-Phân tích cuối sẽ được điền sau đủ 18 lượt và verify_freeze, không suy diễn từ development như thể đó là điểm eval.
+### 8.1. Điểm học, đánh giá và giả thuyết
+
+| Điều kiện | Mean learn | Mean eval | Δ learn so baseline (điểm %) | Δ eval so baseline (điểm %) |
+|---|---:|---:|---:|---:|
+| baseline | 0.4787 | 0.4306 | +0.00 | +0.00 |
+| subagents | 0.3120 | 0.3195 | -16.67 | -11.11 |
+| skills-auto | 0.6269 | 0.4306 | +14.81 | +0.00 |
+
+H1 phù hợp với quan sát: subagents giảm điểm eval và tăng token trung bình. H2 phù hợp ở eval: skills-auto bằng baseline, không có lợi ích rule_. H3 khớp mẫu điểm +14,81 điểm phần trăm ở learn nhưng +0 ở eval; tuy nhiên toàn bộ mức tăng đến từ logs-learn, cũng là tác vụ biến thiên +44,44 điểm phần trăm giữa development và final của cùng skill. Mẫu này có thể gợi ý transfer yếu/overfitting, nhưng không đủ kết luận overfitting do nội dung skill: không lượt nào đọc SKILL.md và nhiễu cùng cấu hình lớn. Metadata/description đã được nạp vẫn có thể ảnh hưởng ngữ cảnh; thí nghiệm này không tách được ảnh hưởng đó khỏi biến thiên model.
+
+### 8.2. Check kỹ thuật và quy ước mới
+
+Số check kỹ thuật/rule_ ở mục 7 dùng mẫu số riêng cho learn/eval, không gộp hai loại điểm. Check mới trong eval không có ở learn:
+
+- code-eval: `rule_version_bump` — không đạt với skills-auto.
+- data-eval: `rule_sorted_keys_format` — không đạt với skills-auto.
+- logs-eval: `rule_source_line` — không đạt với skills-auto.
+
+Skill không chứa các quy ước mới này vì curator chỉ nhận feedback learn. Đó là giới hạn transfer hợp lệ của thiết kế, không phải lý do để đọc eval rồi bổ sung skill sau freeze.
+
+### 8.3. Skill có được đọc và giúp check nào?
+
+| Tác vụ | skills_read | Điểm skills-auto |
+|---|---:|---:|
+| code-eval | 0 | 7/11 |
+| code-learn | 0 | 7/10 |
+| data-eval | 0 | 5/9 |
+| data-learn | 0 | 5/8 |
+| logs-eval | 0 | 1/10 |
+| logs-learn | 0 | 5/9 |
+
+Có 0/6 lượt đọc ít nhất một SKILL.md. Metadata skill được nạp không đồng nghĩa nội dung được đọc. Trace ghi file/code/output nhưng phải có read_file đường dẫn skills/... để tính đã đọc.
+Một check cải thiện là entry_count của logs-learn: baseline không đạt, final skills-auto đạt. Trace final đọc README, viết parser và execute Python, trong khi baseline ghi JSON thủ công; đây là bằng chứng về thay đổi cách giải. Không có read_file skill nên không thể khẳng định body skill đã giúp check này. Các check timestamp/repeat/counts cũng đạt hơn, nhưng exception_fields vẫn sai. Ví dụ rule_ không được giúp: rule_type_hints vẫn thất bại dù skill nhắc annotation; rule_money_in_cents thất bại và body skill còn thiếu đơn vị cent. Các check đã đạt ở baseline không được tính như thành công mới của skill.
+
+### 8.4. Chi phí và hiệu quả
+
+| Điều kiện | Mean token/run | Mean giây/run | Mean score / 1.000 token |
+|---|---:|---:|---:|
+| baseline | 33,573.50 | 19.65 | 0.013543 |
+| subagents | 37,590.83 | 17.20 | 0.008401 |
+| skills-auto | 57,079.67 | 20.10 | 0.009263 |
+
+Token trung bình subagents so baseline: +11.97%; skills-auto: +70.01%. Token gồm các lượt subagent dù trace chỉ có luồng chính. Chi phí curator 6,456 token nằm ngoài mean sáu lượt/condition.
+Chỉ số score/1.000 token là tỷ lệ mô tả, không phải giá tiền hay quality production. Với điểm không tăng và delegation chưa được kiểm chứng tốt, chưa có bằng chứng đa tác tử đáng chi phí trong bộ tác vụ này. Những lượt không gọi task vẫn thuộc condition subagents, không bị loại để làm đẹp kết quả.
+
+### 8.5. Rò rỉ và tính tổng quát
+
+Curator lọc role=learn, raw prompt chỉ từ ba baseline learn. Review không thấy đáp án/con số/định danh eval trong 3 skill; validate_skill chấp nhận, hash skills cố định. Không sửa tay skill, không sửa prompt/subagent sau freeze, eval chỉ chạy sau commit/tag. Quy ước output được phép giữ theo 05_skill_quality.md; skill hiện tại lại bỏ sót nhiều quy ước, nên format hợp lệ chưa bảo đảm hiệu quả.
+
+### 8.6. Nhiễu development và sau freeze
+
+| Learn | Development | Sau freeze | Chênh lệch điểm % | Token dev → final |
+|---|---:|---:|---:|---:|
+| code-learn | 7/10 | 7/10 | +0.00 | 66,170 → 74,546 |
+| data-learn | 5/8 | 5/8 | +0.00 | 73,020 → 62,268 |
+| logs-learn | 1/9 | 5/9 | +44.44 | 27,108 → 41,157 |
+
+Hai bộ dùng cùng hash skill và cấu hình. Logs-learn biến thiên 4/9 = 44,44 điểm phần trăm, đúng bằng mức tăng so baseline; vì vậy chưa thể tách lợi ích của condition skills-auto khỏi nhiễu. Chênh lệch không phải một vòng học mới. Code/data bằng điểm không chứng minh không có nhiễu: token/tool calls/cách làm vẫn khác, và hai lượt không đủ ước lượng phương sai.
 
 ## 9. Hạn chế và tính hợp lệ
 
@@ -93,7 +175,7 @@ Phân tích cuối sẽ được điền sau đủ 18 lượt và verify_freeze,
 
 ## 10. Kết luận
 
-Chỉ kết luận cuối khi bộ thí nghiệm và review hoàn tất.
+Bộ thí nghiệm có kết quả hạn chế: thêm subagent hoặc skill tự sinh không tự động bảo đảm cải thiện. Skill hợp lệ nhưng chưa được đọc/thiếu quy tắc cụ thể không đủ truyền tri thức từ feedback. Chi phí phải đối chiếu cùng điểm, không chỉ số lượng agent. Đề xuất tiếp theo: thử model tuân thủ việc đọc skill tốt hơn trong một thí nghiệm mới và lặp nhiều lần, không đổi skill của bộ đã freeze.
 
 ## Phụ lục
 

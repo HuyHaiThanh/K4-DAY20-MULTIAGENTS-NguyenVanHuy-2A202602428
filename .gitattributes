@@ -1,0 +1,8 @@
+# Use canonical Git LF for text across Windows/WSL, including byte-hashed tests
+# and frozen skills. Binary files retain automatic binary detection.
+* text=auto eol=lf
+
+# PROVIDED render_trace truncates message text at 1500 characters; raw traces
+# may therefore end in a space. Preserve evidence instead of editing traces.
+results/**/trace.md -whitespace
+report/openai-attempts/**/trace.md -whitespace

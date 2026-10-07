@@ -1,0 +1,3 @@
+baseline      code-eval   score=7/11 tokens=50169 calls=16 25.3s
+baseline      data-eval   score=5/9 tokens=24186 calls=6 9.8s
+baseline      logs-eval   score=1/10 tokens=22887 calls=4 24.3s

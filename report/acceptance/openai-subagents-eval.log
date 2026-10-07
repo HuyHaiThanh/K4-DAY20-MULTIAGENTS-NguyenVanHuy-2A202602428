@@ -1,0 +1,3 @@
+subagents     code-eval   score=7/11 tokens=28742 calls=10 21.3s
+subagents     data-eval   score=2/9 tokens=63785 calls=8 20.6s
+subagents     logs-eval   score=1/10 tokens=22592 calls=4 10.5s

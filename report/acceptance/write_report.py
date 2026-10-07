@@ -79,21 +79,69 @@ for path in skills:
     body = text.split("---", 2)[2].strip().splitlines()
     desc = next(x.split(":", 1)[1].strip() for x in text.splitlines() if x.startswith("description:"))
     lines.append(f"| {path.parent.name} | {notes[path.parent.name]} | {len(text.splitlines())} dòng tổng / {len(body)} dòng body; {desc} |")
-lines += ["", "Description theo tình huống rộng, body 3–6 bullet, không chứa đáp án hoặc định danh eval. Validator không thay thế review ngữ nghĩa; skill có thể hợp lệ nhưng quá chung chung để sửa rule_. Skill-read và hiệu quả thực tế được đối chiếu ở mục 8.", "",
+lines += ["", "Description theo tình huống rộng, body 3–6 bullet, không chứa đáp án hoặc định danh eval. Development có skills_read=0 ở cả ba lượt: chưa có skill nào được đọc đầy đủ ở Phần 3.4. Validator không thay thế review ngữ nghĩa; skill có thể hợp lệ nhưng quá chung chung để sửa rule_. Skill-read và hiệu quả thực tế được đối chiếu ở mục 8.", "",
     "## 7. Kết quả so sánh", ""]
 if complete:
     lines += [(root / "report/table.md").read_text(encoding="utf-8"), "", "```text", (root / "report/check-breakdown.txt").read_text(), "```", "",
-        "18 run cuối không lỗi API/graph và skills_modified=false. Hai lượt code trước sửa CRLF chỉ thuộc attempts, không nằm trong bảng. Nếu có lượt graph/API lỗi sau freeze, xem openai-attempts và OFFICIAL_EXPERIMENTS.md; bảng chỉ dùng lượt hoàn tất."]
+        "18 run cuối không lỗi API/graph và skills_modified=false. Hai lượt code trước sửa CRLF chỉ thuộc attempts, không nằm trong bảng. Không có lượt API/graph lỗi sau freeze; verify_freeze báo checked 6 runs of skill conditions: OK."]
 else:
     lines += ["Chưa lập bảng chính thức khi bộ thí nghiệm chưa đủ; không dùng số minh họa thay kết quả."]
-lines += ["", "## 8. Phân tích", "", "Phân tích cuối sẽ được điền sau đủ 18 lượt và verify_freeze, không suy diễn từ development như thể đó là điểm eval.", "",
+lines += ["", "## 8. Phân tích", ""]
+if complete:
+    averages = {(c, role): mean(r['score'] for (cc, _), r in runs.items() if cc == c and r['role'] == role)
+                for c in conditions for role in ('learn', 'eval')}
+    lines += ["### 8.1. Điểm học, đánh giá và giả thuyết", "",
+        "| Điều kiện | Mean learn | Mean eval | Δ learn so baseline (điểm %) | Δ eval so baseline (điểm %) |",
+        "|---|---:|---:|---:|---:|"]
+    for c in conditions:
+        lines.append(f"| {c} | {averages[c,'learn']:.4f} | {averages[c,'eval']:.4f} | {(averages[c,'learn']-averages['baseline','learn'])*100:+.2f} | {(averages[c,'eval']-averages['baseline','eval'])*100:+.2f} |")
+    lines += ["", "H1 phù hợp với quan sát: subagents giảm điểm eval và tăng token trung bình. H2 phù hợp ở eval: skills-auto bằng baseline, không có lợi ích rule_. H3 khớp mẫu điểm +14,81 điểm phần trăm ở learn nhưng +0 ở eval; tuy nhiên toàn bộ mức tăng đến từ logs-learn, cũng là tác vụ biến thiên +44,44 điểm phần trăm giữa development và final của cùng skill. Mẫu này có thể gợi ý transfer yếu/overfitting, nhưng không đủ kết luận overfitting do nội dung skill: không lượt nào đọc SKILL.md và nhiễu cùng cấu hình lớn. Metadata/description đã được nạp vẫn có thể ảnh hưởng ngữ cảnh; thí nghiệm này không tách được ảnh hưởng đó khỏi biến thiên model.", "",
+        "### 8.2. Check kỹ thuật và quy ước mới", "",
+        "Số check kỹ thuật/rule_ ở mục 7 dùng mẫu số riêng cho learn/eval, không gộp hai loại điểm. Check mới trong eval không có ở learn:", ""]
+    learning_rules = {k['name'] for (c,t),r in runs.items() if c == 'baseline' and r['role'] == 'learn' for k in r['checks'] if k['name'].startswith('rule_')}
+    for task in ('code-eval','data-eval','logs-eval'):
+        r = runs['skills-auto',task]
+        for k in r['checks']:
+            if k['name'].startswith('rule_') and k['name'] not in learning_rules:
+                lines.append(f"- {task}: `{k['name']}` — {'đạt' if k['passed'] else 'không đạt'} với skills-auto.")
+    lines += ["", "Skill không chứa các quy ước mới này vì curator chỉ nhận feedback learn. Đó là giới hạn transfer hợp lệ của thiết kế, không phải lý do để đọc eval rồi bổ sung skill sau freeze.", "",
+        "### 8.3. Skill có được đọc và giúp check nào?", "",
+        "| Tác vụ | skills_read | Điểm skills-auto |", "|---|---:|---:|"]
+    for task in sorted(t for c,t in runs if c == 'skills-auto'):
+        r=runs['skills-auto',task]
+        lines.append(f"| {task} | {r['skills_read']} | {r['passed']}/{r['total']} |")
+    reads = sum(r['skills_read'] > 0 for (c,_),r in runs.items() if c == 'skills-auto')
+    lines += ["", f"Có {reads}/6 lượt đọc ít nhất một SKILL.md. Metadata skill được nạp không đồng nghĩa nội dung được đọc. Trace ghi file/code/output nhưng phải có read_file đường dẫn skills/... để tính đã đọc.",
+        "Một check cải thiện là entry_count của logs-learn: baseline không đạt, final skills-auto đạt. Trace final đọc README, viết parser và execute Python, trong khi baseline ghi JSON thủ công; đây là bằng chứng về thay đổi cách giải. Không có read_file skill nên không thể khẳng định body skill đã giúp check này. Các check timestamp/repeat/counts cũng đạt hơn, nhưng exception_fields vẫn sai. Ví dụ rule_ không được giúp: rule_type_hints vẫn thất bại dù skill nhắc annotation; rule_money_in_cents thất bại và body skill còn thiếu đơn vị cent. Các check đã đạt ở baseline không được tính như thành công mới của skill.", "",
+        "### 8.4. Chi phí và hiệu quả", "",
+        "| Điều kiện | Mean token/run | Mean giây/run | Mean score / 1.000 token |", "|---|---:|---:|---:|"]
+    for c in conditions:
+        rs = [r for (cc,_),r in runs.items() if cc == c]
+        mt=mean(r['tokens']['total'] for r in rs)
+        lines.append(f"| {c} | {mt:,.2f} | {mean(r['seconds'] for r in rs):.2f} | {mean(r['score'] for r in rs)/mt*1000:.6f} |")
+    baseline_tokens=mean(r['tokens']['total'] for (c,_),r in runs.items() if c == 'baseline')
+    sub_tokens=mean(r['tokens']['total'] for (c,_),r in runs.items() if c == 'subagents')
+    skill_tokens=mean(r['tokens']['total'] for (c,_),r in runs.items() if c == 'skills-auto')
+    lines += ["", f"Token trung bình subagents so baseline: {(sub_tokens/baseline_tokens-1)*100:+.2f}%; skills-auto: {(skill_tokens/baseline_tokens-1)*100:+.2f}%. Token gồm các lượt subagent dù trace chỉ có luồng chính. Chi phí curator {curator_tokens:,} token nằm ngoài mean sáu lượt/condition.",
+        "Chỉ số score/1.000 token là tỷ lệ mô tả, không phải giá tiền hay quality production. Với điểm không tăng và delegation chưa được kiểm chứng tốt, chưa có bằng chứng đa tác tử đáng chi phí trong bộ tác vụ này. Những lượt không gọi task vẫn thuộc condition subagents, không bị loại để làm đẹp kết quả.", "",
+        "### 8.5. Rò rỉ và tính tổng quát", "",
+        "Curator lọc role=learn, raw prompt chỉ từ ba baseline learn. Review không thấy đáp án/con số/định danh eval trong 3 skill; validate_skill chấp nhận, hash skills cố định. Không sửa tay skill, không sửa prompt/subagent sau freeze, eval chỉ chạy sau commit/tag. Quy ước output được phép giữ theo 05_skill_quality.md; skill hiện tại lại bỏ sót nhiều quy ước, nên format hợp lệ chưa bảo đảm hiệu quả.", "",
+        "### 8.6. Nhiễu development và sau freeze", "",
+        "| Learn | Development | Sau freeze | Chênh lệch điểm % | Token dev → final |", "|---|---:|---:|---:|---:|"]
+    for task,r in sorted(dev.items()):
+        final=runs['skills-auto',task]
+        lines.append(f"| {task} | {r['passed']}/{r['total']} | {final['passed']}/{final['total']} | {(final['score']-r['score'])*100:+.2f} | {r['tokens']['total']:,} → {final['tokens']['total']:,} |")
+    lines += ["", "Hai bộ dùng cùng hash skill và cấu hình. Logs-learn biến thiên 4/9 = 44,44 điểm phần trăm, đúng bằng mức tăng so baseline; vì vậy chưa thể tách lợi ích của condition skills-auto khỏi nhiễu. Chênh lệch không phải một vòng học mới. Code/data bằng điểm không chứng minh không có nhiễu: token/tool calls/cách làm vẫn khác, và hai lượt không đủ ước lượng phương sai."]
+else:
+    lines += ["Chờ đủ 18 lượt và verify_freeze trước khi phân tích eval."]
+lines += ["",
     "## 9. Hạn chế và tính hợp lệ", "",
     "1. Chỉ ba tác vụ mỗi role, mỗi condition một lượt: không đủ ước lượng phương sai hoặc kết luận thống kê về khả năng tổng quát.",
     "2. Nhiệt độ 0 không bảo đảm kết quả giống nhau; điểm development/post-freeze cùng skill là kiểm tra nhiễu nhỏ, không phải nhiều lần lặp độc lập.",
     "3. Quy ước Acme và dữ liệu do giảng viên thiết kế; lợi ích học rule_ không đại diện toàn bộ tác vụ thực tế hoặc mọi model.",
     "4. Trace chỉ luồng chính, bị renderer cắt mỗi message 1500 ký tự; token cộng cả subagent nhưng không đủ để dựng lại mọi thao tác nội bộ.",
     "5. CRLF Windows làm check hash sai; đã trả đúng blob LF và rerun thay vì sửa grader/điểm. Token usage không phải hóa đơn, lượt API lỗi có thể thiếu usage.", "",
-    "## 10. Kết luận", "", "Chỉ kết luận cuối khi bộ thí nghiệm và review hoàn tất.", "",
+    "## 10. Kết luận", "", "Bộ thí nghiệm có kết quả hạn chế: thêm subagent hoặc skill tự sinh không tự động bảo đảm cải thiện. Skill hợp lệ nhưng chưa được đọc/thiếu quy tắc cụ thể không đủ truyền tri thức từ feedback. Chi phí phải đối chiếu cùng điểm, không chỉ số lượng agent. Đề xuất tiếp theo: thử model tuân thủ việc đọc skill tốt hơn trong một thí nghiệm mới và lặp nhiều lần, không đổi skill của bộ đã freeze." if complete else "Chờ hoàn tất thí nghiệm và review cuối.", "",
     "## Phụ lục", "", "Lệnh và thứ tự: TESTING.md, OFFICIAL_EXPERIMENTS.md. Bonus GUIDE 6c ngoại tuyến ở bonus-redteam/README.md; model scripted chứng minh giới hạn validator, không đo xác suất tấn công OpenAI thành công. Extension độc lập chỉ được kiểm chứng offline và không thay điểm thí nghiệm gốc.", ""]
-(root / "report/REPORT.md").write_text("\n".join(lines), encoding="utf-8")
+(root / "report/REPORT.md").write_text("\n".join(line.rstrip() for line in "\n".join(lines).splitlines())+"\n", encoding="utf-8")
 print("Report assembled; complete:", complete, "runs:", len(runs), flush=True)
