@@ -1,6 +1,0 @@
-skills-auto   code-eval   score=7/11 tokens=62864 calls=16 28.6s
-skills-auto   code-learn  score=7/10 tokens=74546 calls=17 27.9s
-skills-auto   data-eval   score=5/9 tokens=80472 calls=9 16.1s
-skills-auto   data-learn  score=5/8 tokens=62268 calls=9 24.7s
-skills-auto   logs-eval   score=1/10 tokens=21171 calls=4 9.8s
-skills-auto   logs-learn  score=5/9 tokens=41157 calls=7 13.5s

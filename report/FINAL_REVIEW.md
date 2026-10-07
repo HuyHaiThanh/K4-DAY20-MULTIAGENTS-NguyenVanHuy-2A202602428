@@ -1,28 +1,11 @@
-# Review cu?i ? 2026-10-07
+# Review cuối theo phạm vi repo gốc
 
-??i chi?u README.md, GUIDE.md, RUBRIC.md, REPORT_TEMPLATE.md v? guides/pseudocode/01?05.
+Nguồn yêu cầu: README.md mục 5, GUIDE.md, RUBRIC.md, REPORT_TEMPLATE.md và guides/pseudocode/. Checklist Coordinator/BaseWorker/MessageQueue/tools/benchmark không phải checklist của repo này. Đã gỡ 244 file bổ sung thuộc phần mở rộng và các kết quả/debug/coverage/benchmark trùng lặp; không nộp bonus.
 
-## Gate ??t
+Giữ toàn bộ tệp được repo gốc cung cấp; bốn tệp TODO đã triển khai; skills/auto; 18 kết quả chính và 3 lượt development; report/REPORT.md đủ 10 mục và report/table.md. Bằng chứng hỗ trợ giới hạn ở cấu hình, đầu ra curator, hai lượt CRLF đã ghi chú, thống kê checks và kết quả kiểm tra cuối. .gitattributes giữ LF để kiểm tra hash hoạt động đúng khi dùng Windows/WSL.
 
-- 18/18 l??t cu?i OpenAI gpt-4.1-mini c? run.json/trace.md, usage > 0, error=null, skills_modified=false v? c?ng configuration.json.
-- 3 l??t skills-auto development l?u ri?ng, c?ng hash skill nh? l??t sau freeze.
-- 3 skill do curator sinh m?t l?n, raw prompt/response/usage gi? nguy?n. Review kh?ng th?y ch? d?n g?y h?i; ghi nh?n thi?u quy ??c c? th?, kh?ng ch?nh tay.
-- Hypotheses 483c048 tr??c freeze bdd76f6; eval/skills-auto cu?i sau freeze. verify_freeze: checked 6 runs of skill conditions: OK.
-- lab.compare sinh b?ng kh?p t?ng run; check_breakdown t?ch learn/eval v? technical/rule_. Ch? trim kho?ng tr?ng cu?i d?ng c?a b?ng th?ng k? khi d?n v?o b?o c?o. Trace gi? nguy?n output renderer provided; .gitattributes cho ph?p trailing whitespace ri?ng tr?n trace do c?t message ? 1500 k? t?, kh?ng s?a b?ng ch?ng.
-- Full suite Linux: 85 passed in 30.54s; log/XML t?i acceptance/pytest-final-review.*.
-- Audit AST v? Git x?c nh?n task/test/script/module provided kh?ng thay ??i. Ch? s?a h?m TODO ???c ph?p v? helper/extension ri?ng.
-- Scan key kh?ng th?y key trong artifact; .env b? Git b? qua. Kh?ng c?n k?t qu? API c?u h?nh c? trong b?o c?o.
+Kiểm tra sau khi gỡ: 29/29 test gốc đạt; verify_freeze checked 6 runs: OK; bảng khớp run.json; cùng cấu hình OpenAI; không sửa các tệp/AST provided; không tìm thấy key hiện tại trong các tệp đã kiểm tra. Hash skill vẫn đúng tag freeze. Không thay giả thuyết, skill hoặc điểm để cải thiện kết quả.
 
-B?ng ch?ng m?y ki?m tra: acceptance/submission-audit.json v? submission-audit.log; status cu?i ???c t?nh t? run.json v? audit, kh?ng t? checkpoint tr??c eval.
+Phản biện: kết quả kỹ thuật không phải điểm tác vụ tối đa. Skills_read bằng 0 trong tất cả lượt chính; eval skills-auto bằng baseline, tăng token. Mức tăng logs-learn cũng bằng biến thiên development/final; không đủ chứng minh hiệu quả học hoặc overfitting. Không đánh đồng 29 test harness đạt với các checks tác vụ model đều đạt.
 
-## T? ph?n bi?n v? c?i thi?n
-
-1. Hash test b? CRLF: kh?i ph?c ??ng blob LF Git, rerun hai l??t code v? gi? attempts ri?ng. .gitattributes th?ng nh?t Git Windows/WSL; kh?ng s?a grader ho?c skill sau freeze.
-2. Prompt curator l?m r? ngo?i l? t?n output thu?c house rules theo 05_skill_quality.md tr??c freeze; 2/2 test curator ??t.
-3. Skill h?p l? kh?ng ??ng ngh?a h?u ?ch: 0/6 l??t cu?i ??c SKILL.md; rule_ ??u th?t b?i. Kh?ng nh?n c?c check baseline ?? ??t l? th?nh c?ng m?i c?a skill.
-4. Logs-learn t?ng 1/9 ? 5/9 nh?ng development/final c?ng skill c?ng bi?n thi?n 4/9; kh?ng k?t lu?n l?i ?ch nh?n qu? ho?c overfitting ch?c ch?n. Trace final ??c README/ch?y parser gi?i th?ch thay ??i c?ch l?m.
-5. Mean eval baseline/skills-auto 0,4306, subagents 0,3195; skill/subagent t?n token h?n. K?t lu?n theo s? li?u; ho?n th?nh th? nghi?m kh?ng ??ng ngh?a agent ??t 100% check.
-
-## Gi?i h?n
-
-M?t model, ba task m?i role, m?t l??t m?i condition: ch?a ?? th?ng k? variance. Bonus red-team scripted kh?ng ?o kh? n?ng t?n c?ng OpenAI th?t. H? s? local ?? s?n ph?m b?t bu?c theo README m?c 5; ch?a x?c nh?n n?p tr?n n?n t?ng h?c.
+Các tệp mở rộng có thể còn trong lịch sử Git, nhưng đã gỡ khỏi cây bản nộp hiện tại; không viết lại lịch sử vì cần giữ hypotheses và freeze. REPORT.md ở thư mục gốc là mẫu cục bộ chưa tracked, không nằm trong bản nộp. GitHub/VLearn chỉ được coi là nộp khi xác minh xuất bản thành công.

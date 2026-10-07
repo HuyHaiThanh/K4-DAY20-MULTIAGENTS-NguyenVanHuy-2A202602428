@@ -1,3 +1,0 @@
-subagents     code-learn  score=6/10 tokens=65113 calls=17 25.6s
-subagents     data-learn  score=1/8 tokens=46453 calls=5 19.7s
-subagents     logs-learn  score=1/9 tokens=15876 calls=2 7.2s

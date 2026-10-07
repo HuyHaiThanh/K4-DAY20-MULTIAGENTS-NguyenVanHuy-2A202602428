@@ -1,23 +1,9 @@
-# Th? nghi?m ch?nh th?c OpenAI
+# Thí nghiệm chính thức OpenAI
 
-Ngu?n: README.md, GUIDE.md, RUBRIC.md v? guides/pseudocode/01?05. Ng??i d?ng ?? ??ng ? g?i ?? b?i/code/d? li?u sandbox v? trace/feedback ??n OpenAI API. Key ch? n?m trong .env ???c Git b? qua. Kh?ng ghi ??nh danh ho?c gi? tr? key.
+Bám theo README.md, GUIDE.md, RUBRIC.md và guides/pseudocode/. Chỉ dùng OpenAI gpt-4.1-mini, endpoint https://api.openai.com/v1, nhiệt độ 0, recursion_limit 40; Deep Agents 0.7.21 trên WSL Python 3.12.3. Configuration.json ghi tham số, không ghi key; .env không được nộp.
 
-## C?u h?nh chung
+Thứ tự: baseline learn → subagents learn → curator → skills-auto learn development → hypotheses commit → freeze commit/tag → baseline/subagents eval → skills-auto all. Ba lượt development giữ tại results/skills-auto-dev. Hai lượt code bị lỗi kiểm tra hash do CRLF được lưu riêng tại openai-attempts/crlf-before-normalization; đã khôi phục byte LF đúng Git blob và chạy lại, không sửa grader hoặc chọn điểm bằng tay.
 
-- Provider OpenAI, endpoint https://api.openai.com/v1, model gpt-4.1-mini.
-- Nhi?t ?? 0; recursion_limit 40 cho m?i condition.
-- make_model() provided gi? nguy?n: timeout 120s; SDK retry m?c ??nh 2. Kh?ng ?p profile/context ho?c model kh?c trong th? nghi?m n?y.
-- Deep Agents 0.7.21, Python WSL 3.12.3, shell Linux; backend kh?ng k? th?a bi?n m?i tr??ng.
+Curator gọi một lần; prompt/response/usage nguyên bản tại curator/. Không sửa tay skill sau sinh; giữ nguyên skills/auto từ tag freeze. Bảng chính gồm 18 lượt, không gộp development hoặc các lượt trước sửa CRLF. Các lệnh chuẩn nằm trong GUIDE.md; không cần script của phần mở rộng.
 
-## Tr?nh t?
-
-1. Probe GUIDE 0.2: OK, 11 token.
-2. Baseline learn r?i subagents learn. Hai l??t code ??u c? false failure do CRLF c?a test g?c; kh?i ph?c byte LF ??ng blob Git v? ch?y l?i. L??t tr??c ???c gi? ri?ng trong openai-attempts/crlf-before-normalization, kh?ng thay ??i ?i?m b?ng tay.
-3. Curator t? feedback baseline learn, t?i ?a 3 skill, raw prompt/output/usage trong curator/. Review n?i dung nguy?n v?n theo 05_skill_quality.md; kh?ng s?a tay skill.
-4. Skills-auto learn development, l?u results/skills-auto-dev. Gi? thuy?t commit tr??c freeze; freeze commit/tag tr??c m?i l??t eval.
-5. Baseline/subagents eval; skills-auto all. Run l?i API ho?c recursion ???c l?u v? ghi r?; kh?ng ch?n l??t ?i?m cao h?n khi run kh?ng l?i.
-6. verify_freeze, lab.compare, check_breakdown, report v? review cu?i.
-
-L?nh t??ng ?ng trong TESTING.md. C?c log ??u ? acceptance/openai-*.log. Configuration.json ghi model v? tham s? kh?ng ch?a key. Chi ph? token l? usage ???c provider tr? v?; kh?ng suy ra h?a ??n t? l??t l?i kh?ng c? usage.
-
-K?t qu? API c?u h?nh c? ?? ???c x?a theo y?u c?u; ch? b? OpenAI hi?n t?i ???c d?ng trong b?ng so s?nh. Gi? k?t qu? offline/scripted ri?ng v? kh?ng d?ng ?? thay ?i?m t?c v? g?c.
+Kiểm tra: `pytest tests`, `python scripts/verify_freeze.py`, `python -m lab.compare`, `python scripts/check_breakdown.py`. Kết quả kiểm tra cuối tại acceptance/pytest-final-review.txt và acceptance/submission-audit.json. Không có benchmark Coordinator/Worker, cache hoặc bonus trong bản nộp này. Token usage không tương đương hóa đơn.

@@ -2,7 +2,7 @@
   "final_runs": 18,
   "development_runs": 3,
   "valid_skills": 3,
-  "tests_passed": 85,
+  "tests_passed": 29,
   "table_matches_records": true,
   "git_diff_check": true,
   "git_cached_diff_check": true,

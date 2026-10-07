@@ -1,69 +1,8 @@
-........................................................................ [ 84%]
-.............                                                            [100%]
+.............................                                            [100%]
 ==================================== PASSES ====================================
-______________________________ test_execute_tasks ______________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.coordinator:coordinator.py:131 task=b status=timeout attempt=1
-________________________ test_retry_only_failed_workers ________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.coordinator:coordinator.py:131 task=request-f645de13d9f8418992328b87e3a0c9e3-1 status=error attempt=1
-____________________________ test_retry_exhaustion _____________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.coordinator:coordinator.py:131 task=a status=error attempt=1
-WARNING  lab.coordinator:coordinator.py:131 task=a status=error attempt=2
-WARNING  lab.coordinator:coordinator.py:131 task=a status=error attempt=3
-______________________ test_multiple_tool_calls_and_error ______________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.data_agent:base_worker.py:76 Worker failed: ValueError
-_________________________ test_budget_and_state_reset __________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.data_agent:base_worker.py:76 Worker failed: ValueError
-WARNING  lab.data_agent:base_worker.py:76 Worker failed: ValueError
-_________________________ test_file_boundary_and_edit __________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.tools.create_file:base_tool.py:35 Tool failed: ValueError
-WARNING  lab.tools.create_file:base_tool.py:35 Tool failed: FileExistsError
-____________ test_queue_coordinator_out_of_order_and_worker_failure ____________
------------------------------- Captured log call -------------------------------
-WARNING  lab.coordinator:coordinator.py:131 task=bad status=error attempt=1
-_______________________ test_queue_timeout_cleans_worker _______________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.coordinator:coordinator.py:131 task=request-58e564dfba6f41db97b3b6961e02610f-0 status=timeout attempt=1
-____________________ test_data_dirty_input_and_tool_failure ____________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.data_agent:base_worker.py:76 Worker failed: ValueError
-_________________ test_queue_real_worker_error_is_not_success __________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.data_agent:base_worker.py:76 Worker failed: ValueError
-WARNING  lab.coordinator:coordinator.py:131 task=request-02de8c92b2fa41b0983c332d9414e8e7-0 status=error attempt=1
-WARNING  lab.data_agent:base_worker.py:76 Worker failed: ValueError
-WARNING  lab.coordinator:coordinator.py:131 task=request-02de8c92b2fa41b0983c332d9414e8e7-0 status=error attempt=2
 ________________ test_curator_does_nothing_when_nothing_failed _________________
 ----------------------------- Captured stdout call -----------------------------
 No failed checks in learning tasks; no model call.
-___________________________ test_query_database_tool ___________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.tools.query_database:base_tool.py:35 Tool failed: ValueError
-WARNING  lab.tools.query_database:base_tool.py:35 Tool failed: OperationalError
-WARNING  lab.tools.query_database:base_tool.py:35 Tool failed: ProgrammingError
-WARNING  lab.tools.query_database:base_tool.py:35 Tool failed: DataError
-WARNING  lab.tools.query_database:base_tool.py:35 Tool failed: ValidationError
-____________________________ test_python_repl_tool _____________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.tools.python_repl:base_tool.py:35 Tool failed: ValueError
-WARNING  lab.tools.python_repl:base_tool.py:35 Tool failed: ValueError
-____________________________ test_create_file_tool _____________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.tools.create_file:base_tool.py:35 Tool failed: FileExistsError
-WARNING  lab.tools.create_file:base_tool.py:35 Tool failed: ValueError
-______________________________ test_scoring_tool _______________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.tools.score_result:base_tool.py:35 Tool failed: ValueError
-WARNING  lab.tools.score_result:base_tool.py:35 Tool failed: ValueError
-WARNING  lab.tools.score_result:base_tool.py:35 Tool failed: ValueError
-__________________________ test_chart_and_data_tools ___________________________
------------------------------- Captured log call -------------------------------
-WARNING  lab.tools.create_visualization:base_tool.py:35 Tool failed: ValueError
 =========================== short test summary info ============================
 PASSED tests/test_01_provided.py::test_six_tasks_three_families
 PASSED tests/test_01_provided.py::test_untouched_workspace_does_not_score_full
@@ -86,68 +25,11 @@ PASSED tests/test_02_agent.py::test_subagents_mode_adds_subagents_and_delegation
 PASSED tests/test_02_agent.py::test_skills_are_loaded_only_when_requested
 PASSED tests/test_02_agent.py::test_unknown_mode_is_rejected
 PASSED tests/test_02_agent.py::test_subagents_receive_the_path_convention
-PASSED tests/test_02_coordinator.py::test_coordinator_init
-PASSED tests/test_02_coordinator.py::test_parse_request
-PASSED tests/test_02_coordinator.py::test_route_task
-PASSED tests/test_02_coordinator.py::test_execute_tasks
-PASSED tests/test_02_coordinator.py::test_aggregate_results
-PASSED tests/test_02_coordinator.py::test_retry_only_failed_workers
-PASSED tests/test_02_coordinator.py::test_capacity_and_cancellation
-PASSED tests/test_02_coordinator.py::test_sync_and_async_entries
-PASSED tests/test_02_coordinator.py::test_retry_exhaustion
-PASSED tests/test_02_coordinator.py::test_workers_really_run_concurrently
-PASSED tests/test_02_coordinator.py::test_invalid_timeout_is_rejected_before_execution[0]
-PASSED tests/test_02_coordinator.py::test_invalid_timeout_is_rejected_before_execution[-1]
-PASSED tests/test_02_coordinator.py::test_invalid_timeout_is_rejected_before_execution[nan]
-PASSED tests/test_02_coordinator.py::test_invalid_timeout_is_rejected_before_execution[inf]
-PASSED tests/test_02_coordinator.py::test_invalid_timeout_is_rejected_before_execution[True]
 PASSED tests/test_03_runner.py::test_three_conditions_defined
 PASSED tests/test_03_runner.py::test_run_task_saves_a_complete_record
 PASSED tests/test_03_runner.py::test_task_workspace_in_repo_is_never_modified
 PASSED tests/test_03_runner.py::test_errors_are_recorded_not_raised
 PASSED tests/test_03_runner.py::test_modifying_skills_is_flagged
 PASSED tests/test_03_runner.py::test_skill_reads_and_subagent_calls_are_counted
-PASSED tests/test_03_workers.py::test_data_agent_init
-PASSED tests/test_03_workers.py::test_data_agent_process
-PASSED tests/test_03_workers.py::test_code_agent_process
-PASSED tests/test_03_workers.py::test_evaluator_agent
-PASSED tests/test_03_workers.py::test_multiple_tool_calls_and_error
-PASSED tests/test_03_workers.py::test_budget_and_state_reset
-PASSED tests/test_03_workers.py::test_restricted_python_rejects_unsafe_code[import os]
-PASSED tests/test_03_workers.py::test_restricted_python_rejects_unsafe_code[while True: pass]
-PASSED tests/test_03_workers.py::test_restricted_python_rejects_unsafe_code[print(open('secret'))]
-PASSED tests/test_03_workers.py::test_restricted_python_rejects_unsafe_code[print((1).__class__)]
-PASSED tests/test_03_workers.py::test_restricted_python_rejects_unsafe_code[print('x' * 100000)]
-PASSED tests/test_03_workers.py::test_restricted_python_rejects_unsafe_code[print(2 ** 100000)]
-PASSED tests/test_03_workers.py::test_file_boundary_and_edit
-PASSED tests/test_03_workers.py::test_readonly_database
-PASSED tests/test_03_workers.py::test_queue_copy_capacity_and_timeout
-PASSED tests/test_03_workers.py::test_queue_coordinator_out_of_order_and_worker_failure
-PASSED tests/test_03_workers.py::test_queue_timeout_cleans_worker
-PASSED tests/test_03_workers.py::test_invalid_evaluator_output
-PASSED tests/test_03_workers.py::test_queue_direct_exchange_deadline_and_error
-PASSED tests/test_03_workers.py::test_data_dirty_input_and_tool_failure
-PASSED tests/test_03_workers.py::test_queue_real_worker_error_is_not_success
 PASSED tests/test_04_curator.py::test_curator_writes_only_valid_skills_and_never_leaks
 PASSED tests/test_04_curator.py::test_curator_does_nothing_when_nothing_failed
-PASSED tests/test_04_tools.py::test_query_database_tool
-PASSED tests/test_04_tools.py::test_python_repl_tool
-PASSED tests/test_04_tools.py::test_create_file_tool
-PASSED tests/test_04_tools.py::test_scoring_tool
-PASSED tests/test_04_tools.py::test_validation_comparison_and_report
-PASSED tests/test_04_tools.py::test_chart_and_data_tools
-PASSED tests/test_04_tools.py::test_python_timeout_and_cancel_reap_child
-PASSED tests/test_05_integration.py::test_full_pipeline
-PASSED tests/test_05_integration.py::test_concurrent_requests
-PASSED tests/test_05_integration.py::test_invalid_request_and_empty_rows
-PASSED tests/test_05_integration.py::test_benchmark_measures_real_samples
-PASSED tests/test_05_integration.py::test_percentiles_even_samples
-PASSED tests/test_05_integration.py::test_evaluator_terminal_tool_requires_valid_output
-PASSED tests/test_06_caching.py::test_cache_hit_isolation_and_no_double_count
-PASSED tests/test_06_caching.py::test_expiry_eviction_and_failure
-PASSED tests/test_06_caching.py::test_singleflight_and_cancellation
-PASSED tests/test_06_caching.py::test_clear_does_not_cache_old_inflight_result
-PASSED tests/test_06_caching.py::test_deleted_artifact_invalidates
-PASSED tests/test_07_runner_recovery.py::test_partial_run_retains_tool_and_trace
-PASSED tests/test_07_runner_recovery.py::test_live_model_limits_reach_actual_sdk_clients
-85 passed in 30.54s

@@ -179,4 +179,4 @@ Bộ thí nghiệm có kết quả hạn chế: thêm subagent hoặc skill tự
 
 ## Phụ lục
 
-Lệnh và thứ tự: TESTING.md, OFFICIAL_EXPERIMENTS.md. Bonus GUIDE 6c ngoại tuyến ở bonus-redteam/README.md; model scripted chứng minh giới hạn validator, không đo xác suất tấn công OpenAI thành công. Extension độc lập chỉ được kiểm chứng offline và không thay điểm thí nghiệm gốc.
+Lệnh và thứ tự: GUIDE.md và OFFICIAL_EXPERIMENTS.md. Chỉ nộp thí nghiệm bắt buộc; không thực hiện bonus. Kiểm tra cuối dùng bộ test gốc của repo, không tính các test của phần mở rộng đã gỡ.
