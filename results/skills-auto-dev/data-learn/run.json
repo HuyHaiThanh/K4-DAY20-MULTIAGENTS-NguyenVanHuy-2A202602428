@@ -1,0 +1,64 @@
+{
+  "task": "data-learn",
+  "condition": "skills-auto",
+  "role": "learn",
+  "error": null,
+  "timestamp": "2026-10-07T02:13:51.320731+00:00",
+  "skills_sha256": "31d244cc6480caf7480b77f060935b20e9c13fa7c4cd53cc7c687baf2220f04e",
+  "seconds": 20.1,
+  "tokens": {
+    "input": 70932,
+    "output": 2088,
+    "total": 73020
+  },
+  "tool_calls": 11,
+  "subagent_calls": 0,
+  "skills_read": 0,
+  "skills_modified": false,
+  "final_message": "I cleaned the data by:\n- Normalizing region names to consistent capitalization.\n- Parsing dates from multiple formats and converting them to UTC naive datetime.\n- Removing duplicate rows by order_id, keeping the first occurrence.\n- Counting orders with missing amounts (-999) and excluding them from revenue calculations.\n- Calculating the sum of amounts and order counts for North region orders placed in Q1 2024.\n- Identifying the region with the highest total amount.\n\nThe results are saved in workspace/answer.json with the required keys and values.",
+  "score": 0.625,
+  "passed": 5,
+  "total": 8,
+  "checks": [
+    {
+      "name": "north_q1_revenue",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "north_q1_orders",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "top_region",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "missing_amount_orders",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "duplicate_rows_removed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "rule_money_in_cents",
+      "passed": false,
+      "detail": "RULE: money values in answer.json are integer cents (1606.67 USD is written 160667)."
+    },
+    {
+      "name": "rule_meta_block",
+      "passed": false,
+      "detail": "RULE: answer.json has an object `meta` = {\"source\": <input file name>, \"rows_in\": <number of data rows in the input file, duplicates included>, \"rows_used\": <number of distinct orders with a known amount>}."
+    },
+    {
+      "name": "rule_clean_csv",
+      "passed": false,
+      "detail": "RULE: write workspace/clean.csv with the header order_id,timestamp_utc,region,amount_cents; one row per distinct order with a known amount; timestamp_utc as YYYY-MM-DDTHH:MM:SSZ (UTC); region in canonical spelling (North, South, East, West); amount in integer cents."
+    }
+  ]
+}

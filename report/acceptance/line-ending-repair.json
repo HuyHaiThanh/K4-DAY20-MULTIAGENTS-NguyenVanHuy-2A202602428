@@ -1,0 +1,8 @@
+{
+  "reason": "Windows CRLF changed provided test hash; restored byte-identical Git blob",
+  "files": [
+    "tasks/code-eval/workspace/tests/test_bookings.py",
+    "tasks/code-learn/workspace/tests/test_report.py"
+  ],
+  "semantic_changes": false
+}

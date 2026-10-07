@@ -1,8 +1,5 @@
 {
   "linux_tests_passed": 78,
   "coverage_percent": 88.10975609756098,
-  "live_final_successes": 9,
-  "live_final_attempts": 9,
-  "live_final_tokens": 27343,
-  "model": "openai/gpt-oss-120b"
+  "scope": "offline checkpoint only; see official-status.json for the current OpenAI experiment"
 }

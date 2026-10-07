@@ -74,3 +74,6 @@ Các kiểm thử gồm worker tools thực, call nhiều tool, lỗi tool, budg
 - Standalone coordinator Phần 2 vẫn đạt 3/3.
 - Full suite: 49 passed, 16 failed. Các lỗi đều là NotImplementedError từ TODO của harness gốc (`agent.py`, `subagents.py`, `runner.py`, `curator.py`); không báo toàn bộ lab đã hoàn thành.
 - Review tìm thấy nguy cơ cancellation ở các `wait_for` lồng nhau. Queue đổi sang scope `asyncio.timeout` để truyền cancellation rõ ràng; test timeout và lỗi worker kiểm tra riêng, dùng deadline đủ lớn cho case lỗi để tránh phụ thuộc độ phân giải timer Windows.
+## Ki?m ch?ng hi?n t?i
+
+To?n b? suite Linux ?? ??t 85/85 test; xem acceptance/pytest-final-review.txt. Trace standalone workers v? tool demo l? offline v?i model scripted. Kh?ng d?ng ch?ng thay k?t qu? th? nghi?m Deep Agents/OpenAI trong REPORT.md.

@@ -7,7 +7,7 @@
   "bonus_misses": 1,
   "official_experiments_complete": false,
   "runner_recovery_tests": 2,
-  "official_valid_runs": 1,
   "official_expected_runs": 18,
-  "sdk_worker_limits_verified_offline": true
+  "sdk_worker_limits_verified_offline": true,
+  "scope": "offline checkpoint only; see official-status.json for the current OpenAI experiment"
 }

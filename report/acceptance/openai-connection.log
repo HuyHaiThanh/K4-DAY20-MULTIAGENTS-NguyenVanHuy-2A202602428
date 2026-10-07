@@ -1,0 +1,2 @@
+{"model": "gpt-4.1-mini", "endpoint": "https://api.openai.com/v1"}
+{"content": "OK", "usage": {"input_tokens": 10, "output_tokens": 1, "total_tokens": 11, "input_token_details": {"audio": 0, "cache_read": 0}, "output_token_details": {"audio": 0, "reasoning": 0}}}

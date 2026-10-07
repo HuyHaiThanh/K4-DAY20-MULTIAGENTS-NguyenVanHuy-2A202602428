@@ -20,8 +20,6 @@ for task in ("code-learn", "data-learn", "logs-learn"):
         raise RuntimeError(f"Need a valid learning baseline first: {task}")
 
 model = make_model()
-model.model_name = "qwen/qwen3.8-27b"
-model.max_tokens = 700
 capture, usage = Capture(), UsageMetadataCallbackHandler()
 model.callbacks = [capture, usage]
 paths = curate_skills(model=model, max_skills=1)

@@ -1,135 +1,100 @@
 # Báo cáo Lab: Self evolving Agentic
 
-**Trạng thái:** mã và kiểm chứng extension đã hoàn thành; thí nghiệm gốc đã bắt đầu và hiện bị chặn bởi giới hạn API/context; chưa đủ điều kiện freeze/eval. Báo cáo 10 mục theo checklist gửi thêm nằm tại [FINAL_REPORT.md](FINAL_REPORT.md). Không dùng số liệu extension thay cho điểm sáu tác vụ chính thức.
+Báo cáo theo README.md, GUIDE.md, RUBRIC.md và REPORT_TEMPLATE.md. Chỉ phân tích bộ thí nghiệm OpenAI hiện tại; key không được ghi trong báo cáo.
 
 ## 1. Thông tin nhóm và cấu hình
 
-| Định danh theo tên repo | Mã theo tên repo | Phần triển khai |
+| Họ tên theo tên repo | Mã sinh viên theo tên repo | Phần đóng góp |
 |---|---|---|
-| Nguyễn Văn Huy (người nộp cần xác nhận) | 2A202602428 | TODO harness và extension coordinator/worker/tools/test; mã provided giữ nguyên |
+| Nguyễn Văn Huy | 2A202602428 | Các hàm TODO harness; thí nghiệm, review và báo cáo. Mã provided không phải đóng góp mới. |
 
-- Model kiểm chứng extension: `openai/gpt-oss-120b`, `LAB_TEMPERATURE=0`; worker tối đa 4 lượt model trong pipeline acceptance.
-- Model thí nghiệm gốc bổ sung: `qwen/qwen3.8-27b`, temperature 0, output 4096, recursion 40, SDK retry 2/timeout 120s; profile 11000 cho input budget hữu hiệu 6354. Chi tiết và giới hạn ở [OFFICIAL_EXPERIMENTS.md](OFFICIAL_EXPERIMENTS.md).
-- Deep Agents: 0.7.21. Python Windows 3.11.9; Python WSL ERPNext 3.12.3. Harness shell kiểm chứng bằng Linux.
-- Lượt chính thức hợp lệ đã có: baseline/data-learn; các lượt tiếp theo đang chạy. Chưa có skill sinh thật hoặc tag `freeze`.
-- Benchmark API cuối extension: 9 request / 27.343 token; các probe và lần lỗi trước đó có usage riêng, không nằm trong tổng này.
+- OpenAI `gpt-4.1-mini`, endpoint `https://api.openai.com/v1`, temperature 0, recursion_limit 40 cho mọi điều kiện.
+- Deep Agents 0.7.21; Python 3.12.3 trên WSL Linux. make_model provided giữ nguyên: SDK retry 2, timeout 120s; không ép profile context.
+- Kết quả chính: 6/18; development: 3/3; lượt lưu riêng: 2; curator: 1 lần. Usage ghi nhận gồm probe/curator/dev/attempts: 500,167 token.
+- Commit freeze: `Chưa tạo`. Trạng thái: checkpoint đang hoàn thiện. Metadata/lệnh chạy tại OFFICIAL_EXPERIMENTS.md.
 
-## 2. Giả thuyết (commit TRƯỚC tag `freeze`, Phần 4.0)
+## 2. Giả thuyết (commit TRƯỚC tag freeze)
 
-Các dự đoán dưới đây được viết khi chưa chạy hoặc xem điểm eval. Căn cứ ban đầu: baseline/data-learn đạt 5/5 check kỹ thuật nhưng thiếu cả ba quy ước Acme; đây là thông tin từ tập học, không phải đáp án eval.
+Giả thuyết dưới đây được lập trước mọi lượt eval. Căn cứ chỉ từ learn và guides/pseudocode/02_subagents.md, 04_curator.md, 05_skill_quality.md; không dùng kết quả eval để sửa dự đoán.
 
-- H1 (subagents so với baseline): subagents khó tăng đáng kể điểm kỹ thuật nếu baseline đã xử lý tốt đặc tả; cả hai vẫn có thể thiếu quy ước ẩn. Delegation và kiểm chứng có thể giúp task code nhưng dự đoán token trung bình cao hơn baseline, do nhiều ngữ cảnh riêng và giao việc lặp.
-- H2 (skills-auto so với baseline): skills-auto sẽ có điểm eval trung bình cao nhất trong ba điều kiện nhờ chuyển các quy ước Acme từ feedback học thành checklist được đọc trước khi giải task. Dự đoán lợi ích chủ yếu ở rule_, với điều kiện agent thực sự đọc và làm theo skill; không kỳ vọng luôn đạt 100%.
-- H3 (tác vụ học so với tác vụ đánh giá): cải thiện rule_ trên learn sẽ lớn hơn trên eval, vì eval thêm quy ước mới không có trong feedback học. Kỹ thuật và quy ước mới có thể vẫn thất bại; không dùng chênh lệch một lần chạy làm bằng chứng nhân quả chắc chắn.
+- H1 (subagents so với baseline): subagents không chắc cải thiện điểm eval; dự đoán token trung bình tăng. Learn code không tăng điểm, data giảm khi tác tử chính chỉ đọc output của implementer mà không kiểm chứng tính toán. Cô lập ngữ cảnh và delegation tạo thêm chi phí.
+- H2 (skills-auto so với baseline): dự đoán cải thiện có giới hạn và không bảo đảm cao nhất ở eval. Skill code nhắc type hints/tests/changelog, nhưng không giữ tên file/heading cụ thể; skill data thiếu cent/meta/clean.csv và skill logs thiếu schema_version/generated_by. 04_curator.md cũng lưu ý skill tự sinh có thể không có lợi.
+- H3 (tác vụ học so với tác vụ đánh giá): lợi ích của skill trên learn dự đoán lớn hơn eval vì eval thêm quy ước mới. 05_skill_quality.md giải thích skill chỉ giúp khi được đọc và thực hiện; skill hiện có khá chung chung, nên kỳ vọng transfer yếu và nhiễu một lần chạy đáng kể.
 
-Căn cứ cơ chế: [SkillsMiddleware — LangChain](https://reference.langchain.com/python/deepagents/middleware/skills/SkillsMiddleware) mô tả metadata được nạp trước, nội dung đầy đủ được đọc khi cần; [SubAgent — LangChain](https://reference.langchain.com/python/deepagents/middleware/subagents/SubAgent) mô tả ngữ cảnh subagent isolated. Báo cáo căn cứ hành vi cụ thể trên tour và Deep Agents 0.7.21 đang cài, không suy ra mọi API trong tài liệu mới đều giống phiên bản này.
+## 3. Làm quen Deep Agents
 
-## 3. Làm quen Deep Agents (Phần 0.3)
+1. Công cụ mặc định: ls, read_file, write_file, edit_file, delete, glob, grep; execute chạy shell; task giao việc. Tour thật ngoại tuyến lưu tại tour.txt.
+2. baseline/skills-auto có tác tử chính và general-purpose mặc định. subagents bổ sung explorer (đọc đặc tả), implementer (thực hiện), reviewer (kiểm tra): tổng 5 vai trò sẵn có, số invocation tùy quyết định agent. task nhận subagent_type và description; subagent stateless chỉ thấy prompt được giao, trả báo cáo về luồng chính. Agent chính phải truyền đủ quy tắc và kiểm chứng kết quả.
+3. Trích task: “Put full detail in the prompt and state exactly what it should return”. Trích execute: “Use read_file rather than cat/head/tail.” Default system prompt của Deep Agents rỗng; harness truyền BASE_PROMPT provided. Công cụ chung là backend file/shell; custom subagent không tự thừa kế skill của tác tử chính.
 
-### Câu 1. Bài lab này có bao nhiêu agent? Mỗi agent làm gì?
+## 4. Đường cơ sở và phân loại lỗi
 
-Số agent phụ thuộc vào điều kiện thí nghiệm, không cố định là 3–4. Theo thiết kế được cung cấp, `baseline` có một tác tử chính và subagent `general-purpose` mặc định của Deep Agents. Tác tử chính nhận đề bài, lập kế hoạch, sử dụng công cụ và tổng hợp kết quả; `general-purpose` xử lý phần việc được giao. Có sẵn subagent không có nghĩa là subagent luôn được gọi.
+Chỉ dùng baseline learn hợp lệ sau sửa lỗi line endings. Các lượt code có CRLF được giữ riêng, không dùng false failure tests_not_modified để quy lỗi agent.
 
-Ở điều kiện `subagents`, hệ thống bổ sung ít nhất hai subagent do sinh viên định nghĩa. Tài liệu gợi ý ba vai trò: `explorer` đọc đặc tả và báo cáo thông tin, `implementer` thực hiện thay đổi và chạy kiểm tra, `reviewer` kiểm tra độc lập kết quả và trường hợp biên. Nếu chọn cả ba vai trò này, cấu hình có một tác tử chính và bốn loại subagent, gồm `general-purpose` và ba subagent tùy chỉnh. Ở Phần 5, `get_subagents()` đã được triển khai với explorer, implementer và reviewer; các test Linux đã xác nhận cấu hình này.
-
-Điều kiện `skills-auto` dùng tác tử mặc định có nạp skill do curator sinh. Curator là bước gọi mô hình riêng để rút kinh nghiệm từ phản hồi và trace của tác vụ học, không phải worker được coordinator gọi trong lúc giải tác vụ. Bộ chấm `check.py` là chương trình kiểm tra tự động, không phải một AI evaluator agent.
-
-### Câu 2. Coordinator giao tiếp với worker agents bằng cách nào?
-
-Tác tử chính đóng vai trò coordinator và giao việc bằng công cụ `task` của Deep Agents. Khi gọi công cụ, nó chọn loại subagent và gửi mô tả công việc, đầy đủ quy tắc và đường dẫn cần dùng. Theo hướng dẫn của lab, mỗi lần giao việc tạo một phiên subagent có ngữ cảnh riêng; subagent chỉ nhận nội dung được gửi, không tự nhìn thấy toàn bộ lịch sử hội thoại của tác tử chính.
-
-Subagent sử dụng công cụ để xử lý công việc rồi trả về một báo cáo cuối qua kết quả của công cụ `task`. Tác tử chính phải kiểm tra báo cáo trước khi sử dụng, sau đó tiếp tục xử lý hoặc giao phần việc tiếp theo. Các thay đổi trong workspace chung của sandbox cũng là cách chuyển giao sản phẩm giữa các tác tử. Repo không yêu cầu xây message queue hoặc API giao tiếp riêng.
-
-### Câu 3. Có những công cụ (tools) nào được chia sẻ giữa các agent?
-
-Theo `scripts/tour.py` và hướng dẫn backend, nhóm công cụ làm việc trên tệp gồm `ls`, `read_file`, `write_file`, `edit_file`, `delete`, `glob`, `grep`; công cụ `execute` chạy shell, Python và test. Tác tử chính và subagent sử dụng các công cụ được cấu hình cho mình để làm việc trên workspace trong cùng sandbox; subagent có thể được giới hạn công cụ bằng cấu hình `tools`. Công cụ `task` là cơ chế để tác tử chính giao việc cho subagent.
-
-Công cụ tệp dùng đường dẫn ảo theo gốc sandbox, còn shell dùng đường dẫn thật tương đối như `workspace/...`. Các tác tử chia sẻ sản phẩm trong workspace nhưng có ngữ cảnh hội thoại riêng. Subagent tùy chỉnh không tự kế thừa skill của tác tử chính; phải cấu hình `skills` riêng nếu muốn nạp skill cho chúng.
-
-Việc đo token, thời gian, đếm lời gọi công cụ, chấm điểm và ghi `run.json`/`trace.md` do runner thực hiện ở bên ngoài vòng làm việc của agent. Đây không phải các công cụ logging hoặc monitoring riêng mà mọi agent gọi. Trace và số đếm công cụ chỉ phản ánh luồng chính; token được cộng dồn cả các lần gọi mô hình của subagent.
-
-### Ba câu hỏi theo GUIDE 0.3
-
-1. Tour thực tế liệt kê `ls`, `read_file`, `write_file`, `edit_file`, `delete`, `glob`, `grep`, `execute`, `task`; `execute` cho phép chạy shell.
-2. `general-purpose` có cùng công cụ với tác tử chính và dùng cho tác vụ nhiều bước. Mỗi invocation mặc định stateless: chỉ thấy prompt được giao, trả một báo cáo cuối.
-3. Trích từ `task`: “Put full detail in the prompt and state exactly what it should return”. Trích từ `execute`: “Use read_file rather than cat/head/tail.” Tour cho thấy system prompt mặc định rỗng; harness lab truyền BASE_PROMPT riêng.
-
-Bằng chứng ngoại tuyến: [tour.txt](tour.txt), chạy bằng Deep Agents 0.7.21. Mô tả tool execute có quy ước đường dẫn tuyệt đối; BASE_PROMPT/ PATHS_NOTE của lab quy định đường dẫn tương đối workspace/ cho backend này, vì vậy giữ nguyên hằng số được cung cấp.
-
-## 4. Đường cơ sở và phân loại lỗi (Phần 2.2)
-
-Kết quả hợp lệ đầu tiên: baseline/data-learn đạt 5/8, 56.057 token, 405,7 giây, error=null. Những lần API lỗi được lưu riêng, không tính là lỗi agent.
-
-| Tác vụ | Check thất bại | Nhóm | Bằng chứng từ detail |
+| Tác vụ | Check thất bại | Nhóm | Bằng chứng từ detail/trace |
 |---|---|---|---|
-| data-learn | rule_money_in_cents | E | money values in answer.json are integer cents |
-| data-learn | rule_meta_block | E | answer.json has an object `meta`, gồm source, rows_in, rows_used |
-| data-learn | rule_clean_csv | E | write workspace/clean.csv with the header order_id,timestamp_utc,region,amount_cents |
+| code-learn | rule_type_hints | E | RULE: every public function (name not starting with '_') in the package has type annotations on all parameters and on the return value. |
+| code-learn | rule_regression_tests | E | RULE: add tests/test_regressions.py with one test function per bug you fixed (at least 3); the file must pass. |
+| code-learn | rule_changelog | E | RULE: record each fix in CHANGELOG.md under the heading '## Unreleased' as a bullet '- fix(<function name>): <short description>' (at least 3 bullets). |
+| data-learn | rule_money_in_cents | E | RULE: money values in answer.json are integer cents (1606.67 USD is written 160667). |
+| data-learn | rule_meta_block | E | RULE: answer.json has an object `meta` = {"source": <input file name>, "rows_in": <number of data rows in the input file, duplicates included>, "rows_used": <number of distinct orders with a known amount>}. |
+| data-learn | rule_clean_csv | E | RULE: write workspace/clean.csv with the header order_id,timestamp_utc,region,amount_cents; one row per distinct order with a known amount; timestamp_utc as YYYY-MM-DDTHH:MM:SSZ (UTC); region in canonical spelling (North, South, East, West); amount in integer cents. |
+| logs-learn | entry_count | D | wrong number of entries (got 19) |
+| logs-learn | timestamps_utc | D | 7/25 timestamps match |
+| logs-learn | exception_fields | D | 18 wrong `exception` values |
+| logs-learn | repeat_counts | D | 18 wrong `repeat_count` values |
+| logs-learn | counts_by_service | D | counts_by_service: wrong values |
+| logs-learn | rule_service_names | E | RULE: service names in the output are lower-case with '-' replaced by '_' (payment-service -> payment_service). |
+| logs-learn | rule_sorted_errors | E | RULE: `errors` is sorted by service, then by timestamp_utc, ascending. |
+| logs-learn | rule_schema_header | E | RULE: the top-level object has "schema_version": 2 and "generated_by": "log-triage". |
 
-Ở data-learn, check kỹ thuật đạt 5/5 và check quy ước đạt 0/3. Trace có đọc dữ liệu, chạy analyze.py và đọc lại answer.json; chưa có bằng chứng lỗi A–D hoặc F ở lượt này. Ba lỗi đều thuộc E vì quy ước Acme không được trình bày đầy đủ trong đề. Skill từ feedback có thể truyền lại những quy tắc còn thiếu. code-learn và logs-learn có lỗi context, không đưa các check đó vào taxonomy. Cần lượt hợp lệ để bổ sung ít nhất bốn check thất bại theo rubric.
+Phân bố lỗi: {'E': 9, 'D': 5}. Check kỹ thuật baseline learn đạt 13/18. Quy ước E chiếm nhiều nhất; không coi mọi lỗi là thiếu quy ước.
+Logs có bằng chứng A/B đi kèm các check D: trace không đọc README dù instruction yêu cầu và không gọi execute để parse/kiểm chứng; số entry, timestamp, exception, repeat và tổng service đều sai. Code đã đọc docstring, sửa hàm dùng chung và chạy test đạt; data dùng Python để tính. Vì vậy không quy A–D cho toàn bộ tác vụ. Không có bằng chứng F về tệp bị báo tạo nhưng không tồn tại trong baseline hợp lệ.
 
-## 5. Điều kiện `subagents` (Phần 2.3)
+## 5. Điều kiện subagents
 
-Đã triển khai explorer (đọc đặc tả), implementer (thực hiện và kiểm tra), reviewer (review độc lập). Deep Agents còn có general-purpose mặc định. Test gốc xác nhận trường bắt buộc, delegation note và PATHS_NOTE. Chưa có số đo subagent_calls/token trên tác vụ chính thức; queue extension là cơ chế khác với task của Deep Agents.
+Ba subagent tự định nghĩa có scope rõ: explorer chỉ đọc, implementer chỉ sửa phần được giao và test, reviewer kiểm tra độc lập không sửa. Các role và PATHS_NOTE giữ nguyên giữa learn/eval.
 
-### Phần 5 bổ sung: Test Results
+| Learn | baseline token / giây | subagents token / giây | task calls |
+|---|---:|---:|---:|
+| code-learn | 36,247 / 24.8 | 48,097 / 23.9 | 0 |
+| data-learn | 46,649 / 20.0 | 46,453 / 19.7 | 1 |
+| logs-learn | 21,303 / 13.7 | 15,876 / 7.2 | 1 |
 
-- Checkpoint trước bonus: Linux 78/78 passed, coverage 88,11%.
-- Coordinator 15; workers/queue 21; tools 7; integration/e2e/benchmark 6.
-- Provided 12; agent/backend 9; runner 6; curator 2.
-- Stress data offline 10/10 request đạt. Đo tài nguyên bổ sung chạy 10/10 complex offline đạt.
-- Gate cuối có bonus: **85/85 passed, coverage 89.22%**; xem [pytest-linux.txt](acceptance/pytest-linux.txt), [coverage-linux.txt](acceptance/coverage-linux.txt).
-- Windows native có hai lỗi shell Linux; không dùng kết quả Windows để tuyên bố harness toàn bộ đạt.
+Code learn không giao việc: tác tử chính tự sửa và chạy test. Data gọi implementer, truyền yêu cầu tính toán và file đầu ra; chính agent chỉ read_file answer.json rồi kết thúc, không đối chiếu phép tính độc lập, điểm 1/8. Logs gọi general-purpose; mô tả có quy tắc parse nhưng không đầy đủ JSON schema/example. Subagent trả lời đang chuẩn bị xử lý, agent chính lại ghi dữ liệu ví dụ và không kiểm chứng, điểm 1/9. Trace không chứa nội bộ subagent: không khẳng định subagent đã chạy một lệnh nếu không thấy bằng chứng luồng chính.
 
-## 6. Self-evolving: skill do curator sinh (Phần 3)
+## 6. Self-evolving: skill do curator sinh
 
-curate_skills đã được cài đặt, test offline kiểm tra chỉ đọc learn, bỏ tên/path không an toàn và không gọi model nếu không có failed check. Chưa chạy curator thật vào skills/auto; các skill trong test chỉ nằm ở thư mục tạm. Không có kết quả skills_read chính thức để phân tích.
+Curator gọi OpenAI một lần, 3 skill được validator chấp nhận, không xóa/chạy lại hoặc sửa tay. Raw prompt/response/usage ở curator/. Review giữ các skill vì không có chỉ dẫn gây hại; ghi nhận thiếu quy tắc cụ thể thay vì chỉnh tay để tăng điểm.
 
-### Phần 5 bổ sung: Performance Analysis
+| Skill | Tổng quát / đúng và hạn chế | Độ dài / tình huống đọc |
+|---|---|---|
+| code-style-enforcement | Tổng quát; đúng về annotation/test/changelog nhưng không chỉ rõ tests/test_regressions.py, số test hay heading/bullet cần có. | 7 dòng tổng / 3 dòng body; Use this skill when ensuring code follows organization-wide style rules such as type annotations on public functions, presence of regression tests, and changelog updates. |
+| data-cleaning-and-normalization | Đúng quy trình normalize/date/dedup/giá trị thiếu; thiếu cent, meta và clean.csv. Giữ first occurrence cần kiểm tra lại ở dữ liệu mới có xung đột. | 8 dòng tổng / 4 dòng body; Use this skill when preparing raw data for analysis by normalizing fields, parsing dates, removing duplicates, and handling missing or invalid values. |
+| log-file-parsing-and-aggregation | Đúng các bước severity/UTC/repeat/exception; thiếu cách đổi '-' thành '_', thứ tự sort cụ thể và schema_version/generated_by. | 10 dòng tổng / 6 dòng body; Use this skill when extracting structured error information from raw log files, including filtering by severity, normalizing timestamps, and aggregating repeated messages. |
 
-Các số đo dưới đây thuộc extension fixture local; mỗi nhóm chạy 3 lần, không phải baseline/subagents/skills-auto của sáu tác vụ gốc.
+Description theo tình huống rộng, body 3–6 bullet, không chứa đáp án hoặc định danh eval. Validator không thay thế review ngữ nghĩa; skill có thể hợp lệ nhưng quá chung chung để sửa rule_. Skill-read và hiệu quả thực tế được đối chiếu ở mục 8.
 
-| Chế độ | Test case | Min (s) | Max (s) | Avg (s) | Median (s) | P99 mẫu (s) | Đạt | Req/min | Token provider |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Offline scripted | Simple data query | 0.016 | 0.047 | 0.031 | 0.031 | 0.047 | 3/3 | 1914.89 | 0 |
-| Offline scripted | Code generation | 0.062 | 0.094 | 0.078 | 0.078 | 0.094 | 3/3 | 769.23 | 0 |
-| Offline scripted | Complex workflow | 0.109 | 0.125 | 0.115 | 0.110 | 0.125 | 3/3 | 523.26 | 0 |
-| API thật | Simple data query | 1.484 | 3.297 | 2.135 | 1.625 | 3.264 | 3/3 | 8.40 | 3825 |
-| API thật | Code generation | 2.078 | 2.406 | 2.266 | 2.313 | 2.404 | 3/3 | 8.24 | 7420 |
-| API thật | Complex workflow | 8.079 | 21.313 | 15.422 | 16.875 | 21.224 | 3/3 | 2.94 | 16098 |
+## 7. Kết quả so sánh
 
-API thật có pacing 5 giây: không tính trong latency, có tính trong throughput. Complex median 16,875 giây và P99 mẫu 21,224 giây chưa đạt mục tiêu latency; throughput live chưa đạt >10 req/min. Fake token là synthetic. Worker busy fraction là thời gian chiếm slot, không phải CPU utilization; token timeout có thể thiếu.
-
-Sau review, tách interpreter stdlib-only/cache adapter giảm median code offline 0,937 → 0,078 giây. Terminal submit_evaluation và giảm context khắc phục lỗi tool json không tồn tại; benchmark live cuối đạt 9/9. Giữ riêng các lần lỗi mạng/timeout trước đó. Số đo CPU/RAM và phân tích giới hạn ở FINAL_REPORT mục 5, TESTING.md và acceptance/resources.json.
-
-## 7. Kết quả so sánh (Phần 4.3, 4.4)
-
-Chưa có report/table.md chính thức vì chưa chạy đủ ba điều kiện/sáu tác vụ sau freeze. Bảng extension mục 6 không thay kết quả lab.compare.
+Chưa lập bảng chính thức khi bộ thí nghiệm chưa đủ; không dùng số minh họa thay kết quả.
 
 ## 8. Phân tích
 
-Chưa kết luận về lợi ích subagents/skills-auto, check rule_, overfitting hoặc transfer sang eval vì chưa đủ bộ thí nghiệm gốc. Phân tích extension có bằng chứng trong FINAL_REPORT mục 5–8; benchmark offline/live và bonus được ghi riêng.
+Phân tích cuối sẽ được điền sau đủ 18 lượt và verify_freeze, không suy diễn từ development như thể đó là điểm eval.
 
 ## 9. Hạn chế và tính hợp lệ
 
-1. Fixture nhỏ, ba mẫu/nhóm, một model: chưa đủ suy rộng P99/accuracy/error rate production.
-2. Ratings evaluator được cung cấp: weighted score không phải chứng minh accuracy thật.
-3. Linux/Windows khác nhau, quota/pacing và network ảnh hưởng thời gian; lỗi/timeout có thể thiếu usage.
-4. Python subset và queue/cache single-process; chưa có OS sandbox, distributed recovery hoặc RAM quota Windows.
-5. Chỉ có một baseline hợp lệ; H1–H3 đã commit tại d5313da, nhưng curator chính thức trên đủ tập học, freeze và eval chưa hoàn thành. Repo chưa đầy đủ theo RUBRIC gốc.
+1. Chỉ ba tác vụ mỗi role, mỗi condition một lượt: không đủ ước lượng phương sai hoặc kết luận thống kê về khả năng tổng quát.
+2. Nhiệt độ 0 không bảo đảm kết quả giống nhau; điểm development/post-freeze cùng skill là kiểm tra nhiễu nhỏ, không phải nhiều lần lặp độc lập.
+3. Quy ước Acme và dữ liệu do giảng viên thiết kế; lợi ích học rule_ không đại diện toàn bộ tác vụ thực tế hoặc mọi model.
+4. Trace chỉ luồng chính, bị renderer cắt mỗi message 1500 ký tự; token cộng cả subagent nhưng không đủ để dựng lại mọi thao tác nội bộ.
+5. CRLF Windows làm check hash sai; đã trả đúng blob LF và rerun thay vì sửa grader/điểm. Token usage không phải hóa đơn, lượt API lỗi có thể thiếu usage.
 
 ## 10. Kết luận
 
-Mã harness và extension đã được kiểm chứng bằng test Linux và API thật trên fixture. Benchmark cuối đạt 9/9 nhưng complex latency còn vượt mục tiêu. Bonus cache giảm tính lặp trên workload offline, không chứng minh hiệu năng production. Muốn nộp theo RUBRIC gốc cần thực hiện learning/curator/hypotheses/freeze/eval đúng thứ tự.
+Chỉ kết luận cuối khi bộ thí nghiệm và review hoàn tất.
 
 ## Phụ lục
 
-- Lệnh test/debug/profile/benchmark: TESTING.md.
-- Bonus: FINAL_REPORT phụ lục Result Caching; scripts/benchmark_cache.py và report/bonus-cache/benchmark.json.
-- Mã và module theo từng pha: COORDINATOR.md, WORKERS.md, TOOLS.md.
-
-### Checkpoint bổ sung
-
-[official-status.json](official-status.json) ghi số lượt hợp lệ/lỗi và token quan sát tối thiểu. code-learn/logs-learn lỗi ContextOverflowError, không dùng như điểm chính thức. Bonus GUIDE 6c có bốn case scripted và hai case live đối chứng/injection ở [bonus-redteam/README.md](bonus-redteam/README.md); skill bonus chỉ ở thư mục tạm, không thay auto. Prompt curator đã được bổ sung quy tắc tên lowercase/hyphen sau khi model thật sinh tên không hợp lệ.
-
-Giới hạn SDK worker extension đã sửa đến client thực: retry 0 và timeout 20s; số đo live Phần 5 được giữ nguyên như snapshot trước sửa (SDK khi đó thực tế retry 2/timeout 120s, timeout stage 30s vẫn áp dụng). Chưa đo lại live sau sửa này.
+Lệnh và thứ tự: TESTING.md, OFFICIAL_EXPERIMENTS.md. Bonus GUIDE 6c ngoại tuyến ở bonus-redteam/README.md; model scripted chứng minh giới hạn validator, không đo xác suất tấn công OpenAI thành công. Extension độc lập chỉ được kiểm chứng offline và không thay điểm thí nghiệm gốc.

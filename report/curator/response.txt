@@ -1,0 +1,33 @@
+=== SKILL: code-style-enforcement ===
+---
+name: code-style-enforcement
+description: Use this skill when ensuring code follows organization-wide style rules such as type annotations on public functions, presence of regression tests, and changelog updates.
+---
+- Verify all public functions have complete type annotations.
+- Add regression tests for each fixed bug in the designated test file.
+- Update the changelog with entries for each fix under the correct heading.
+=== END ===
+
+=== SKILL: data-cleaning-and-normalization ===
+---
+name: data-cleaning-and-normalization
+description: Use this skill when preparing raw data for analysis by normalizing fields, parsing dates, removing duplicates, and handling missing or invalid values.
+---
+- Normalize categorical fields to canonical forms (e.g., region names).
+- Parse dates from multiple formats and convert to a consistent timezone.
+- Remove duplicate records based on unique identifiers, keeping the first occurrence.
+- Identify and handle missing or invalid data values appropriately.
+=== END ===
+
+=== SKILL: log-file-parsing-and-aggregation ===
+---
+name: log-file-parsing-and-aggregation
+description: Use this skill when extracting structured error information from raw log files, including filtering by severity, normalizing timestamps, and aggregating repeated messages.
+---
+- Extract log entries with specified severity levels (e.g., ERROR, CRITICAL).
+- Convert timestamps to a uniform UTC format.
+- Parse service names and normalize them according to naming conventions.
+- Aggregate repeated log messages by summing repeat counts.
+- Extract exception details from tracebacks when present.
+- Sort and output structured log data following organization conventions.
+=== END ===

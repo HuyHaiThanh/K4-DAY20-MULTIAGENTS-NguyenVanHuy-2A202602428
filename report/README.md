@@ -1,13 +1,12 @@
-# Hồ sơ bàn giao
+# H? s? n?p b?i
 
-- [FINAL_REPORT.md](FINAL_REPORT.md): 10 mục theo checklist Phần 6 gửi thêm, có kiến trúc, test, metrics thật và bonus.
-- [REPORT.md](REPORT.md): mẫu báo cáo repo gốc, giữ các mục chưa có thí nghiệm chính thức và bổ sung kết quả extension.
-- [TESTING.md](TESTING.md): tái lập test/debug/profile/benchmark; [TOOLS.md](TOOLS.md), [WORKERS.md](WORKERS.md), [COORDINATOR.md](COORDINATOR.md): thiết kế và giới hạn.
-- [acceptance/summary.json](acceptance/summary.json): checkpoint Phần 5; full gate Phần 6 ở [pytest-linux.txt](acceptance/pytest-linux.txt), [coverage-linux.txt](acceptance/coverage-linux.txt).
-- [bonus-cache/benchmark.json](bonus-cache/benchmark.json): số đo bonus riêng, không trộn benchmark chính thức.
+- [REPORT.md](REPORT.md): b?o c?o ch?nh theo m?u repo.
+- [table.md](table.md): b?ng do lab.compare sinh sau khi ?? k?t qu?.
+- [OFFICIAL_EXPERIMENTS.md](OFFICIAL_EXPERIMENTS.md): c?u h?nh v? tr?nh t? ch?y OpenAI.
+- [FINAL_REVIEW.md](FINAL_REVIEW.md): review cu?i v? gi?i h?n.
+- [official-status.json](official-status.json): tr?ng th?i c? th? ki?m tra b?ng m?y.
+- [TESTING.md](TESTING.md): ki?m th? Linux v? c?ch t?i l?p.
+- COORDINATOR.md, WORKERS.md, TOOLS.md: thi?t k? extension ??c l?p.
+- bonus-redteam/README.md: th? nghi?m ngo?i tuy?n b? sung theo GUIDE 6c.
 
-Repo gốc yêu cầu thêm learning/curator/freeze/evaluation; các file bàn giao này không chứng minh đã hoàn thành bước đó. Không dùng số liệu ví dụ trong văn bản hoặc score rubric cung cấp để thay điểm `check.py`.
-
-- [OFFICIAL_EXPERIMENTS.md](OFFICIAL_EXPERIMENTS.md): quy trình bổ sung thí nghiệm gốc, cấu hình SDK thực và trở ngại context.
-- [bonus-redteam/README.md](bonus-redteam/README.md): bonus GUIDE 6c, bốn probe offline và giới hạn ngữ nghĩa validator.
-- Gate cuối: log/XML/summary-final.json đồng nhất 85 pass, coverage 89,22%; summary-phase6.json giữ snapshot 83 pass ban đầu.
+Kh?ng ghi API key. S? li?u b?o c?o ch? thu?c b? th? nghi?m OpenAI hi?n t?i; k?t qu? API c? ?? ???c x?a.

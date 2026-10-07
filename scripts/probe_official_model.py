@@ -11,7 +11,6 @@ def write_file(file_path: str, content: str) -> str:
 
 
 model = make_model()
-model.model_name = "qwen/qwen3.8-27b"
 model.max_retries = 0
 model.max_tokens = 512
 reply = model.bind_tools([write_file], tool_choice="required").invoke("Call write_file with file_path workspace/probe.py and content print('hello').")

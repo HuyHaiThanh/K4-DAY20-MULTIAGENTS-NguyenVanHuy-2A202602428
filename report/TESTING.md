@@ -1,47 +1,43 @@
-# Phần 5: Test, debug và hiệu suất
+# Ki?m th? v? t?i l?p
 
-## Phạm vi
+## Harness ch?nh theo GUIDE
 
-Hoàn thiện các TODO được phép của harness gốc: `make_backend`, `build_agent`, `get_subagents`, `run_task`, `curate_skills`. Giữ nguyên prompt constants, renderer, CLI và các test/bộ chấm được cung cấp. Đồng thời bổ sung `MultiAgentSystem` nối extension Phần 2–4, test integration/e2e/concurrency, benchmark, debug và profiling. Không chạy tác vụ đánh giá thật trước freeze, không sinh skill từ benchmark extension.
-
-`MultiAgentSystem` dùng fixture local Jan=10, Feb=20 và rubric được cung cấp. Model quyết định tool calls; kết quả SQL, tổng stdout, SVG và score được đối chiếu độc lập. Không nhận diện mọi yêu cầu tự nhiên hoặc truy vấn dữ liệu doanh nghiệp ngoài fixture. Complex chạy theo thứ tự phụ thuộc data → code → evaluation; mỗi request có model/worker/DB/workspace riêng.
-
-## Lệnh tái lập
+Tr?n Windows ch?y trong WSL ho?c Docker v? backend d?ng /bin/sh. D?ng m?i tr??ng `.venv-linux` ?? c?i `pip install -e .`. Kh?ng truy?n bi?n m?i tr??ng/key v?o shell c?a agent.
 
 ```bash
-python -m pytest --durations=10
+python -m pytest
+python scripts/tour.py
+python -m lab.runner --condition baseline --tasks learn --recursion-limit 40
+python -m lab.runner --condition subagents --tasks learn --recursion-limit 40
+python -m lab.curator
+python -m lab.runner --condition skills-auto --tasks learn --recursion-limit 40
+# Review skill, hypotheses commit, freeze commit/tag; sao l?u skills-auto-dev.
+python -m lab.runner --condition baseline --tasks eval --recursion-limit 40
+python -m lab.runner --condition subagents --tasks eval --recursion-limit 40
+python -m lab.runner --condition skills-auto --tasks all --recursion-limit 40
+python scripts/verify_freeze.py
+python -m lab.compare
+python scripts/check_breakdown.py
+```
+
+C?c l?nh API g?i d? li?u lab ??n OpenAI theo s? ??ng ? c?a ng??i d?ng v? ph?t sinh token. Model/nhi?t ?? ??c t? .env; kh?ng commit key. Kh?ng xem eval tr??c freeze v? kh?ng s?a tay skill.
+
+## Ki?m ch?ng
+
+Full suite Linux c? 85 test ??t ? acceptance/pytest-final-review.txt. Prompt curator sau review ??t 2/2 test ? acceptance/curator-review.txt. File test g?c ?? ???c tr? ??ng byte LF t? Git, kh?ng thay ??i n?i dung; metadata t?i acceptance/line-ending-repair.json. Grader ki?m tra SHA256 byte n?n CRLF c?a checkout Windows c? th? g?y false failure.
+
+Metadata OpenAI, usage, th?i gian v? ?i?m th?t thu?c results/, b?ng do lab.compare sinh v? b?o c?o REPORT.md. Kh?ng d?ng benchmark extension thay k?t qu? ch?nh. Trace ch? c? lu?ng ch?nh, token c?ng c? subagent. L?i API c? th? thi?u usage; kh?ng coi token ghi nh?n l? to?n b? h?a ??n.
+
+## Extension offline
+
+Coordinator, worker/tools/queue v? cache gi? nguy?n thi?t k? ? COORDINATOR.md, WORKERS.md, TOOLS.md. Benchmark offline d?ng ScriptedChatModel: token synthetic, kh?ng ch?ng minh accuracy ho?c latency API th?t. AST interpreter c? ph?m vi gi?i h?n; queue/cache kh?ng persistence v? kh?ng ph?i OS sandbox.
+
+```bash
 python scripts/debug_system.py
-python scripts/debug_agent.py --agent data_agent --task 'Query supplied sales rows'
 python scripts/profile_system.py
 python scripts/benchmark.py --output report/acceptance/benchmark-offline-final.json
-# Opt-in API thật, tốn quota:
-python scripts/benchmark.py --live --pace-seconds 5 --output report/acceptance/benchmark-live-final.json
+python scripts/benchmark_cache.py
+python scripts/redteam_curator.py
 ```
 
-Harness gốc có shell Linux: dùng WSL/Docker. Venv `.venv-linux` đã được tạo trong workspace trên WSL ERPNext; không sửa Python hệ thống. Windows dùng `.venv/Scripts/python.exe` cho extension. Coverage là công cụ kiểm chứng cài riêng vào venv, không phải dependency runtime:
-
-```bash
-python -m coverage run --source=lab -m pytest
-python -m coverage report
-```
-
-## Debug và các lỗi đã xử lý
-
-1. 16 lỗi TODO ban đầu: hoàn thiện đúng pseudo-code; test gốc vẫn giữ nguyên.
-2. Hai lỗi `which`/`cat` trên Windows: chạy suite Linux nguyên bản trong WSL; không thêm fake shell hoặc sửa test để báo pass.
-3. API `OpenAIConnectionError` trong sandbox: probe ngoài sandbox bằng `.env` được người dùng cho phép đã thành công. Benchmark các lỗi mạng giữ riêng ở `benchmark-live.json`; benchmark có quyền mạng ở `benchmark-live-network.json`.
-4. Evaluator live gọi tool `json` không tồn tại và có timeout: thêm tool cuối `submit_evaluation` với schema strict, prompt chỉ rõ score_result → submit_evaluation; terminal tool kết thúc vòng model. Giảm context evaluator xuống dữ liệu/bằng chứng tóm tắt thay vì toàn bộ trace lồng nhau. Giữ các lần lỗi làm bằng chứng.
-5. Child Python chậm vì import package agent/LangChain: tách interpreter thành module stdlib-only; vẫn giữ AST/input/output budget và kill/reap trên timeout. Cache adapter cho hàm tool để giảm dựng schema lặp lại, không chia sẻ state request/model.
-
-Logs debug ở `report/acceptance/debug.log` và `logs/`; mỗi run lưu `run.json`, `communication.jsonl` và artifacts. Profiling lưu `profile.txt`; cumulative time của event loop chứa thời gian chờ, không được diễn giải là CPU đang bận. Các input/tool output trong trace có thể chứa dữ liệu tác vụ; không chứa API key và không lưu `.env`.
-
-## Cách đọc metrics
-
-- Latency đo bằng monotonic từ request bắt đầu đến kết quả; P50/median dùng đúng median cả số mẫu chẵn; percentile nội suy.
-- Throughput dựa trên toàn bộ cửa sổ đo, có cả pacing nếu bật; báo cả attempted và successful requests/minute.
-- Worker busy fraction = tổng thời gian từng worker / (wall time × concurrency cấu hình). Đây là phần thời gian chiếm slot bao gồm chờ LLM, không phải CPU utilization hoặc xác nhận target 70–90%.
-- Token lấy UsageMetadataCallbackHandler. Offline là synthetic token do fake model, không tính chi phí API. Lỗi/timeout có thể thiếu usage provider; có cờ `token_usage_complete`, không coi số 0 là chắc chắn không bị tính phí.
-- Ba mẫu/nhóm chỉ mô tả lần đo nhỏ, không đủ suy rộng P99, error rate <1%, hoặc độ ổn định production. Live latency/throughput chịu quota và pacing; không extrapolate token/100 request như con số đã đo.
-- Score evaluator là weighted supplied ratings; không phải xác suất accuracy hoặc điểm chính thức của sáu tác vụ lab.
-
-Các số liệu cuối nằm trong mục 5–6 của `REPORT.md` và JSON/log đi kèm. Benchmark trước tối ưu, sau tối ưu và live được giữ riêng để tránh ghi đè lịch sử.
+Ch? k?t qu? API OpenAI hi?n t?i ???c gi? v? d?ng trong b?o c?o; k?t qu? t? API c? ?? x?a.

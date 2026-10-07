@@ -1,21 +1,15 @@
 {
+  "provider": "OpenAI",
+  "model": "gpt-4.1-mini",
   "official_experiments_complete": false,
   "expected_final_runs": 18,
-  "required_development_skill_runs": 3,
-  "valid_final_records_present": 1,
-  "error_records_present": 2,
-  "saved_attempts_unique": 9,
-  "captured_tokens_saved_records_minimum": 196639,
-  "cancelled_retry_captured_tokens": 10248,
-  "bonus_live_captured_tokens": 1286,
-  "compatibility_probe_tokens": 353,
-  "hypotheses_commit": "d5313da",
+  "valid_final_records_present": 6,
+  "development_runs": 3,
+  "saved_openai_attempts": 2,
+  "curator_calls": 1,
+  "skills_valid": 3,
   "freeze_created": false,
   "evaluation_started": false,
-  "blockers": [
-    "Provider input limit 7000 per request",
-    "Deep Agents effective budget 6354 cannot fit code/logs after compaction",
-    "Provider output limit 1000 per minute"
-  ],
-  "next_step": "Choose a larger-quota API or authorize a consistent adapted harness experiment; never mix configurations."
+  "credentials_found": false,
+  "next_step": "Commit learning hypotheses, freeze skills, then evaluate."
 }
